@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!--
+    Single-page site: language switching is JS+CSS based, so all three languages share the canonical URL.
+    Hreflang alternates here mirror the <link rel="alternate"> tags in <head>.
+    When language-specific URLs (/en/, /es/, /zh/) ship, replace these and add separate <url> entries.
+  -->
+  <url>
+    <loc>https://harmonypainalliance.com/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/"/>
+    <image:image>
+      <image:loc>https://harmonypainalliance.com/img/og-cover.jpg</image:loc>
+      <image:title>Harmony Pain Alliance — Redefining Rehabilitation in North America</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://harmonypainalliance.com/img/dr-lei.jpg</image:loc>
+      <image:title>Lei Dong, AP, L.Ac. — Founding Practitioner at Lei's Acupuncture, Winter Garden FL</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://harmonypainalliance.com/img/haiyan-ma.jpg</image:loc>
+      <image:title>Haiyan Ma — Founder &amp; CEO of Harmony Pain Alliance</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://harmonypainalliance.com/img/hpa_logo_official.svg</image:loc>
+      <image:title>Harmony Pain Alliance Official Logo</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/privacy.html</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/terms.html</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
