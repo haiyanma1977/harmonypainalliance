@@ -1,8 +1,8 @@
-# Harmony Pain Alliance — robots.txt
+# Harmony Pain Alliance - robots.txt
 # Allows all major search engines; blocks AI training crawlers.
 
 User-agent: *
-Allow: /
+Disallow:
 
 # Block AI training / scraping bots (preserve public-facing search indexing)
 User-agent: Amazonbot
