@@ -35,30 +35,10 @@ function getClinic(id) {
 document.addEventListener('DOMContentLoaded', () => {
 
   // --- Language Switching ---
-  const langBtns = document.querySelectorAll('.lang-switch button');
-  const setLang = (lang) => {
-    document.body.className = `lang-${lang}`;
-    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-    try { localStorage.setItem('hpa-lang', lang); } catch(e) {}
-  };
-
-  // Language detection priority:
-  // 1. URL hash (?lang=en/es/zh)
-  // 2. localStorage (user's previous manual choice)
-  // 3. Browser language (navigator.language)
-  // 4. Default: English
-  const detectLang = () => {
-    const hashMatch = location.hash.match(/lang=(en|es|zh)/);
-    if (hashMatch) return hashMatch[1];
-    const saved = (() => { try { return localStorage.getItem('hpa-lang'); } catch(e) { return null; } })();
-    if (saved && ['en', 'es', 'zh'].includes(saved)) return saved;
-    const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-    if (browserLang.startsWith('es')) return 'es';
-    if (browserLang.startsWith('zh')) return 'zh';
-    return 'en';
-  };
-  setLang(detectLang());
-  langBtns.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+  // As of 2026-05-20, each language has its own URL (/en/, /es/, /zh/), so the
+  // language is fixed per-page via <body class="lang-XX"> in the HTML itself.
+  // The nav lang-switch is now plain <a href="/{lang}/"> links — no JS needed.
+  // getLang() below still reads body.className for the lead form's page_language field.
 
   // --- Hamburger Menu ---
   const hamburger = document.querySelector('.hamburger');

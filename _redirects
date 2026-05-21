@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+# Format: <source>  <destination>  <status>
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Send the old single-page URL to the English version (permanent — that URL is retired)
+/index.html  /en/  301
+
+# Root → default to English (302 = temporary, so we can change default in future)
+/  /en/  302

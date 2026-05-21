@@ -4,19 +4,22 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!--
-    Single-page site: language switching is JS+CSS based, so all three languages share the canonical URL.
-    Hreflang alternates here mirror the <link rel="alternate"> tags in <head>.
-    When language-specific URLs (/en/, /es/, /zh/) ship, replace these and add separate <url> entries.
+    Each language has its own URL since 2026-05-20.
+    / 302-redirects to /en/ via _redirects.
+    hreflang alternates per URL declare all 3 language variants + x-default.
+    Privacy/Terms remain single-language (English, US jurisdiction).
   -->
+
+  <!-- English -->
   <url>
-    <loc>https://harmonypainalliance.com/</loc>
+    <loc>https://harmonypainalliance.com/en/</loc>
     <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/"/>
     <image:image>
       <image:loc>https://harmonypainalliance.com/img/og-cover.jpg</image:loc>
       <image:title>Harmony Pain Alliance — Redefining Rehabilitation in North America</image:title>
@@ -35,6 +38,31 @@
     </image:image>
   </url>
 
+  <!-- Spanish -->
+  <url>
+    <loc>https://harmonypainalliance.com/es/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/"/>
+  </url>
+
+  <!-- Chinese (Simplified) -->
+  <url>
+    <loc>https://harmonypainalliance.com/zh/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/"/>
+  </url>
+
+  <!-- Legal pages (English only — US jurisdiction) -->
   <url>
     <loc>https://harmonypainalliance.com/privacy.html</loc>
     <lastmod>2026-05-20</lastmod>

@@ -143,28 +143,35 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 .navbar.scrolled .nav-brand-text { color: var(--brand-deep); }
 .nav-right { display: flex; align-items: center; gap: 16px; }
 .lang-switch { display: flex; gap: 4px; font-size: 0.8125rem; }
-.lang-switch button {
+.lang-switch button,
+.lang-switch a {
   background: none; border: 1px solid rgba(255,255,255,0.4);
   border-radius: 4px; padding: 4px 8px;
   font-family: 'Open Sans', 'Noto Sans SC', sans-serif;
   font-size: 0.8125rem; color: rgba(255,255,255,0.7);
   cursor: pointer; transition: all 0.3s;
+  text-decoration: none; display: inline-block; line-height: 1;
 }
-.lang-switch button.active {
+.lang-switch button.active,
+.lang-switch a.active {
   background: var(--white); color: var(--brand-deep);
   border-color: var(--white);
 }
-.lang-switch button:hover:not(.active) {
+.lang-switch button:hover:not(.active),
+.lang-switch a:hover:not(.active) {
   border-color: var(--white); color: var(--white);
 }
-.navbar.scrolled .lang-switch button {
+.navbar.scrolled .lang-switch button,
+.navbar.scrolled .lang-switch a {
   border-color: var(--mid-gray); color: var(--text-muted);
 }
-.navbar.scrolled .lang-switch button.active {
+.navbar.scrolled .lang-switch button.active,
+.navbar.scrolled .lang-switch a.active {
   background: var(--brand-deep); color: var(--white);
   border-color: var(--brand-deep);
 }
-.navbar.scrolled .lang-switch button:hover:not(.active) {
+.navbar.scrolled .lang-switch button:hover:not(.active),
+.navbar.scrolled .lang-switch a:hover:not(.active) {
   border-color: var(--brand-deep); color: var(--brand-deep);
 }
 
