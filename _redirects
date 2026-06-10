@@ -5,5 +5,5 @@
 # Send the old single-page URL to the English version (permanent — that URL is retired)
 /index.html  /en/  301
 
-# Root → default to English (302 = temporary, so we can change default in future)
-/  /en/  302
+# Root → default to English (301 permanent)
+/  /en/  301
