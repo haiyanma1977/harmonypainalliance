@@ -62,6 +62,14 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/"/>
   </url>
 
+  <!-- English condition landing pages -->
+  <url>
+    <loc>https://harmonypainalliance.com/en/stroke-recovery-acupuncture/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Legal pages (English only — US jurisdiction) -->
   <url>
     <loc>https://harmonypainalliance.com/privacy.html</loc>
