@@ -708,6 +708,9 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 .condition-card ul { list-style: none; margin-bottom: 20px; }
 .condition-card ul li { padding: 4px 0 4px 20px; position: relative; font-size: 0.9375rem; }
 .condition-card ul li::before { content: '·'; position: absolute; left: 4px; color: var(--aux-green); font-weight: 700; }
+.condition-links { margin: 12px 0; font-size: 0.92rem; }
+.condition-links a { color: var(--brand-green, #009573); text-decoration: none; font-weight: 600; }
+.condition-links a:hover { text-decoration: underline; }
 
 /* ===========================
    BOOKING FORM
