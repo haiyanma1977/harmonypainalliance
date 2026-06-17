@@ -106,7 +106,7 @@
         "name": "How do I book a first visit?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Harmony Pain Alliance connects patients with quality clinics. Our founding partner clinic, Lei's Acupuncture in Winter Garden, FL, accepts new patients. Book online at leisacupuncture.janeapp.com, call 561-403-6485, or visit 209 E Bay St, Winter Garden. First-time patients who book through HPA receive a first-visit discount."
+          "text": "Book online through Harmony Pain Alliance, or visit us at 209 E Bay St, Winter Garden. First-time patients who book through HPA receive a first-visit discount."
         }
       }
     ]
@@ -232,7 +232,7 @@
 <div class="faq-item" data-category="patients">
 <button class="faq-question"><span>How do I book a first visit?</span></button>
 <div class="faq-answer"><div class="faq-answer-inner">
-<p>Harmony Pain Alliance connects patients with quality clinics. Our founding partner clinic, Lei's Acupuncture in Winter Garden, FL, is accepting new patients. Book online at <a href="https://leisacupuncture.janeapp.com" rel="noopener" target="_blank">leisacupuncture.janeapp.com</a>, call <a href="tel:+15614036485">561-403-6485</a>, or visit 209 E Bay St, Winter Garden. First-time patients who book through HPA receive a first-visit discount.</p>
+<p><a href="#" data-clinic="lei-acupuncture" data-lead-source="landing-facial-faq">Book online through Harmony Pain Alliance</a>, or visit us at 209 E Bay St, Winter Garden. First-time patients who book through HPA receive a first-visit discount.</p>
 </div></div>
 </div>
 
@@ -241,10 +241,9 @@
 <h3 style="margin-top:12px;">Lei's Acupuncture — Winter Garden, FL</h3>
 <p>Harmony Pain Alliance's founding partner clinic is led by Lei Dong, AP, who focuses on neurological rehabilitation — including facial paralysis and post-stroke recovery — and complex pain. New patients welcome — first-visit discount when you book through HPA.</p>
 <p style="margin:8px 0;">
-<strong>209 E Bay St, Winter Garden, FL 34787</strong><br/>
-Phone: <a href="tel:+15614036485">561-403-6485</a>
+<strong>209 E Bay St, Winter Garden, FL 34787</strong>
 </p>
-<a class="btn btn-green" href="https://leisacupuncture.janeapp.com" rel="noopener" target="_blank">Book Your First Visit</a>
+<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="landing-facial-cta">Book Your First Visit</a>
 &nbsp;
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Get Directions</a>
 </div>
@@ -255,6 +254,142 @@ Phone: <a href="tel:+15614036485">561-403-6485</a>
 </div>
 </section>
 </main>
+<!-- ===== LEAD CAPTURE MODAL ===== -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<!-- Modal header -->
+<div class="lead-header">
+<h3>Book Your Appointment</h3>
+<p class="lead-subtitle">Quick form — takes 30 seconds. You'll be redirected to the clinic's booking page next.</p>
+</div>
+<form id="leadForm">
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
+<div class="form-group">
+<label>Your Name *</label>
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+<label>Phone *</label>
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<!-- Expandable optional fields -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+<span>+ Help us prepare for your visit (optional)</span>
+</button>
+<div class="lead-optional" id="leadOptional">
+<div class="form-group">
+<label>Preferred Language</label>
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Primary Concern</label>
+<select name="primary_concern">
+<option value="">—</option>
+<option value="chronic-pain">Complex &amp; Refractory Pain</option>
+<option value="neuro">Neurological (Stroke, Paralysis)</option>
+<option value="sports">Sports Injury</option>
+<option value="sleep-mood">Sleep &amp; Mood</option>
+<option value="fertility">Fertility</option>
+<option value="aesthetic">Aesthetic Acupuncture</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label>How long have you had this condition?</label>
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">Less than 1 month</option>
+<option value="1-6months">1–6 months</option>
+<option value="6-12months">6–12 months</option>
+<option value="&gt;1year">Over 1 year</option>
+<option value="&gt;5years">Over 5 years</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>First acupuncture experience?</label>
+<div class="radio-group">
+<label><input name="first_acupuncture" type="radio" value="yes"/> Yes</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> No</label>
+</div>
+</div>
+<div class="form-group">
+<label>First visit to this clinic?</label>
+<div class="radio-group">
+<label><input name="first_visit" type="radio" value="yes"/> Yes — first-visit discount</label>
+<label><input name="first_visit" type="radio" value="no"/> No — returning patient</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Preferred Time</label>
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
+<option value="weekend">Weekend</option>
+<option value="flexible">Flexible</option>
+</select>
+</div>
+<div class="form-group">
+<label>Insurance</label>
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">Self-pay</option>
+<option value="va-military">VA / Military</option>
+<option value="private">Private Insurance</option>
+<option value="not-sure">Not sure</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>How did you hear about us?</label>
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google Search</option>
+<option value="social">Social Media</option>
+<option value="friend">Friend / Family</option>
+<option value="doctor">Doctor Referral</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label>Anything else we should know?</label>
+<textarea name="notes" rows="2"></textarea>
+</div>
+</div>
+<!-- Submit -->
+<div style="text-align:center;margin-top:20px;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<span class="lead-submit-text">Continue to Booking</span>
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</div>
+<p class="form-note" style="margin-top:12px;">Your information helps us serve you better. You'll be redirected to the clinic's online booking page.</p>
+</form>
+<!-- Success state -->
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+<h3>Thank you! Redirecting you to the booking page...</h3>
+</div>
+</div>
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
 <div class="container">
