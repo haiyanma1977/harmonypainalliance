@@ -1,7 +1,7 @@
 # Handoff — residual "commitment / training" language in metadata
 
 **Date:** 2026-06-17
-**Status:** ⏳ Parked — awaiting Haiyan's decision (not yet changed)
+**Status:** ✅ RESOLVED — fixed, committed, and pushed (2026-06-17). Platform value confirmed = connecting patients with the right clinics & practitioners.
 **Owner:** Haiyan
 **Related red-line:** site skill §3.2 (no promo) & §3.3 (don't state standards/commitments HPA can't verify)
 
@@ -51,9 +51,28 @@ For L281 specifically: the "maintain ongoing advanced training at leading clinic
 centers in China" sentence is the unverifiable-commitment part — drop that sentence,
 keep the clinical-condition description.
 
-## Decision needed from Haiyan
-- [ ] Fix all three (twitter:description L44 + Organization JSON-LD L57 + Service JSON-LD neuro L281), trilingual — **or** —
-- [ ] Leave as-is for now.
+## Decision — RESOLVED
+- [x] **Fixed all three** (twitter:description L44 + Organization JSON-LD L57 + Service JSON-LD neuro L281), trilingual. Committed + pushed 2026-06-17.
+- [ ] ~~Leave as-is for now.~~
+
+### Implemented wording
+
+**twitter:description (L44, each file in its own language):**
+- en → "Harmony Pain Alliance connects North American patients with trusted acupuncture and traditional Chinese medicine clinics — helping you find the right practitioner for stroke recovery, neurological rehabilitation, complex pain, and more."
+- es → "Harmony Pain Alliance conecta a pacientes norteamericanos con clínicas de acupuntura y medicina tradicional china de confianza — ayudándole a encontrar el profesional adecuado para recuperación post-ACV, rehabilitación neurológica, dolor complejo y más."
+- zh → "和衡疼痛联盟帮助北美患者匹配到值得信赖的针灸与中医诊所 —— 为中风康复、神经康复、复杂疼痛等方向找到合适的医生。"
+
+**Organization JSON-LD description (L57, identical English in all three files):**
+- → "Harmony Pain Alliance is a platform that connects North American patients with trusted acupuncture and traditional Chinese medicine clinics, helping patients find the right practitioner for their condition. Bringing acupuncture systems rooted in Chinese medicine to North America."
+
+**Service JSON-LD neuro description (L281, identical English in all three files):**
+- → "Acupuncture protocols for stroke recovery, neurological injury, and other conditions where conventional rehabilitation has plateaued." (second sentence dropped; serviceType/procedureType/indication/condition list untouched)
+
+### Verification
+- `json.loads` passed: 8/8 JSON-LD blocks valid in each of en/es/zh, 0 errors.
+- Residual grep clean: no "committed to advanced training / 承诺持续 / comprometidas con formación avanzada / maintain ongoing advanced training" in any site file.
+- Local SEO preserved: Lei's full NAP (`209 E Bay St, Winter Garden, FL 34787`) + GeoCoordinates remain in the `MedicalBusiness` JSON-LD (en/es/zh L123), plus Organization address (L84–88) and head geo meta tags — so dropping "Winter Garden, FL" from twitter:description costs no local-SEO signal.
+- Files changed: `en/index.html` · `es/index.html` · `zh/index.html`.
 
 ## Out of scope / intentionally NOT flagged (true statements, keep)
 - Lei Dong's own "ongoing advanced training in China" (visible bio + credential item) — true personal fact, backed by his AP license.
