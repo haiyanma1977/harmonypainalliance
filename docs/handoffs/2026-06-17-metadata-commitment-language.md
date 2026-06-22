@@ -25,8 +25,12 @@ left untouched pending a decision.
 - **es/index.html** — "...clínicas de acupuntura **comprometidas con formación avanzada** en punción de nueva generación..."
 - **zh/index.html** — "连接北美患者与**承诺持续在中国进修**的精选针灸诊所..." (most explicit — literally "clinics that commit to ongoing training in China")
 
-### 2. Organization JSON-LD `description` (the `"@type": "Organization"` block, ~line 57, identical English string in all three files)
+### 2. Organization JSON-LD `description` (the `"@type": "Organization"` block, line 57, identical English string in all three files)
 - "A platform connecting North American patients with acupuncture clinics **committed to advanced training in next-generation needling**..."
+
+### 3. Service JSON-LD — Stroke & Neurological Rehabilitation entry `description` (line 281, identical English string in all three files)
+- "Acupuncture protocols for stroke recovery, neurological injury... Practitioners across the HPA network **maintain ongoing advanced training at leading clinical centers in China**."
+- Added 2026-06-17 (second pass). This is the *only* one of the 4 MedicalProcedure entries in that block with the training-in-China line; the other three (Advanced Pain Management L295, Sleep & Emotional Health L309, Women's Pelvic Floor L322) are clean.
 
 ## Why it matters
 - Not visible body copy, but it's machine-readable and used in social-share previews + structured data.
@@ -34,7 +38,8 @@ left untouched pending a decision.
 - The ZH twitter card is the sharpest case ("承诺持续在中国进修").
 
 ## Recommended fix (if approved)
-Rewrite both fields, trilingual + in-language, to trust-oriented framing consistent
+Rewrite all three fields (twitter:description L44, Organization JSON-LD L57, Service
+JSON-LD neuro entry L281), trilingual + in-language, to trust-oriented framing consistent
 with the meta/og descriptions already shipped, e.g.:
 - twitter:description → mirror the cleaned `meta description` (vetted network of trusted clinics; focus areas; Winter Garden, FL).
 - Organization JSON-LD description → "A platform connecting North American patients with a vetted network of trusted acupuncture clinics — focused on stroke recovery, neurological rehabilitation, advanced pain, sleep & emotional health, and women's pelvic floor recovery. Bringing China's advanced acupuncture systems to North America."
@@ -42,6 +47,16 @@ with the meta/og descriptions already shipped, e.g.:
 Then: validate JSON-LD with `json.loads`, hand files to Haiyan (no git from Cowork),
 push via GitHub Desktop, purge Cloudflare cache, verify live.
 
+For L281 specifically: the "maintain ongoing advanced training at leading clinical
+centers in China" sentence is the unverifiable-commitment part — drop that sentence,
+keep the clinical-condition description.
+
 ## Decision needed from Haiyan
-- [ ] Fix both (twitter:description + Organization JSON-LD), trilingual — **or** —
+- [ ] Fix all three (twitter:description L44 + Organization JSON-LD L57 + Service JSON-LD neuro L281), trilingual — **or** —
 - [ ] Leave as-is for now.
+
+## Out of scope / intentionally NOT flagged (true statements, keep)
+- Lei Dong's own "ongoing advanced training in China" (visible bio + credential item) — true personal fact, backed by his AP license.
+- FAQ "Founding Partner Clinic… access to advanced training and technology resources" — describes what HPA offers clinics, not a clinic-to-patient promise.
+- "HPA's commitment to every technology partner" (tech-partnership block) — B2B partner language, not clinic standards.
+- Form "我们承诺在5个工作日内回复" — response-time promise, unrelated.
