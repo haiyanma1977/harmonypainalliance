@@ -13,7 +13,7 @@
   <!-- English -->
   <url>
     <loc>https://harmonypainalliance.com/en/</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -41,7 +41,7 @@
   <!-- Spanish -->
   <url>
     <loc>https://harmonypainalliance.com/es/</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -53,7 +53,7 @@
   <!-- Chinese (Simplified) -->
   <url>
     <loc>https://harmonypainalliance.com/zh/</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -65,21 +65,21 @@
   <!-- English condition landing pages -->
   <url>
     <loc>https://harmonypainalliance.com/en/stroke-recovery-acupuncture/</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://harmonypainalliance.com/en/migraine-acupuncture/</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://harmonypainalliance.com/en/facial-paralysis-acupuncture/</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -94,7 +94,7 @@
 
   <url>
     <loc>https://harmonypainalliance.com/terms.html</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
