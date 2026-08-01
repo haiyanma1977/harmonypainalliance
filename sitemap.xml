@@ -62,14 +62,42 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/"/>
   </url>
 
-  <!-- English condition landing pages -->
+  <!-- Condition landing pages -->
+  <!-- Stroke recovery — trilingual cluster (en/es/zh) since 2026-08-01 -->
   <url>
     <loc>https://harmonypainalliance.com/en/stroke-recovery-acupuncture/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
   </url>
 
+  <url>
+    <loc>https://harmonypainalliance.com/es/stroke-recovery-acupuncture/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/zh/stroke-recovery-acupuncture/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/stroke-recovery-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
+  </url>
+
+  <!-- English-only condition landing pages (localization pending) -->
   <url>
     <loc>https://harmonypainalliance.com/en/migraine-acupuncture/</loc>
     <lastmod>2026-07-29</lastmod>
