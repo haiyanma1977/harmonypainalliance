@@ -1,0 +1,23 @@
+# hpa-partners — FOR REVIEW, NOT DEPLOYED
+# Fill the two ids after creating the KV namespace, then:
+#   wrangler kv:namespace create HPA_PARTNERS
+#   wrangler secret put PARTNER_SCRIPT_URL
+#   wrangler deploy
+
+name = "hpa-partners"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# More specific than hpa-leads' /api/* route, so this one wins for /api/partner.
+# Verify with a test POST after the first deploy.
+routes = [
+  { pattern = "harmonypainalliance.com/api/partner", zone_name = "harmonypainalliance.com" }
+]
+
+[[kv_namespaces]]
+binding = "HPA_PARTNERS"
+id = "<fill after: wrangler kv:namespace create HPA_PARTNERS>"
+
+[vars]
+PARTNER_NOTIFY_EMAIL = "founder@harmonypainalliance.com"
+# PARTNER_SCRIPT_URL is a secret — set with: wrangler secret put PARTNER_SCRIPT_URL

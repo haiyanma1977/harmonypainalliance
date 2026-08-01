@@ -135,17 +135,140 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Partnership Form Submission (clinic + tech forms, mailto) ---
+  // --- Partnership Form Submission (clinic + tech forms, mailto + no-loss fallback) ---
+  //  Delivery is still mailto (unchanged). What is new: if the visitor has no
+  //  mail client configured — common on mobile and for webmail users — the old
+  //  version silently did nothing and the application was lost. Now we always
+  //  show the filled application with a copy button and the address to send it to.
+  const HPA_PARTNER_I18N = {
+    en: {
+      sent: 'Your email app should now be open with your application filled in — press send to complete it.',
+      fallback: 'Nothing opened? Some browsers have no email app configured. Copy your application and send it to:',
+      copy: 'Copy my application',
+      copied: '✓ Copied — now paste it into your email',
+      reply: 'We reply to every application within 5 business days.'
+    },
+    es: {
+      sent: 'Su aplicación de correo debería abrirse con su solicitud ya completada — pulse enviar para finalizar.',
+      fallback: '¿No se abrió nada? Algunos navegadores no tienen una aplicación de correo configurada. Copie su solicitud y envíela a:',
+      copy: 'Copiar mi solicitud',
+      copied: '✓ Copiado — ahora péguelo en su correo',
+      reply: 'Respondemos a cada solicitud en un plazo de 5 días hábiles.'
+    },
+    zh: {
+      sent: '您的邮件应用应该已经打开，申请内容已自动填好 —— 点击发送即可完成。',
+      fallback: '没有反应？部分浏览器没有配置邮件应用。请复制您的申请内容，发送至：',
+      copy: '复制我的申请内容',
+      copied: '✓ 已复制 —— 请粘贴到您的邮件中',
+      reply: '我们承诺在 5 个工作日内回复每一份申请。'
+    }
+  };
+
+  const hpaLang = () => {
+    const l = (document.documentElement.lang || 'en').toLowerCase();
+    if (l.startsWith('zh')) return 'zh';
+    if (l.startsWith('es')) return 'es';
+    return 'en';
+  };
+
+  // Build a human-readable application body using the form's own visible labels,
+  // so the text stays in whatever language the page is in.
+  const buildPartnerBody = (form) => {
+    const fields = new Map();
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach((el) => {
+      if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+      const val = (el.value || '').trim();
+      if (!val) return;
+      const group = el.closest('.form-group');
+      const labelEl = group ? group.querySelector('label') : null;
+      const label = labelEl
+        ? labelEl.textContent.replace(/\*/g, '').trim()
+        : el.name;
+      if (!fields.has(el.name)) fields.set(el.name, { label, values: [] });
+      fields.get(el.name).values.push(val);
+    });
+    let body = '';
+    fields.forEach((f) => { body += `${f.label}: ${f.values.join(', ')}\n`; });
+    return body;
+  };
+
+  const showPartnerFallback = (form, body) => {
+    const t = HPA_PARTNER_I18N[hpaLang()];
+    let panel = form.querySelector('.partner-fallback');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.className = 'partner-fallback';
+      panel.style.cssText =
+        'margin-top:22px;padding:20px;border-radius:14px;background:#eef3fb;' +
+        'text-align:center;font-size:0.95rem;line-height:1.7;';
+      form.appendChild(panel);
+    }
+    panel.innerHTML = '';
+
+    const p1 = document.createElement('p');
+    p1.style.cssText = 'margin:0 0 10px;';
+    p1.textContent = t.sent;
+
+    const p2 = document.createElement('p');
+    p2.style.cssText = 'margin:0 0 12px;';
+    p2.textContent = t.fallback + ' ';
+    const mail = document.createElement('a');
+    mail.href = 'mailto:' + HPA_FALLBACK_EMAIL;
+    mail.textContent = HPA_FALLBACK_EMAIL;
+    p2.appendChild(mail);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn-outline';
+    btn.textContent = t.copy;
+    btn.addEventListener('click', () => {
+      const done = () => { btn.textContent = t.copied; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(body).then(done).catch(() => {
+          window.prompt(HPA_FALLBACK_EMAIL, body);
+        });
+      } else {
+        window.prompt(HPA_FALLBACK_EMAIL, body);
+      }
+    });
+
+    const note = document.createElement('p');
+    note.style.cssText = 'margin:12px 0 0;font-size:0.85rem;opacity:0.75;';
+    note.textContent = t.reply;
+
+    panel.append(p1, p2, btn, note);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  // Mobile is where mailto fails most: iOS Safari and Android Chrome block
+  // external-scheme navigation from hidden iframes, and long mailto URLs get
+  // truncated or dropped. So: render the fallback panel FIRST (it carries the
+  // full text either way), then hand off via a real anchor click inside the
+  // user gesture, with a length-capped body.
+  const MAILTO_BODY_LIMIT = 1500;
+
   const handlePartnerFormSubmit = (form, subject) => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = new FormData(form);
-      let body = '';
-      for (const [key, value] of data.entries()) {
-        if (value) body += `${key}: ${value}\n`;
+      const body = buildPartnerBody(form);
+
+      // Panel goes up first — never depends on the mail handoff succeeding.
+      showPartnerFallback(form, body);
+
+      let mailBody = body;
+      if (mailBody.length > MAILTO_BODY_LIMIT) {
+        mailBody = mailBody.slice(0, MAILTO_BODY_LIMIT) + '\n...';
       }
-      const mailtoLink = `mailto:${HPA_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoLink;
+      const mailtoLink = `mailto:${HPA_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
+
+      // Anchor click keeps the user gesture, which mobile browsers require to
+      // hand off to the mail app. The page itself is not navigated away.
+      const a = document.createElement('a');
+      a.href = mailtoLink;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => a.remove(), 1000);
     });
   };
 

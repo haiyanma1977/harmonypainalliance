@@ -112,6 +112,73 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Partnership pages — trilingual clusters (en/es/zh) since 2026-08-01 -->
+  <url>
+    <loc>https://harmonypainalliance.com/en/join/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/join/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/join/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/join/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/join/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/es/join/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/join/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/join/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/join/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/join/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/zh/join/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/join/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/join/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/join/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/join/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/en/tech-partnership/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/es/tech-partnership/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/zh/tech-partnership/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/tech-partnership/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+  </url>
+
   <!-- Legal pages (English only — US jurisdiction) -->
   <url>
     <loc>https://harmonypainalliance.com/privacy.html</loc>
