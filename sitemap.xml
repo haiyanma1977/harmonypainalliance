@@ -181,14 +181,14 @@
 
   <!-- Legal pages (English only — US jurisdiction) -->
   <url>
-    <loc>https://harmonypainalliance.com/privacy.html</loc>
+    <loc>https://harmonypainalliance.com/privacy</loc>
     <lastmod>2026-05-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://harmonypainalliance.com/terms.html</loc>
+    <loc>https://harmonypainalliance.com/terms</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
