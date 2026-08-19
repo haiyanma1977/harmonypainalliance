@@ -13,7 +13,7 @@
   <!-- English -->
   <url>
     <loc>https://harmonypainalliance.com/en/</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -41,7 +41,7 @@
   <!-- Spanish -->
   <url>
     <loc>https://harmonypainalliance.com/es/</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -53,7 +53,7 @@
   <!-- Chinese (Simplified) -->
   <url>
     <loc>https://harmonypainalliance.com/zh/</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/"/>
@@ -66,7 +66,7 @@
   <!-- Stroke recovery — trilingual cluster (en/es/zh) since 2026-08-01 -->
   <url>
     <loc>https://harmonypainalliance.com/en/stroke-recovery-acupuncture/</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
@@ -77,7 +77,7 @@
 
   <url>
     <loc>https://harmonypainalliance.com/es/stroke-recovery-acupuncture/</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
@@ -88,7 +88,7 @@
 
   <url>
     <loc>https://harmonypainalliance.com/zh/stroke-recovery-acupuncture/</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/stroke-recovery-acupuncture/"/>
@@ -100,14 +100,14 @@
   <!-- English-only condition landing pages (localization pending) -->
   <url>
     <loc>https://harmonypainalliance.com/en/migraine-acupuncture/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://harmonypainalliance.com/en/facial-paralysis-acupuncture/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -177,6 +177,40 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/tech-partnership/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/tech-partnership/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/tech-partnership/"/>
+  </url>
+
+  <!-- Clinic profiles — trilingual cluster (en/es/zh) since 2026-08-19 -->
+  <url>
+    <loc>https://harmonypainalliance.com/en/clinics/leis-acupuncture/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/es/clinics/leis-acupuncture/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/zh/clinics/leis-acupuncture/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/clinics/leis-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/"/>
   </url>
 
   <!-- Legal pages (English only — US jurisdiction) -->

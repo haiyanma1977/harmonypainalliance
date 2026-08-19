@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<!--
+============================================================================
+HPA CLINIC PAGE TEMPLATE  —  /{lang}/clinics/{slug}/
+Template v2 (2026-08-14) · reusable across partner clinics
+Current instance: Lei's Acupuncture (EN)
+----------------------------------------------------------------------------
+HOW THIS TEMPLATE WORKS
+  • FIXED  = platform-constant. Must be TRUE FOR ANY CLINIC (§3.3).
+             Change only via platform red-line review — never per clinic.
+  • SLOT   = per-clinic. Replace when cloning. In the body each region is wrapped in
+             an HTML comment pair, written here without live delimiters as:
+             [SLOT: name | note]  ...content...  [/SLOT]
+  • Guillemet placeholders (TODO / PENDIENTE / 待确认 inside heavy
+             angle brackets) mark this instance's unfilled SLOTs. Grep the
+             opening guillemet. ALL must be gone before go-live.
+  Clone a new clinic = copy file → replace every SLOT → clear every placeholder.
+  Do NOT edit FIXED regions per clinic.
+
+PAGE ORDER (v2 — focused design):
+  1 Hero · 2 Meet the Practitioner · 3 Clinical Training & Continuing Education ·
+  4 Clinical Focus (Neuro Rehab / Chronic & Complex Pain) · 5 Clinic Gallery ·
+  6 The Leisacupuncture Approach · 7 Is This Clinic a Good Fit for You? ·
+  8 What to Expect · 9 Services · 10 About Harmony Pain Alliance ·
+  11 Insurance & Payment · 12 Visit Us · 13 FAQ · 14 Ready to Schedule · 15 Disclaimer
+  (Removed vs v1: standalone "Long-Term Care" [merged into What to Expect];
+   "Patient Testimonials" [hidden in v1 — see note at that anchor].)
+
+SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
+  slug ............. leis-acupuncture
+  clinic_name ...... Lei's Acupuncture
+  clinic_id ........ lei-acupuncture      (data-clinic= on booking CTAs → lead modal)
+  partner_status ... Founding Partner      (values: Partner | Founding Partner)
+  practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate → Dipl. AHM (NCBAHM))
+  focus_headline ... Post-Stroke & Neurological Rehabilitation · Chronic & Complex Pain
+  clinic_method .... Leisacupuncture / 磊氏针灸  (OPTIONAL — omit for clinics with no named method)
+  address .......... 209 E Bay St, Winter Garden, FL 34787
+  geo .............. 28.5653, -81.5862
+  phone ............ +1-561-403-6485
+  hours ............ Tue–Sun 9:00–17:00
+  website .......... https://leisacupuncture.com/
+  npi .............. 1811880438
+  booking_category . 4 Primary-Concern options in the lead modal (per clinic focus)
+  block SLOTs ...... focus_lists · completed_training · good_fit · what_to_expect ·
+                     services (+ JSON-LD availableService) · insurance · languages ·
+                     hours · gallery · faq · why_this_clinic line · clinic JSON-LD · physician JSON-LD
+
+RED-LINES BAKED IN (every instance): §3.1 AP-only · §3.2 no price-off/special-offer framing ·
+  §3.3 platform-truth (no unverifiable clinic commitments — incl. no "ongoing/continues to
+  train in China"; never write one clinic's attributes as the platform's) ·
+  §3.4 FL Ch.457 ("focuses on", no "specializes in", no guaranteed results) ·
+  booking → HPA lead modal, NEVER Jane App direct.
+
+TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
+  ⚠ ZH: do NOT translate "NCBAHM" — Chinese official name unresolved (locked).
+============================================================================
+-->
+<html lang="en">
+<head>
+<!-- HEAD — structure/keys + font/css/favicon links are FIXED.
+     Every VALUE below (title, description, canonical/hreflang, og/twitter, both JSON-LD payloads) is a per-clinic SLOT. -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SLOT: head_meta -->
+<title>Lei's Acupuncture — Winter Garden, FL | Harmony Pain Alliance</title>
+<meta content="Lei's Acupuncture in Winter Garden, FL — Harmony Pain Alliance's founding partner clinic, led by Lei Dong, AP. Focuses on post-stroke &amp; neurological rehabilitation and chronic, complex pain." name="description"/>
+<meta content="Harmony TCM International Group LLC" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="US-FL" name="geo.region"/>
+<meta content="Winter Garden, Florida" name="geo.placename"/>
+<meta content="28.5653;-81.5862" name="geo.position"/>
+<meta content="28.5653, -81.5862" name="ICBM"/>
+<!-- /SLOT -->
+<!-- SLOT: canonical_hreflang | swap {slug} per clinic -->
+<link href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/" rel="canonical"/>
+<link href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/" hreflang="en" rel="alternate"/>
+<link href="https://harmonypainalliance.com/es/clinics/leis-acupuncture/" hreflang="es" rel="alternate"/>
+<link href="https://harmonypainalliance.com/zh/clinics/leis-acupuncture/" hreflang="zh" rel="alternate"/>
+<link href="https://harmonypainalliance.com/en/clinics/leis-acupuncture/" hreflang="x-default" rel="alternate"/>
+<!-- /SLOT -->
+<!-- FIXED: favicons -->
+<link href="/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<!-- SLOT: social_preview -->
+<meta content="website" property="og:type"/>
+<meta content="Harmony Pain Alliance" property="og:site_name"/>
+<meta content="https://harmonypainalliance.com/en/clinics/leis-acupuncture/" property="og:url"/>
+<meta content="Lei's Acupuncture — Winter Garden, FL | Harmony Pain Alliance" property="og:title"/>
+<meta content="Founding partner clinic in Winter Garden, FL, led by Lei Dong, AP. Focuses on post-stroke &amp; neurological rehabilitation and chronic, complex pain." property="og:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Harmony Pain Alliance — Redefining Rehabilitation in North America" property="og:image:alt"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Lei's Acupuncture — Winter Garden, FL | Harmony Pain Alliance" name="twitter:title"/>
+<meta content="Founding partner clinic, led by Lei Dong, AP. Focuses on post-stroke &amp; neurological rehabilitation and chronic, complex pain." name="twitter:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" name="twitter:image"/>
+<!-- /SLOT -->
+
+<!-- SLOT: jsonld_clinic | MedicalClinic. availableService = MODALITIES only, kept in sync with visible Services (§9). -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "@id": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/#clinic",
+    "name": "Lei's Acupuncture",
+    "url": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/",
+    "image": "https://harmonypainalliance.com/img/dr-lei.jpg",
+    "description": "Harmony Pain Alliance's founding partner clinic in Winter Garden, Florida, led by Lei Dong, AP. Focuses on post-stroke and neurological rehabilitation and chronic, complex pain.",
+    "telephone": "+1-561-403-6485",
+    "address": {"@type": "PostalAddress", "streetAddress": "209 E Bay St", "addressLocality": "Winter Garden", "addressRegion": "FL", "postalCode": "34787", "addressCountry": "US"},
+    "geo": {"@type": "GeoCoordinates", "latitude": 28.5653, "longitude": -81.5862},
+    "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "09:00", "closes": "17:00"}],
+    "areaServed": [{"@type": "City", "name": "Winter Garden"}, {"@type": "City", "name": "Orlando"}, {"@type": "City", "name": "Ocoee"}, {"@type": "City", "name": "Clermont"}, {"@type": "AdministrativeArea", "name": "Central Florida"}],
+    "medicalSpecialty": ["Acupuncture"],
+    "availableService": [
+      {"@type": "MedicalProcedure", "name": "Acupuncture"},
+      {"@type": "MedicalProcedure", "name": "Electroacupuncture"},
+      {"@type": "MedicalTherapy", "name": "Traditional Chinese Medicine"},
+      {"@type": "MedicalTherapy", "name": "Chinese Herbal Medicine"},
+      {"@type": "MedicalProcedure", "name": "Cupping"}
+    ],
+    "isAcceptingNewPatients": true,
+    "paymentAccepted": "Cash, Credit Card, VA/Military Benefits",
+    "openingHoursSpecification": [
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "17:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00"}
+    ],
+    "currenciesAccepted": "USD",
+    "parentOrganization": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/"},
+    "sameAs": [
+      "https://leisacupuncture.com/",
+      "https://maps.google.com/?cid=16091939224095567889",
+      "https://www.yelp.com/biz/leis-acupuncture-winter-garden",
+      "https://www.facebook.com/61579419055179/",
+      "https://nextdoor.com/pages/leis-acupuncture-winter-garden-fl/"
+    ]
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_physician | FIXED constraint: honorificSuffix AP only; Diplomate = Dipl. AHM (NCBAHM). -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/#practitioner",
+    "name": "Lei Dong",
+    "alternateName": "Lei",
+    "honorificSuffix": ["AP"],
+    "jobTitle": "Acupuncture Physician",
+    "image": "https://harmonypainalliance.com/img/dr-lei.jpg",
+    "url": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/",
+    "worksFor": {"@type": "MedicalClinic", "@id": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/#clinic"},
+    "knowsAbout": ["Acupuncture", "Post-Stroke Rehabilitation", "Neurological Rehabilitation", "Facial Paralysis", "Neuropathy", "Tinnitus", "Migraine", "Chronic Pain", "Complex Pain", "Traditional Chinese Medicine"],
+    "hasCredential": [
+      {"@type": "EducationalOccupationalCredential", "credentialCategory": "license", "name": "Licensed Acupuncture Physician (AP)", "recognizedBy": {"@type": "GovernmentOrganization", "name": "Florida Board of Acupuncture"}},
+      {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Diplomate in Acupuncture & Herbal Medicine — Dipl. AHM (NCBAHM)", "recognizedBy": {"@type": "Organization", "name": "National Certification Board for Acupuncture and Herbal Medicine (NCBAHM)", "url": "https://www.ncbahm.org/"}}
+    ],
+    "identifier": {"@type": "PropertyValue", "propertyID": "NPI", "value": "1811880438"}
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_breadcrumb -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://harmonypainalliance.com/en/"},
+      {"@type": "ListItem", "position": 2, "name": "Lei's Acupuncture", "item": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/"}
+    ]
+  }
+  </script>
+<!-- /SLOT -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Do you accept new patients?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Lei's Acupuncture is currently accepting new patients."}},
+    {"@type": "Question", "name": "What should I bring to my first appointment?", "acceptedAnswer": {"@type": "Answer", "text": "Please bring a photo ID and your relevant medical records."}},
+    {"@type": "Question", "name": "Can acupuncture be used alongside my physician, physical therapy, or rehabilitation program?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Acupuncture at Lei's Acupuncture is intended as supportive, complementary care that works alongside your physician, physical therapy, occupational therapy, or rehabilitation program. It does not replace the medical care your providers recommend."}},
+    {"@type": "Question", "name": "Do you accept insurance or VA Community Care?", "acceptedAnswer": {"@type": "Answer", "text": "Lei's Acupuncture accepts VA/Military benefits, cash, and credit or debit cards. For questions about specific insurance plans or VA Community Care eligibility, please contact the clinic directly to confirm your coverage before treatment."}}
+  ]
+}
+</script>
+
+<!-- FIXED: fonts + stylesheet -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
+<link href="/css/style.css" rel="stylesheet"/>
+<!-- FIXED: template helper styles. .todo is SKELETON-ONLY — remove rule + all .todo blocks before go-live. -->
+<style>
+  .article-wrap { max-width: 900px; margin: 0 auto; }
+  .article-wrap h2 { margin-top: 44px; }
+  .article-wrap h3 { margin-top: 26px; }
+  .article-wrap p { margin: 14px 0; line-height: 1.7; }
+  .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin: 18px 0 0; }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .focus-headline { font-size: 1.15rem; font-weight: 700; color: var(--brand-green, #009573); margin: 10px 0 6px; }
+  .ref-note { font-size: 0.9rem; color: var(--text-muted); }
+  .learn-more { display: inline-block; margin: 4px 18px 4px 0; font-weight: 600; color: var(--brand-green, #009573); text-decoration: none; }
+  .page-cta { text-align: center; padding: 32px; background: var(--blue-50, #eef3fb); border-radius: var(--radius-lg, 14px); margin-top: 40px; }
+  .page-cta a.btn { margin-top: 12px; }
+  .todo { border-left: 4px solid #d08700; background: #fff8e6; padding: 12px 16px; margin: 18px 0; border-radius: 8px; font-size: 0.95rem; color: #6b5300; }
+  .todo b { color: #8a6d00; }
+  .specialty-tag-primary { background: var(--brand-green, #009573); color: #fff; font-weight: 700; }
+  .clinic-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin: 16px 0; }
+  .clinic-facts div { padding: 6px 0; border-bottom: 1px solid var(--border, #e6e6e6); }
+  @media (max-width: 640px){ .clinic-facts { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="lang-en">
+<!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
+<nav class="navbar">
+<div class="container">
+<a class="nav-brand" href="/en/">
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-light" src="/img/hpa_logo_white.svg"/>
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-dark" src="/img/favicon.svg"/>
+<span class="nav-brand-text">Harmony Pain Alliance</span>
+</a>
+<div class="nav-right">
+<div class="lang-switch">
+<a class="active" data-lang="en" href="/en/clinics/leis-acupuncture/">EN</a>
+<a data-lang="es" href="/es/clinics/leis-acupuncture/">ES</a>
+<a data-lang="zh" href="/zh/clinics/leis-acupuncture/">中文</a>
+</div>
+<button aria-label="Menu" class="hamburger"><span></span><span></span><span></span></button>
+</div>
+</div>
+</nav>
+<!-- FIXED: slide-out menu -->
+<div class="nav-menu">
+<a href="/en/#patients">For Patients</a>
+<a href="/en/#about">Our Founder</a>
+<a href="/en/join/">Join the Network</a>
+<a href="/en/#china">Tech Partnership</a>
+<a href="/en/#apply">Apply Now</a>
+</div>
+<div class="nav-overlay"></div>
+
+<main>
+<section>
+<div class="container">
+<div class="article-wrap">
+
+<!-- SLOT: breadcrumb -->
+<p class="breadcrumb"><a href="/en/">Home</a> &nbsp;›&nbsp; Lei's Acupuncture</p>
+<!-- /SLOT -->
+
+<!-- ===== 1. HERO ===== -->
+<!-- SLOT: partner_status | Partner | Founding Partner -->
+<span class="tag tag-green">Founding Partner Clinic</span>
+<!-- /SLOT -->
+<!-- SLOT: clinic_name -->
+<h1>Lei's Acupuncture</h1>
+<!-- /SLOT -->
+<!-- SLOT: location -->
+<p style="font-weight:700;margin:2px 0 0;">Winter Garden, Florida</p>
+<!-- /SLOT -->
+<!-- SLOT: focus_headline -->
+<p class="focus-headline">Post-Stroke &amp; Neurological Rehabilitation<br/>Chronic &amp; Complex Pain</p>
+<!-- /SLOT -->
+<!-- SLOT: hero_line -->
+<p class="section-subtitle" style="margin-left:0;text-align:left;">Individualized acupuncture care with a clinical focus on post-stroke and neurological rehabilitation, as well as chronic and complex pain.</p>
+<!-- /SLOT -->
+<!-- FIXED: hero CTAs. Book → HPA lead modal (data-clinic = SLOT clinic_id). NEVER Jane App direct (§3.3). -->
+<div style="text-align:left;margin:18px 0 8px;">
+<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">Book Through Harmony Pain Alliance</a>
+&nbsp;
+<a class="btn btn-outline" href="https://leisacupuncture.com/" rel="noopener" target="_blank">Visit Clinic Website</a>
+&nbsp;
+<a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Get Directions</a>
+</div>
+
+<!-- ===== 2. MEET THE PRACTITIONER ===== -->
+<!-- SLOT: practitioner | FIXED constraints: AP suffix only §3.1; Diplomate = Dipl. AHM (NCBAHM); "Nationally Board-Certified" must stay anchored to NCBAHM; training = completed facts only §3.3; relationships trained/certified not lineage; not MD/DO/PhD. -->
+<h2>Meet Lei Dong, AP</h2>
+<div class="doctor-grid" style="margin-top:8px;">
+<div class="doctor-photo">
+<picture>
+<source srcset="/img/dr-lei.webp" type="image/webp"/>
+<img alt="Lei Dong, AP — Acupuncture Physician and founder of Lei's Acupuncture in Winter Garden, Florida" height="750" loading="eager" src="/img/dr-lei.jpg" width="600"/>
+</picture>
+</div>
+<div class="doctor-content">
+<div>
+<p class="doctor-title">Acupuncture Physician · Founder, Lei's Acupuncture</p>
+<p style="margin:4px 0;"><strong>Nationally Board-Certified · Dipl. AHM (NCBAHM)</strong></p>
+<div class="doctor-specialties">
+<!-- Clinical Focus tags = the TWO primary focuses only (mirror hero). Other conditions go in ONE muted secondary line + the Clinical Focus section — never a big tag cloud here. -->
+<h4>Clinical Focus</h4>
+<div class="specialty-tags">
+<span class="specialty-tag specialty-tag-primary">Post-Stroke &amp; Neurological Rehabilitation</span>
+<span class="specialty-tag specialty-tag-primary">Chronic &amp; Complex Pain</span>
+</div>
+<p class="ref-note" style="margin-top:8px;">Also supports patients with facial paralysis, neuropathy, tinnitus, migraine, and related conditions. See Clinical Focus below.</p>
+</div>
+<div class="doctor-credentials">
+<h4 style="margin-bottom:8px;">Professional Credentials</h4>
+<div class="credential-item"><span class="credential-icon">🎓</span> Florida Licensed Acupuncture Physician (AP)</div>
+<div class="credential-item"><span class="credential-icon">🎓</span> Master's, Florida College of Integrative Medicine</div>
+</div>
+</div>
+</div>
+</div>
+<!-- /SLOT -->
+
+<!-- ===== 3. CLINICAL TRAINING & CONTINUING EDUCATION ===== -->
+<!-- FIXED: heading. SLOT: body. §3.3 — COMPLETED FACTS ONLY. No ongoing/forward-training framing (see §3.3); completed facts only. -->
+<h2>Clinical Training &amp; Continuing Education</h2>
+<!-- SLOT: completed_training -->
+<p>Beyond his master's degree, Lei Dong has pursued advanced acupuncture training and continuing education in both the United States and China, further developing his clinical knowledge and approach to patient care.</p>
+<!-- /SLOT -->
+
+<!-- ===== 4. CLINICAL FOCUS ===== -->
+<!-- FIXED: heading. SLOT: conditions + internal links (only link condition pages that exist). -->
+<h2>Clinical Focus</h2>
+<!-- SLOT: focus_lists -->
+<h3>Neurological Rehabilitation</h3>
+<p>Lei's Acupuncture focuses on patients with neurological conditions and longer-term rehabilitation needs. Common areas of care include:</p>
+<ul>
+<li>Post-stroke rehabilitation and recovery support</li>
+<li>Facial paralysis and Bell's palsy</li>
+<li>Neuropathy and nerve-related symptoms</li>
+<li>Tinnitus</li>
+<li>Migraine and chronic headache</li>
+</ul>
+<p>
+<a class="learn-more" href="/en/stroke-recovery-acupuncture/">Learn More About Acupuncture for Stroke Recovery &rarr;</a>
+<a class="learn-more" href="/en/facial-paralysis-acupuncture/">Learn More About Acupuncture for Facial Paralysis &rarr;</a>
+</p>
+
+<h3>Chronic &amp; Complex Pain</h3>
+<p>Lei's Acupuncture also focuses on patients experiencing chronic, recurring, or complex pain. Common areas of care include:</p>
+<ul>
+<li>Chronic neck and shoulder pain</li>
+<li>Low back pain and sciatica</li>
+<li>Neuropathic and nerve-related pain</li>
+<li>Persistent musculoskeletal pain</li>
+<li>Chronic or recurring pain involving multiple factors</li>
+</ul>
+<!-- /SLOT -->
+
+<!-- ===== 5. CLINIC GALLERY ===== -->
+<!-- FIXED: heading. SLOT: photos. -->
+<!-- <h2>Clinic Gallery</h2> — section hidden at launch until photos exist -->
+<!-- SLOT: gallery -->
+<!-- gallery HIDDEN at launch (no photos yet). Restore: place clinic photos in /img/, add a photo grid here, and un-hide the heading above. -->
+<!-- /SLOT -->
+
+<!-- ===== 6. THE LEISACUPUNCTURE APPROACH ===== -->
+<!-- SLOT: clinic_method | OPTIONAL (omit for clinics with no named method). v1: keep SHORT — no 大道至简, no heavy 《灵枢》, no long theory. -->
+<h2>The Leisacupuncture Approach</h2>
+<p>Leisacupuncture (磊氏针灸) represents the clinical approach used at Lei's Acupuncture. Care is individualized around each patient's overall condition and clinical presentation, rather than relying on the same routine for every patient or focusing only on the location of a symptom.</p>
+<!-- Future: link to a standalone "The Leisacupuncture Approach → Learn More" page when built. Do not ship a live link until the page exists. -->
+<!-- /SLOT -->
+
+<!-- ===== 7. IS THIS CLINIC A GOOD FIT FOR YOU? ===== -->
+<!-- FIXED: heading. SLOT: short list — do NOT repeat Clinical Focus conditions here. -->
+<h2>Is This Clinic a Good Fit for You?</h2>
+<!-- SLOT: good_fit -->
+<p>Lei's Acupuncture may be a good fit if you are:</p>
+<ul>
+<li>Seeking supportive acupuncture care during neurological rehabilitation</li>
+<li>Managing persistent, chronic, or complex pain</li>
+<li>Looking for an individualized acupuncture treatment plan based on your condition and clinical assessment</li>
+</ul>
+<!-- /SLOT -->
+
+<!-- ===== 8. WHAT TO EXPECT ===== -->
+<!-- FIXED: heading + "complement not replace" line. SLOT: first-visit list + individualized-care body (mostly reusable). Absorbs continuity-of-care. -->
+<h2>What to Expect</h2>
+<!-- SLOT: what_to_expect -->
+<h3>Your First Visit</h3>
+<p>A first visit generally includes:</p>
+<ul>
+<li>Review of medical and symptom history</li>
+<li>Discussion of current concerns and functional limitations</li>
+<li>Review of medications and relevant rehabilitation care</li>
+<li>Individualized acupuncture assessment</li>
+<li>Discussion of the treatment plan</li>
+<li>Recommended treatment frequency when appropriate</li>
+</ul>
+<h3>Individualized Care</h3>
+<p>Treatment is based on the patient's primary concern, medical and symptom history, duration and severity of symptoms, stage of recovery, functional limitations, previous treatment response, and overall clinical assessment. For neurological rehabilitation and long-standing pain, care may involve a series of treatments with periodic reassessment.</p>
+<!-- /SLOT -->
+<p><strong>Acupuncture is intended to complement, not replace, care from your physician and rehabilitation team.</strong></p>
+
+<!-- ===== 9. SERVICES ===== -->
+<!-- FIXED: heading + "vary" note. SLOT: MODALITIES only (not conditions). Keep in sync with jsonld_clinic availableService. -->
+<h2>Services</h2>
+<!-- SLOT: services -->
+<p>Depending on the patient's condition and clinical assessment, services may include:</p>
+<ul>
+<li>Acupuncture</li>
+<li>Electroacupuncture</li>
+<li>Traditional Chinese Medicine</li>
+<li>Chinese Herbal Medicine</li>
+<li>Cupping</li>
+</ul>
+<!-- /SLOT -->
+<p class="ref-note">Available services may vary by patient and clinical indication.</p>
+
+<!-- ===== 10. ABOUT HARMONY PAIN ALLIANCE ===== -->
+<!-- FIXED: generic platform intro — TRUE FOR ANY CLINIC (§3.3). No per-clinic vetting/trust claims; formal qualification system to be built & explained separately. -->
+<h2>About Harmony Pain Alliance</h2>
+<p>Harmony Pain Alliance helps patients discover independent acupuncture and Traditional Chinese Medicine clinics based on location, clinical focus, and professional background.</p>
+<!-- SLOT: why_this_clinic | one clinic-specific line: partner status + city -->
+<p><strong>Lei's Acupuncture is Harmony Pain Alliance's Founding Partner Clinic in Winter Garden, Florida.</strong></p>
+<!-- /SLOT -->
+
+<!-- ===== 11. INSURANCE & PAYMENT ===== -->
+<!-- FIXED: heading + "coverage varies, contact clinic" note. SLOT: clinic specifics. -->
+<h2>Insurance &amp; Payment</h2>
+<!-- SLOT: insurance -->
+<p>Lei's Acupuncture accepts VA/Military benefits, cash, and credit or debit cards.</p>
+<!-- /SLOT -->
+<p class="ref-note">Insurance coverage and benefits vary. Please contact the clinic directly to confirm eligibility, coverage, and financial responsibility before treatment.</p>
+
+<!-- ===== 12. VISIT US ===== -->
+<!-- FIXED: layout. SLOT: heading clinic_name + address/phone/hours/languages/map. -->
+<h2>Visit Lei's Acupuncture</h2>
+<!-- SLOT: visit_us -->
+<div class="clinic-facts">
+<div><strong>Address</strong><br/>209 E Bay St, Winter Garden, FL 34787</div>
+<div><strong>Phone</strong><br/><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
+<div><strong>Hours</strong><br/><span>Mon, Tue, Thu, Fri, Sat: 9:00 AM – 5:00 PM<br/>Sun: 10:00 AM – 4:00 PM<br/><span class="ref-note">Wed: closed at this location (practitioner at the FCIM teaching clinic)</span></span></div>
+<div><strong>Languages</strong><br/><span>English · Chinese</span></div>
+</div>
+<div class="clinic-location" style="margin:16px 0;border-radius:14px;overflow:hidden;height:320px;">
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
+</div>
+<p><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Get Directions</a> &nbsp; <a class="btn btn-outline" href="https://leisacupuncture.com/" rel="noopener" target="_blank">Visit Clinic Website</a></p>
+<!-- /SLOT -->
+
+<!-- ===== 13. FAQ ===== -->
+<!-- FIXED: structure. SLOT: answers (then mirror to jsonld_faq). Languages is NOT a FAQ — lives in Visit Us. -->
+<h2>Frequently Asked Questions</h2>
+<!-- SLOT: faq -->
+<div class="faq-item" data-category="patients">
+<button class="faq-question"><span>Do you accept new patients?</span></button>
+<div class="faq-answer"><div class="faq-answer-inner">
+<p>Yes. Lei's Acupuncture is currently accepting new patients.</p>
+</div></div>
+</div>
+<div class="faq-item" data-category="patients">
+<button class="faq-question"><span>What should I bring to my first appointment?</span></button>
+<div class="faq-answer"><div class="faq-answer-inner">
+<p>Please bring a photo ID and your relevant medical records.</p>
+</div></div>
+</div>
+<div class="faq-item" data-category="patients">
+<button class="faq-question"><span>Can acupuncture be used alongside my physician, physical therapy, or rehabilitation program?</span></button>
+<div class="faq-answer"><div class="faq-answer-inner">
+<p>Yes. Acupuncture at Lei's Acupuncture is intended as supportive, complementary care that works alongside your physician, physical therapy, occupational therapy, or rehabilitation program. It does not replace the medical care your providers recommend.</p>
+</div></div>
+</div>
+<div class="faq-item" data-category="patients">
+<button class="faq-question"><span>Do you accept insurance or VA Community Care?</span></button>
+<div class="faq-answer"><div class="faq-answer-inner">
+<p>Lei's Acupuncture accepts VA/Military benefits, cash, and credit or debit cards. For questions about specific insurance plans or VA Community Care eligibility, please contact the clinic directly to confirm your coverage before treatment.</p>
+</div></div>
+</div>
+<!-- /SLOT -->
+
+<!-- ===== 14. READY TO SCHEDULE (FINAL CTA) ===== -->
+<!-- FIXED: structure + HPA lead-modal mechanism (NEVER Jane App direct §3.3). SLOT: copy + address + website. -->
+<div class="page-cta">
+<h3 style="margin-top:0;">Ready to Schedule?</h3>
+<!-- SLOT: cta_copy -->
+<p>If you are seeking acupuncture care for post-stroke or neurological rehabilitation, chronic or complex pain, or another health concern that may benefit from an individualized approach, you can request an appointment with Lei's Acupuncture.</p>
+<p style="margin:8px 0;"><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
+<!-- /SLOT -->
+<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">Book Through Harmony Pain Alliance</a>
+&nbsp;
+<a class="btn btn-outline" href="https://leisacupuncture.com/" rel="noopener" target="_blank">Visit Clinic Website</a>
+</div>
+
+<!-- ===== 15. DISCLAIMER ===== -->
+<!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke emergency + independent clinical services. Do not trim. -->
+<h4 style="margin-top:36px;">Important Information</h4>
+<p class="ref-note">This page is for general informational purposes only and is not medical advice. It does not provide a diagnosis, guarantee treatment outcomes, or replace evaluation and care from your physician or rehabilitation team. Patients experiencing a medical emergency or symptoms of an acute stroke should seek emergency medical care immediately. Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are provided independently by the clinic.</p>
+
+</div>
+</div>
+</section>
+</main>
+
+<!-- FIXED: LEAD CAPTURE MODAL structure/fields (standard). SLOT: booking_category (Primary Concern options per clinic focus). -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<div class="lead-header">
+<h3>Book Your Appointment</h3>
+<p class="lead-subtitle">Quick form — takes 30 seconds. You'll be redirected to the clinic's booking page next.</p>
+</div>
+<form id="leadForm">
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<div class="form-group">
+<label>Your Name *</label>
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+<label>Phone *</label>
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<div class="form-group">
+<label>Preferred Language</label>
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<!-- SLOT: booking_category | 4 clinic-focus Primary-Concern options -->
+<div class="form-group">
+<label>Primary Concern</label>
+<select name="primary_concern">
+<option value="">—</option>
+<option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
+<option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
+<option value="other-health-concern">Other Health Concern</option>
+<option value="not-sure">Not Sure</option>
+</select>
+</div>
+<!-- /SLOT -->
+<div class="form-group">
+<label>Tell Us More</label>
+<textarea name="notes" placeholder="Please briefly tell us what you'd like help with." rows="3"></textarea>
+</div>
+<div style="text-align:center;margin-top:20px;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<span class="lead-submit-text">Continue to Booking</span>
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</div>
+<p class="form-note" style="margin-top:12px;">Your information helps us serve you better. You'll be redirected to the clinic's online booking page.</p>
+</form>
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+<h3>Thank you! Redirecting you to the booking page...</h3>
+</div>
+</div>
+
+<!-- FIXED: FOOTER (standard) -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="footer-logo-group">
+<img alt="Harmony Pain Alliance" class="footer-logo-img" src="/img/hpa_logo_white.svg"/>
+<span class="footer-logo-text">Harmony Pain Alliance</span>
+</div>
+<p>Bridging advanced acupuncture systems developed in China with North American clinics.</p>
+<p>Winter Garden, Florida, USA</p>
+<p><a href="mailto:founder@harmonypainalliance.com" style="color:rgba(255,255,255,0.7);">founder@harmonypainalliance.com</a></p>
+</div>
+<div class="footer-nav">
+<h4>Navigate</h4>
+<ul>
+<li><a href="/en/#patients">For Patients</a></li>
+<li><a href="/en/join/">Join the Network</a></li>
+<li><a href="/en/#china">Tech Partnership</a></li>
+<li><a href="/en/#about">Our Founder</a></li>
+<li><a href="/en/#apply">Apply Now</a></li>
+</ul>
+</div>
+<div class="footer-social">
+<h4>Follow Us</h4>
+<a href="https://facebook.com/harmonypainalliance" rel="noopener" target="_blank">Facebook — HPA</a>
+<a href="https://facebook.com/hpatcm" rel="noopener" target="_blank">Facebook — Harmony TCM</a>
+<a href="https://instagram.com/harmonypainalliance" rel="noopener" target="_blank">Instagram — @harmonypainalliance</a>
+<a href="https://instagram.com/hpatcm" rel="noopener" target="_blank">Instagram — @hpatcm</a>
+</div>
+<div class="footer-legal">
+<h4>Disclaimer</h4>
+<p>Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are delivered independently by member clinics.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Harmony TCM International Group LLC · All Rights Reserved</span>
+<span>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/js/main.js"></script>
+</body>
+</html>
