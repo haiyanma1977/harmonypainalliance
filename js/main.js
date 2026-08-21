@@ -4,33 +4,55 @@
    FAQ accordion, lead capture, form handling
    ============================================ */
 
-/* --- Clinic Configuration (add new clinics here) --- */
-const HPA_CLINICS = {
-  "lei-acupuncture": {
-    id: "lei-acupuncture",
-    name: { en: "Lei's Acupuncture", es: "Lei's Acupuncture", zh: "Lei's Acupuncture（磊氏针灸）" },
-    city: "Winter Garden",
-    state: "FL",
-    address: "209 E Bay St, Winter Garden, FL 34787",
-    phone: "561-403-6485",
-    booking_type: "janeapp",
-    booking_url: "https://leisacupuncture.janeapp.com",
-    is_default: true,
-    is_founding: true
-  }
-  // Future clinics: just add another entry here
-};
+/* ============================================================
+   STAGE 2a — HPA CONNECTION LAYER (2026-08)
 
+   There is NO clinic registry in the front end. Worker v3
+   (/api/lead) is the single authoritative source of clinic
+   resolution, clinic phone, booking_type, redirect_url and
+   next_step. Do not reintroduce clinic data, booking URLs, or
+   routing fallbacks here (locked decision 10-B).
+
+   Two connection modes, decided by the opening button's markup:
+     GET MATCHED          data-clinic absent  -> target_clinic
+                          omitted; Worker matches server-side;
+                          primary_concern required client-side.
+     REQUEST APPOINTMENT  data-clinic present -> clinic-scoped;
+                          Worker validates the slug (422 on
+                          unknown — no silent fallback).
+   ============================================================ */
 const HPA_API_URL = '/api/lead';
-const HPA_FALLBACK_EMAIL = 'founder@harmonypainalliance.com';
 
-function getDefaultClinic() {
-  return Object.values(HPA_CLINICS).find(c => c.is_default) || Object.values(HPA_CLINICS)[0];
-}
+/* B2B partner-form fallback recipient — unchanged by Stage 2a. */
+const HPA_PARTNER_EMAIL = 'founder@harmonypainalliance.com';
+/* Patient-facing support path (approved 10-A, Message 3). */
+const HPA_PATIENT_EMAIL = 'info@harmonypainalliance.com';
 
-function getClinic(id) {
-  return HPA_CLINICS[id] || getDefaultClinic();
-}
+/* Approved Stage 2a microcopy (10-A final wording, 2026-08-21).
+   ES register: usted (K3). Do not edit without Haiyan's approval. */
+const HPA_CONNECT_I18N = {
+  en: {
+    concernRequired: 'Please select your primary concern so we can match you with the right clinic.',
+    followUp: "Thank you — we've received your request. HPA will contact you to help you find the right clinic.",
+    failure: "Sorry — our system couldn't submit your request just now. Please try again in a few minutes, or email us directly at " + HPA_PATIENT_EMAIL + " (an email draft may have opened for you).",
+    clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also reach them at:',
+    fieldError: 'Please check this field and try again.'
+  },
+  es: {
+    concernRequired: 'Seleccione su principal problema de salud para que podamos conectarle con la clínica adecuada.',
+    followUp: 'Gracias — hemos recibido su solicitud. HPA se pondrá en contacto con usted para ayudarle a encontrar la clínica adecuada.',
+    failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
+    clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamar directamente a la clínica al:',
+    fieldError: 'Revise este campo e inténtelo de nuevo.'
+  },
+  zh: {
+    concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
+    followUp: '感谢您的提交。HPA 将与您联系，帮助您找到合适的诊所。',
+    failure: '抱歉，系统暂时无法提交您的请求。请几分钟后重试，或直接发送邮件至 ' + HPA_PATIENT_EMAIL + '（您的邮件应用中可能已为您打开一封草稿）。',
+    clinicContact: '感谢您的提交，诊所将直接与您联系安排就诊。您也可以致电诊所：',
+    fieldError: '请检查此项内容后重新提交。'
+  }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -281,8 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     p2.style.cssText = 'margin:0 0 12px;';
     p2.textContent = t.fallback + ' ';
     const mail = document.createElement('a');
-    mail.href = 'mailto:' + HPA_FALLBACK_EMAIL;
-    mail.textContent = HPA_FALLBACK_EMAIL;
+    mail.href = 'mailto:' + HPA_PARTNER_EMAIL;
+    mail.textContent = HPA_PARTNER_EMAIL;
     p2.appendChild(mail);
 
     const btn = document.createElement('button');
@@ -293,10 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const done = () => { btn.textContent = t.copied; };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(body).then(done).catch(() => {
-          window.prompt(HPA_FALLBACK_EMAIL, body);
+          window.prompt(HPA_PARTNER_EMAIL, body);
         });
       } else {
-        window.prompt(HPA_FALLBACK_EMAIL, body);
+        window.prompt(HPA_PARTNER_EMAIL, body);
       }
     });
 
@@ -327,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mailBody.length > MAILTO_BODY_LIMIT) {
         mailBody = mailBody.slice(0, MAILTO_BODY_LIMIT) + '\n...';
       }
-      const mailtoLink = `mailto:${HPA_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
+      const mailtoLink = `mailto:${HPA_PARTNER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
 
       // Anchor click keeps the user gesture, which mobile browsers require to
       // hand off to the mail app. The page itself is not navigated away.
@@ -359,6 +381,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const leadSubmitBtn = document.getElementById('leadSubmitBtn');
   const leadSuccess = document.getElementById('leadSuccess');
 
+  // Stage 2a state + message helpers -----------------------------------
+  let leadIsMatchMode = false;
+
+  const connectT = () => HPA_CONNECT_I18N[getLang()] || HPA_CONNECT_I18N.en;
+
+  const clearConnectMessages = (scope) => {
+    (scope || document).querySelectorAll('.hpa-connect-msg').forEach(n => n.remove());
+  };
+
+  // Insert a message element directly after `anchor`.
+  // kind: 'error' | 'info'
+  const showConnectMessage = (anchor, text, kind) => {
+    if (!anchor) return null;
+    const div = document.createElement('div');
+    div.className = 'hpa-connect-msg';
+    div.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+    div.style.cssText = 'margin-top:8px;font-size:0.875rem;line-height:1.5;border-radius:8px;padding:10px 14px;' +
+      (kind === 'error'
+        ? 'color:#8a1f1f;background:#fbeaea;border:1px solid #efc7c7;'
+        : 'color:#0d4f42;background:#e0f5ef;border:1px solid #bfe5da;');
+    div.textContent = text;
+    anchor.insertAdjacentElement('afterend', div);
+    return div;
+  };
+
+  // Map a Worker `field` name onto the actual input in this form.
+  // (#bookingForm splits name into first_name/last_name.)
+  const connectFieldEl = (form, field) => {
+    let el = form.querySelector('[name="' + field + '"]');
+    if (!el && field === 'name') el = form.querySelector('[name="first_name"]');
+    return el;
+  };
+
   // Get current language
   const getLang = () => {
     const m = document.body.className.match(/lang-(en|es|zh)/);
@@ -375,7 +430,18 @@ document.addEventListener('DOMContentLoaded', () => {
   //  Worker's existing Get Matched mode by omitting target_clinic.
   const openLeadModal = (source, clinicId, concern) => {
     leadSource.value = source || 'unknown';
-    leadClinic.value = clinicId || getDefaultClinic().id;
+    // Mode: data-clinic present -> Request Appointment (clinic-scoped);
+    // absent -> Get Matched (target_clinic omitted; Worker matches). 10-B.
+    leadClinic.value = clinicId || '';
+    leadIsMatchMode = !clinicId;
+    clearConnectMessages(leadModal);
+    // Restore the page's own localized success text (a previous submission
+    // may have replaced it with a follow-up / clinic-contact outcome).
+    const successH3 = leadSuccess.querySelector('h3');
+    if (successH3) {
+      if (!successH3.dataset.original) successH3.dataset.original = successH3.textContent;
+      successH3.textContent = successH3.dataset.original;
+    }
     leadForm.style.display = '';
     leadSuccess.style.display = 'none';
     leadForm.reset();
@@ -429,86 +495,153 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Booking Form (#bookingForm) also submits to Worker ---
+  // --- Booking Form (#bookingForm) — always Request Appointment mode ---
   const bookingForm = document.getElementById('bookingForm');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      clearConnectMessages(bookingForm.parentElement);
       const fd = new FormData(bookingForm);
-      const clinic = getClinic(bookingForm.dataset.clinic);
       const payload = {
-        name: (fd.get('first_name') || '') + ' ' + (fd.get('last_name') || ''),
+        name: ((fd.get('first_name') || '') + ' ' + (fd.get('last_name') || '')).trim(),
         email: fd.get('email') || '',
         phone: fd.get('phone') || '',
         language: fd.get('language') || '',
         first_visit: fd.get('first_visit') || '',
         source_button: bookingForm.dataset.leadSource || 'booking-form',
-        target_clinic: clinic.id,
-        page_language: getLang()
+        // Clinic-scoped: the slug from the markup, passed through verbatim.
+        // The Worker validates it (422 on unknown) — no client-side default.
+        target_clinic: bookingForm.dataset.clinic || '',
+        page_language: getLang(),
+        source_page: location.pathname
       };
-      submitLead(payload, clinic);
+      submitLead(payload, { form: bookingForm, inModal: false });
     });
   }
 
-  // --- Lead Form submission ---
+  // --- Lead Form (modal) submission ---
   if (leadForm) {
     leadForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      leadSubmitBtn.classList.add('loading');
+      clearConnectMessages(leadModal);
+
       const fd = new FormData(leadForm);
-      const clinic = getClinic(fd.get('target_clinic'));
       const payload = {};
       for (const [key, value] of fd.entries()) {
-        if (value) payload[key] = value;
+        if (value) payload[key] = value;   // empty target_clinic is omitted
       }
       payload.page_language = getLang();
-      submitLead(payload, clinic);
+      payload.source_page = location.pathname;
+
+      // GET MATCHED: primary_concern is required (front-end rule; the
+      // Worker deliberately accepts an absent concern, so this must live
+      // here). Never enforced in Request Appointment mode.
+      if (leadIsMatchMode && !payload.primary_concern) {
+        leadOptional.classList.add('show');
+        leadExpandBtn.classList.add('expanded');
+        const sel = leadForm.querySelector('select[name="primary_concern"]');
+        const group = sel ? sel.closest('.form-group') : null;
+        showConnectMessage(group || sel, connectT().concernRequired, 'error');
+        if (sel) sel.focus();
+        return;
+      }
+
+      leadSubmitBtn.classList.add('loading');
+      submitLead(payload, { form: leadForm, inModal: true });
     });
   }
 
-  // --- Submit lead to Worker API ---
-  async function submitLead(payload, clinic) {
-    const bookingUrl = clinic.booking_url;
-    const isPhoneOnly = clinic.booking_type === 'phone-only';
+  // --- Submit lead to Worker v3 (the authoritative registry) -----------
+  //  The response body decides everything: clinic, redirect_url, phone,
+  //  next_step. No destination is ever chosen client-side (10-B).
+  async function submitLead(payload, ctx) {
+    const t = connectT();
 
+    const showModalOutcome = (text) => {
+      leadForm.style.display = 'none';
+      leadSuccess.style.display = '';
+      const h3 = leadSuccess.querySelector('h3');
+      if (h3) h3.textContent = text;
+      // No auto-close: the patient should read the outcome.
+    };
+
+    const showFailure = () => {
+      // Lead NOT durably stored: honest failure, no redirect (10-B).
+      if (ctx.inModal) {
+        showConnectMessage(leadSubmitBtn.parentElement, t.failure, 'error');
+      } else {
+        showConnectMessage(ctx.form, t.failure, 'error');
+      }
+      fallbackMailto(payload);
+    };
+
+    let resp = null, data = null;
     try {
-      const resp = await fetch(HPA_API_URL, {
+      resp = await fetch(HPA_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+      try { data = await resp.json(); } catch (parseErr) { data = null; }
+    } catch (netErr) {
+      console.warn('HPA connect: network failure', netErr);
+      showFailure();
+      leadSubmitBtn.classList.remove('loading');
+      return;
+    }
+    leadSubmitBtn.classList.remove('loading');
 
-      if (!resp.ok) throw new Error('API error ' + resp.status);
+    // 422 with a named field: fixable input — keep the form open, point at
+    // the field. Never routed into the failure state, never mailto.
+    if (resp.status === 422 && data && data.field) {
+      const form = ctx.form;
+      const el = connectFieldEl(form, data.field);
+      if (el && leadOptional && leadOptional.contains(el)) {
+        leadOptional.classList.add('show');
+        leadExpandBtn.classList.add('expanded');
+      }
+      const group = el ? (el.closest('.form-group') || el) : null;
+      showConnectMessage(group || (ctx.inModal ? leadSubmitBtn.parentElement : form),
+        t.fieldError, 'error');
+      if (el) el.focus();
+      return;
+    }
 
-      // Success — show confirmation, then redirect
-      if (leadModal.classList.contains('show')) {
+    if (!resp.ok || !data || data.ok !== true) {
+      showFailure();
+      return;
+    }
+
+    // Stored. Branch on the Worker's authoritative next_step.
+    const nextStep = data.next_step;
+    const clinic = data.clinic || null;
+
+    if (nextStep === 'booking' && clinic && clinic.redirect_url) {
+      if (ctx.inModal) {
+        // Keep the page's own localized "redirecting…" success text.
         leadForm.style.display = 'none';
         leadSuccess.style.display = '';
         setTimeout(() => {
-          if (!isPhoneOnly) {
-            window.open(bookingUrl, '_blank');
-          }
+          window.open(clinic.redirect_url, '_blank');
           closeLeadModal();
         }, 1500);
       } else {
-        // From bookingForm inline
-        if (!isPhoneOnly) {
-          window.open(bookingUrl, '_blank');
-        }
+        window.open(clinic.redirect_url, '_blank');
       }
-    } catch (err) {
-      console.warn('Lead API failed, using fallback:', err);
-      // Fallback: mailto + direct redirect
-      fallbackMailto(payload);
-      if (!isPhoneOnly) {
-        window.open(bookingUrl, '_blank');
-      }
-      if (leadModal.classList.contains('show')) {
-        closeLeadModal();
-      }
+      return;
     }
 
-    leadSubmitBtn.classList.remove('loading');
+    if (nextStep === 'clinic_will_contact') {
+      const text = t.clinicContact + (clinic && clinic.phone ? ' ' + clinic.phone : '');
+      if (ctx.inModal) showModalOutcome(text);
+      else showConnectMessage(ctx.form, text, 'info');
+      return;
+    }
+
+    // hpa_will_follow_up (clinic: null) — and any stored-but-unroutable
+    // shape defaults here rather than faking a booking.
+    if (ctx.inModal) showModalOutcome(t.followUp);
+    else showConnectMessage(ctx.form, t.followUp, 'info');
   }
 
   // --- Fallback mailto ---
@@ -518,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value) body += `${key}: ${value}\n`;
     }
     const subject = 'HPA Lead (fallback) — ' + (payload.name || 'Unknown');
-    const mailtoLink = `mailto:${HPA_FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:${HPA_PATIENT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
   }
 
