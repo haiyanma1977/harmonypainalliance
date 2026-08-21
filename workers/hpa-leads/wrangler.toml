@@ -1,0 +1,54 @@
+# ============================================================================
+# hpa-leads — Cloudflare Worker configuration
+#
+# STATUS: reconstructed from the LIVE DEPLOYED Worker + HPA_Deployment_Guide.md
+#         (Google Drive, 2026-04-19). This Worker was originally created and
+#         edited in the Cloudflare dashboard, so no wrangler.toml has ever
+#         existed. This file documents the CURRENT production configuration.
+#
+# DO NOT `wrangler deploy` with this file until every VERIFY item below has
+# been confirmed in the Cloudflare dashboard. Deploying an unverified config
+# can drop the route or the KV binding on a Worker that receives every HPA
+# patient lead.
+# ============================================================================
+
+name               = "hpa-leads"
+main               = "worker.js"
+compatibility_date = "2026-04-19"   # VERIFY: dashboard → Settings → Runtime
+
+# ---------------------------------------------------------------------------
+# Route
+# ---------------------------------------------------------------------------
+# HPA_Deployment_Guide.md §4 (方案 A) specifies the pattern below.
+# The Worker code itself only answers POST /api/lead and 404s everything else.
+# VERIFY in dashboard → hpa-leads → Settings → Domains & Routes.
+# ---------------------------------------------------------------------------
+routes = [
+  { pattern = "harmonypainalliance.com/api/*", zone_name = "harmonypainalliance.com" }
+]
+
+# ---------------------------------------------------------------------------
+# KV binding — DO NOT create a new namespace. This one holds live patient
+# leads written with a 365-day TTL. ID confirmed twice: HPA_Deployment_Guide.md
+# §2 and the live Cloudflare account (it is the ONLY KV namespace present).
+# ---------------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "HPA_LEADS"
+id      = "0a7c30cc4d6c49298efc0be6e0b37a34"
+
+# ---------------------------------------------------------------------------
+# Secrets — NEVER commit values.
+#
+#   GOOGLE_SCRIPT_URL
+#     The Google Apps Script Web App /exec endpoint. Currently configured in
+#     the dashboard as a plain-text Variable (HPA_Deployment_Guide.md §3.4),
+#     NOT as an encrypted Secret.
+#
+#     RECOMMENDATION: migrate it to a Secret.
+#     It is a public, unauthenticated endpoint that accepts POSTs and writes
+#     rows to the patient-lead Sheet plus sends mail as the owning Google
+#     account. Anyone holding the URL can write to both.
+#
+#     Set with:  npx wrangler secret put GOOGLE_SCRIPT_URL
+# ---------------------------------------------------------------------------
+# [vars]  <- intentionally empty: no non-secret vars in production
