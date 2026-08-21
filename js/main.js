@@ -179,11 +179,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Navbar Scroll Shadow ---
   const navbar = document.querySelector('.navbar');
+  // Pages without a .hero open on a light background; the transparent navbar's
+  // white text was invisible there (white-on-white defect, fixed 2026-08-21).
+  // Such pages keep the solid "scrolled" style from first paint. The homepage
+  // (blue hero) keeps its transparent-at-top behaviour unchanged.
+  const navAlwaysSolid = !document.querySelector('.hero');
+  if (navAlwaysSolid) {
+    // Apply instantly — suppress the 0.3s background/color transition for the
+    // first frames so there is no white-text flash before the solid style lands.
+    navbar.style.transition = 'none';
+    navbar.classList.add('scrolled');
+    requestAnimationFrame(() => requestAnimationFrame(() => { navbar.style.transition = ''; }));
+  }
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(() => {
-        navbar.classList.toggle('scrolled', window.scrollY > 10);
+        navbar.classList.toggle('scrolled', navAlwaysSolid || window.scrollY > 10);
         ticking = false;
       });
       ticking = true;
@@ -523,8 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
     leadForm.style.display = '';
     leadSuccess.style.display = 'none';
     leadForm.reset();
-    leadOptional.classList.remove('show');
-    leadExpandBtn.classList.remove('expanded');
+    if (leadOptional) leadOptional.classList.remove('show');
+    if (leadExpandBtn) leadExpandBtn.classList.remove('expanded');
     leadSubmitBtn.classList.remove('loading');
     // Render the correct copy + concern placement for this mode.
     applyModalMode(leadIsMatchMode);
@@ -534,9 +546,9 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.value = concern;
         // Only expand the optional block if the concern still lives inside it
         // (Mode B). In Mode A it is already visible above the expander.
-        if (leadOptional.contains(sel)) {
+        if (leadOptional && leadOptional.contains(sel)) {
           leadOptional.classList.add('show');
-          leadExpandBtn.classList.add('expanded');
+          if (leadExpandBtn) leadExpandBtn.classList.add('expanded');
         }
       }
     }
@@ -624,9 +636,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const sel = leadForm.querySelector('select[name="primary_concern"]');
         // In Mode A the concern field sits above the expander and is already
         // visible; only expand the optional block if it still contains it.
-        if (sel && leadOptional.contains(sel)) {
+        if (sel && leadOptional && leadOptional.contains(sel)) {
           leadOptional.classList.add('show');
-          leadExpandBtn.classList.add('expanded');
+          if (leadExpandBtn) leadExpandBtn.classList.add('expanded');
         }
         const group = sel ? sel.closest('.form-group') : null;
         showConnectMessage(group || sel, connectT().concernRequired, 'error');
@@ -686,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const el = connectFieldEl(form, data.field);
       if (el && leadOptional && leadOptional.contains(el)) {
         leadOptional.classList.add('show');
-        leadExpandBtn.classList.add('expanded');
+        if (leadExpandBtn) leadExpandBtn.classList.add('expanded');
       }
       const group = el ? (el.closest('.form-group') || el) : null;
       showConnectMessage(group || (ctx.inModal ? leadSubmitBtn.parentElement : form),
