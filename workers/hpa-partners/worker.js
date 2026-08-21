@@ -1,6 +1,17 @@
 /* ============================================
    HPA Partner Application Worker  —  hpa-partners  v1.0
-   FOR REVIEW — NOT DEPLOYED
+
+   ┌───────────────────────────────────────────────────────────────────────┐
+   │ STATUS: NOT DEPLOYED. THIS IS NOT LIVE INFRASTRUCTURE.                │
+   │ Verified 2026-08-21: the Cloudflare account contains only hpa-leads,  │
+   │ leisacupuncture and one unrelated Worker. There is no hpa-partners    │
+   │ Worker and no /api/partner route in production.                       │
+   │ Partner applications are handled by Google Forms today (see the       │
+   │ /join/ and /tech-partnership/ pages). Source retained under version   │
+   │ control per decision K7 (HPA Site Framework V2). Do not treat any     │
+   │ behaviour described below as production behaviour, and do not deploy  │
+   │ without an explicit, separate approval from Haiyan.                   │
+   └───────────────────────────────────────────────────────────────────────┘
 
    Standalone Worker for harmonypainalliance.com partner applications.
    Deliberately separate from hpa-leads: different audience, different

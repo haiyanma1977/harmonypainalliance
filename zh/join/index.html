@@ -98,34 +98,48 @@
 <span class="nav-brand-text">和衡疼痛联盟</span>
 </a>
 <div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">为我匹配诊所</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">寻找诊疗<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">中风后与神经康复</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">慢性与复杂性疼痛</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">其他健康问题</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">不确定</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">合作诊所<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/zh/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">患者科普<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/zh/stroke-recovery-acupuncture/">中风康复针灸</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/zh/#about">关于 HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">诊所合作<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/zh/join/">加入联盟</a></li>
+<li><a href="/zh/tech-partnership/">技术出海合作</a></li>
+</ul></li>
+</ul>
+</div>
 <div class="lang-switch">
 <a data-lang="en" href="/en/join/">EN</a>
 <a data-lang="es" href="/es/join/">ES</a>
 <a class="active" data-lang="zh" href="/zh/join/">中文</a>
 </div>
-<button aria-label="Menu" class="hamburger">
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">为我匹配诊所</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="菜单" class="hamburger">
 <span></span><span></span><span></span>
 </button>
 </div>
 </div>
 </nav>
-<div class="nav-menu">
-
-
-<a href="/zh/#patients">患者专区</a>
-
-
-<a href="/zh/#about">创始人</a>
-
-
-<a href="/zh/join/">加入联盟</a>
-
-
-<a href="/zh/tech-partnership/">技术出海</a>
-
-
-<a href="/zh/join/#apply">立即申请</a>
-</div>
 <div class="nav-overlay"></div>
 <main>
 <div class="container"><p class="breadcrumb"><a href="/zh/">首页</a> &nbsp;›&nbsp; 加入联盟</p></div>
@@ -219,6 +233,170 @@
 </div>
 </div>
 </section>
+<!-- ===== LEAD CAPTURE MODAL ===== -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<!-- Modal header -->
+<div class="lead-header">
+
+
+<h3>预约就诊</h3>
+
+
+<p class="lead-subtitle">快速表单——30 秒完成，随后跳转到诊所预约页面。</p>
+</div>
+<form id="leadForm">
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
+<div class="form-group">
+
+
+<label>您的姓名 *</label>
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+
+
+<label>邮箱 *</label>
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+
+
+<label>电话 *</label>
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<!-- Expandable optional fields -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+
+
+<span>+ 帮助我们准备您的就诊（选填）</span>
+</button>
+<div class="lead-optional" id="leadOptional">
+<div class="form-group">
+
+
+<label>语言偏好</label>
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+
+
+<label>主要症状</label>
+<select name="primary_concern">
+<option value="">—</option>
+<option value="post-stroke-neuro">中风后与神经康复</option>
+<option value="chronic-complex-pain">慢性与复杂性疼痛</option>
+<option value="other-health-concern">其他健康问题</option>
+<option value="not-sure">不确定</option>
+</select>
+</div>
+<div class="form-group">
+
+
+<label>症状持续多长时间？</label>
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">不到 1 个月</option>
+<option value="1-6months">1–6 个月</option>
+<option value="6-12months">6–12 个月</option>
+<option value="&gt;1year">超过 1 年</option>
+<option value="&gt;5years">超过 5 年</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+
+
+<label>是否第一次做针灸？</label>
+<div class="radio-group">
+
+
+
+
+<label><input name="first_acupuncture" type="radio" value="yes"/> 是</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> 否</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+
+
+<label>偏好时间</label>
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">上午</option>
+<option value="afternoon">下午</option>
+<option value="evening">晚间</option>
+<option value="weekend">周末</option>
+<option value="flexible">灵活</option>
+</select>
+</div>
+<div class="form-group">
+
+
+<label>保险类型</label>
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">自费</option>
+<option value="va-military">VA / 军人保险</option>
+<option value="private">商业保险</option>
+<option value="not-sure">不确定</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+
+
+<label>您是怎么知道我们的？</label>
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google 搜索</option>
+<option value="social">社交媒体</option>
+<option value="friend">朋友 / 家人推荐</option>
+<option value="doctor">医生推荐</option>
+<option value="other">其他</option>
+</select>
+</div>
+<div class="form-group">
+
+
+<label>其他补充</label>
+<textarea name="notes" rows="2"></textarea>
+</div>
+</div>
+<!-- Submit -->
+<div style="text-align:center;margin-top:20px;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+
+
+<span class="lead-submit-text">继续预约</span>
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</div>
+
+
+<p class="form-note" style="margin-top:12px;">您的信息帮助我们更好地服务您。提交后将跳转到诊所在线预约页面。</p>
+</form>
+<!-- Success state -->
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+
+
+<h3>感谢您！正在跳转到预约页面...</h3>
+</div>
+</div>
 </main>
 <footer class="footer">
 <div class="container">
@@ -241,11 +419,12 @@
 <div class="footer-nav">
 <h4>导航</h4>
 <ul>
-<li><a href="/zh/#patients">患者专区</a></li>
-<li><a href="/zh/join/">加入联盟</a></li>
-<li><a href="/zh/tech-partnership/">技术出海</a></li>
-<li><a href="/zh/#about">创始人</a></li>
-<li><a href="/zh/join/#apply">立即申请</a></li>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">寻找诊疗</a></li>
+<li><a href="/zh/clinics/leis-acupuncture/">合作诊所</a></li>
+<li><a href="/zh/stroke-recovery-acupuncture/">患者科普</a></li>
+<li><a href="/zh/#about">关于 HPA</a></li>
+<li><a href="/zh/join/">诊所合作</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">为我匹配诊所</a></li>
 </ul>
 </div>
 <!-- Social -->

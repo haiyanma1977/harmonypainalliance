@@ -1108,22 +1108,28 @@ header [class*="lang"] button, header [class*="language"] button,
   font-weight: 600 !important;
 }
 
-.menu-toggle, .hamburger, .menu-icon,
-header button[aria-label*="menu"], header button[aria-label*="Menu"] {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  gap: 7px !important;
-  width: 44px !important;
-  height: 44px !important;
-  padding: 8px !important;
-  cursor: pointer !important;
-}
-.hamburger span {
-  display: block !important;
-  height: 3px !important;
-  width: 100% !important;
-  border-radius: 2px !important;
+/* Nav V2 refactor (2026-08): these rules used to apply at every width, which is
+   why the site had no desktop navigation. They are now scoped to the drawer
+   breakpoint so the >=1025px horizontal bar can own the header. Do not remove
+   the media query — without it the hamburger reappears on desktop. */
+@media (max-width: 1024px) {
+  .menu-toggle, .hamburger, .menu-icon,
+  header button[aria-label*="menu"], header button[aria-label*="Menu"] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 8px !important;
+    cursor: pointer !important;
+  }
+  .hamburger span {
+    display: block !important;
+    height: 3px !important;
+    width: 100% !important;
+    border-radius: 2px !important;
+  }
 }
 
 header .logo, nav .logo, .site-branding,
@@ -1278,4 +1284,152 @@ header .logo, nav .logo, .site-branding,
   .lead-modal .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* =========================================================================
+   NAVIGATION V2  —  HPA Site Framework V2, Stage 1
+   Presentation-agnostic markup: one <ul class="nav-links"> that renders as a
+   horizontal bar at >=1025px and as a drawer/accordion below.
+   NOTE (ES): the Find Care post-stroke item uses a SHORTER nav-display label
+   than the Primary Concern <select>. That divergence is intentional and
+   approved — do not "normalize" it.
+   ========================================================================= */
+
+.nav-links { list-style: none; margin: 0; padding: 0; }
+.nav-links a, .nav-parent { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; }
+.nav-parent {
+  background: none; border: none; cursor: pointer;
+  font-weight: 600; text-align: left; width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+}
+.nav-caret {
+  width: 8px; height: 8px; flex-shrink: 0;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 0.25s ease;
+}
+.nav-item.open > .nav-parent .nav-caret { transform: rotate(-135deg) translate(-2px, -2px); }
+.nav-cta { white-space: nowrap; }
+
+/* ---------- DESKTOP: horizontal bar (>=1025px) ---------- */
+@media (min-width: 1025px) {
+  .navbar .container { gap: 24px; }
+  .nav-menu {
+    position: static; right: auto; width: auto; max-width: none; height: auto;
+    background: transparent; box-shadow: none; padding: 0; overflow: visible;
+    transition: none; display: flex; align-items: center;
+  }
+  .nav-links { display: flex; align-items: center; gap: 2px; }
+  .nav-item { position: relative; }
+  .nav-links .nav-top-link, .nav-parent {
+    display: flex; align-items: center; width: auto; text-decoration: none;
+    white-space: nowrap;
+    padding: 10px 14px; border: none; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 600;
+    color: var(--white); background: transparent;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar.scrolled .nav-links .nav-top-link,
+  .navbar.scrolled .nav-parent { color: var(--brand-deep); }
+  .nav-links .nav-top-link:hover, .nav-parent:hover,
+  .nav-item.open > .nav-parent { background: rgba(255,255,255,0.16); }
+  .navbar.scrolled .nav-links .nav-top-link:hover,
+  .navbar.scrolled .nav-parent:hover,
+  .navbar.scrolled .nav-item.open > .nav-parent { background: var(--blue-50); }
+
+  .nav-sub {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    min-width: 280px; max-width: 360px;
+    background: var(--white); border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(7,56,128,0.16);
+    padding: 8px; list-style: none; margin: 0; z-index: 1001;
+  }
+  .nav-item.open > .nav-sub { display: block; }
+  .nav-sub a {
+    display: block; padding: 11px 14px; border-radius: 8px; border: none;
+    font-size: 0.9rem; font-weight: 600; line-height: 1.35;
+    color: var(--text-dark); text-decoration: none;
+  }
+  .nav-sub a:hover, .nav-sub a:focus-visible { background: var(--blue-50); color: var(--brand-deep); }
+
+  .nav-cta-desktop { display: inline-flex; padding: 11px 22px; font-size: 0.95rem; }
+  .nav-menu .nav-cta-mobile { display: none; }
+  .hamburger       { display: none !important; }
+  .nav-overlay     { display: none !important; }
+}
+
+/* ---------- MOBILE / TABLET: drawer + accordion (<=1024px) ---------- */
+@media (max-width: 1024px) {
+  .nav-cta-desktop { display: none; }
+  .nav-menu .nav-cta-mobile { display: block; width: 100%; text-align: center; margin-bottom: 18px; }
+  .nav-menu .nav-links { display: block; }
+  .nav-parent {
+    padding: 14px 0; font-size: 1rem; color: var(--text-dark);
+    border-bottom: 1px solid var(--warm-gray);
+  }
+  .nav-links .nav-top-link {
+    display: block; padding: 14px 0; font-size: 1rem; font-weight: 600;
+    text-decoration: none;
+    color: var(--text-dark); border-bottom: 1px solid var(--warm-gray);
+  }
+  .nav-sub { display: none; list-style: none; margin: 0; padding: 4px 0 10px 14px; }
+  .nav-item.open > .nav-sub { display: block; }
+  .nav-sub a {
+    display: block; padding: 11px 0; border-bottom: none; text-decoration: none;
+    font-size: 0.9375rem; font-weight: 500; line-height: 1.4;
+    color: var(--text-muted);
+  }
+  .nav-sub a:hover { color: var(--brand-deep); }
+}
+
+/* ---------- V2 fit corrections ---------- */
+/* The "Enlarge navbar v2" override was authored for a logo-only header. A six-item
+   bar plus a localized CTA does not fit inside it, so the header is re-proportioned
+   at >=1025px only. Mobile keeps the enlarged header exactly as before. */
+@media (min-width: 1025px) {
+  nav.navbar, .navbar { padding: 12px 32px !important; min-height: 76px !important; }
+  /* The bar is full-bleed on desktop; it does not need to align to the 1140px
+     content column, and the six-item nav + localized CTA will not fit if it does. */
+  .navbar .container { max-width: none; padding: 0; }
+  .navbar img, nav img { height: 44px !important; }
+  .nav-brand-text { font-size: 18px !important; }
+  .lang-switch a, .lang-switch button { font-size: 13px !important; padding: 5px 9px !important; }
+}
+/* Between 1025 and 1199px the wordmark is dropped so the six items + CTA fit. */
+/* Narrowest desktop tier: the ES CTA is the longest localized string in the bar
+   ("Conéctate con una Clínica"), so the whole header is compressed here rather
+   than letting it run off-screen. Measured across 10 widths x 3 languages. */
+@media (min-width: 1025px) and (max-width: 1149px) {
+  nav.navbar, .navbar { padding: 12px 20px !important; }
+  .navbar .container { gap: 12px; }
+  .nav-right { gap: 10px; }
+  .nav-links .nav-top-link, .nav-parent { padding: 9px 7px; font-size: 0.85rem; }
+  .nav-cta-desktop { padding: 9px 14px; font-size: 0.85rem; }
+  .lang-switch a, .lang-switch button { font-size: 12px !important; padding: 4px 7px !important; }
+}
+
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .nav-brand-text { display: none; }
+  .nav-links .nav-top-link, .nav-parent { padding: 10px 10px; font-size: 0.9rem; }
+}
+/* Spanish carries the longest strings in the bar, so the wordmark yields to the
+   nav for longer in ES than in EN/ZH. Measured, not guessed — see the width sweep. */
+@media (min-width: 1200px) and (max-width: 1449px) {
+  body.lang-es .nav-brand-text { display: none; }
+  body.lang-es .nav-links .nav-top-link, body.lang-es .nav-parent { padding: 10px 10px; font-size: 0.9rem; }
+}
+
+/* ---------- drawer offset: match the enlarged mobile header ---------- */
+/* Pre-existing mismatch: the drawer was pinned to --nav-h (64px) while the
+   override made the mobile header 104px / 72px tall, so the top of the drawer sat
+   behind the header. That now matters because the Get Matched CTA sits at the top
+   of the drawer. */
+@media (max-width: 1024px) {
+  .nav-menu   { top: 104px; height: calc(100vh - 104px); }
+  .nav-overlay{ top: 104px; }
+  .nav-cta-mobile { border-bottom: none !important; padding: 14px 20px !important; }
+}
+@media (max-width: 640px) {
+  .nav-menu   { top: 72px; height: calc(100vh - 72px); }
+  .nav-overlay{ top: 72px; }
 }

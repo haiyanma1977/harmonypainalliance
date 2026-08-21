@@ -216,29 +216,53 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
 <nav class="navbar">
 <div class="container">
-<a class="nav-brand" href="/en/">
+<a class="nav-brand" href="/zh/">
 <img alt="Harmony Pain Alliance" class="nav-logo nav-logo-light" src="/img/hpa_logo_white.svg"/>
 <img alt="Harmony Pain Alliance" class="nav-logo nav-logo-dark" src="/img/favicon.svg"/>
 <span class="nav-brand-text">和衡疼痛联盟</span>
 </a>
 <div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">为我匹配诊所</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">寻找诊疗<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">中风后与神经康复</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">慢性与复杂性疼痛</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">其他健康问题</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">不确定</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">合作诊所<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/zh/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">患者科普<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/zh/stroke-recovery-acupuncture/">中风康复针灸</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/zh/#about">关于 HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">诊所合作<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/zh/join/">加入联盟</a></li>
+<li><a href="/zh/tech-partnership/">技术出海合作</a></li>
+</ul></li>
+</ul>
+</div>
 <div class="lang-switch">
 <a data-lang="en" href="/en/clinics/leis-acupuncture/">EN</a>
 <a data-lang="es" href="/es/clinics/leis-acupuncture/">ES</a>
 <a class="active" data-lang="zh" href="/zh/clinics/leis-acupuncture/">中文</a>
 </div>
-<button aria-label="菜单" class="hamburger"><span></span><span></span><span></span></button>
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">为我匹配诊所</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="菜单" class="hamburger"><span></span><span></span><span></span></button>
 </div>
 </div>
 </nav>
 <!-- FIXED: slide-out menu -->
-<div class="nav-menu">
-<a href="/zh/#patients">患者专区</a>
-<a href="/zh/#about">创始人</a>
-<a href="/zh/join/">加入联盟</a>
-<a href="/zh/#china">技术出海</a>
-<a href="/zh/#apply">立即申请</a>
-</div>
 <div class="nav-overlay"></div>
 
 <main>
@@ -567,11 +591,12 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <div class="footer-nav">
 <h4>导航</h4>
 <ul>
-<li><a href="/zh/#patients">患者专区</a></li>
-<li><a href="/zh/join/">加入联盟</a></li>
-<li><a href="/zh/#china">技术出海</a></li>
-<li><a href="/zh/#about">创始人</a></li>
-<li><a href="/zh/#apply">立即申请</a></li>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">寻找诊疗</a></li>
+<li><a href="/zh/clinics/leis-acupuncture/">合作诊所</a></li>
+<li><a href="/zh/stroke-recovery-acupuncture/">患者科普</a></li>
+<li><a href="/zh/#about">关于 HPA</a></li>
+<li><a href="/zh/join/">诊所合作</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">为我匹配诊所</a></li>
 </ul>
 </div>
 <div class="footer-social">

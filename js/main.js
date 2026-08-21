@@ -50,13 +50,81 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.classList.toggle('open', isOpen);
     navMenu.classList.toggle('open', isOpen);
     navOverlay.classList.toggle('show', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     document.body.style.overflow = isOpen ? 'hidden' : '';
+    if (!isOpen) closeAllDropdowns();
   };
 
   hamburger.addEventListener('click', () => toggleMenu());
   navOverlay.addEventListener('click', () => toggleMenu(false));
   navMenu.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => toggleMenu(false));
+  });
+
+  // ==========================================
+  //  NAVIGATION V2 — dropdowns / accordions
+  //  Same markup at every width; CSS decides bar vs drawer.
+  // ==========================================
+  const navItems = Array.from(document.querySelectorAll('.nav-item.has-children'));
+
+  function closeAllDropdowns(except) {
+    navItems.forEach(item => {
+      if (item === except) return;
+      item.classList.remove('open');
+      const btn = item.querySelector(':scope > .nav-parent');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function setDropdown(item, open) {
+    const btn = item.querySelector(':scope > .nav-parent');
+    item.classList.toggle('open', open);
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  navItems.forEach(item => {
+    const btn = item.querySelector(':scope > .nav-parent');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const willOpen = !item.classList.contains('open');
+      closeAllDropdowns(item);
+      setDropdown(item, willOpen);
+    });
+    // Keyboard: Down opens and moves into the submenu; Up/Escape close.
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        closeAllDropdowns(item);
+        setDropdown(item, true);
+        const first = item.querySelector('.nav-sub a');
+        if (first) first.focus();
+      } else if (e.key === 'Escape' || e.key === 'ArrowUp') {
+        setDropdown(item, false);
+      }
+    });
+    item.querySelectorAll('.nav-sub a').forEach((link, idx, all) => {
+      link.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); (all[idx + 1] || all[0]).focus(); }
+        else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (idx === 0) btn.focus(); else all[idx - 1].focus();
+        } else if (e.key === 'Escape') { setDropdown(item, false); btn.focus(); }
+      });
+    });
+    // Focus leaving the whole item closes it (desktop only — the drawer keeps
+    // accordions open while the user scrolls the panel).
+    item.addEventListener('focusout', (e) => {
+      if (window.innerWidth < 1025) return;
+      if (!item.contains(e.relatedTarget)) setDropdown(item, false);
+    });
+  });
+
+  // Click anywhere outside the nav closes open dropdowns (desktop).
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth < 1025) return;
+    if (!e.target.closest('.nav-menu')) closeAllDropdowns();
   });
 
   // --- Navbar Scroll Shadow ---
@@ -298,7 +366,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Open modal
-  const openLeadModal = (source, clinicId) => {
+  //  concern (optional) — a Find Care taxonomy value. When present it preselects
+  //  the Primary Concern field and expands the optional block so the patient can
+  //  see and change what was chosen for them. Values must match the Worker's
+  //  ALLOWED_CONCERNS exactly: post-stroke-neuro | chronic-complex-pain |
+  //  other-health-concern | not-sure. STAGE 1: target_clinic is still sent, so
+  //  this is Request Appointment mode. Stage 2a switches Find Care to the
+  //  Worker's existing Get Matched mode by omitting target_clinic.
+  const openLeadModal = (source, clinicId, concern) => {
     leadSource.value = source || 'unknown';
     leadClinic.value = clinicId || getDefaultClinic().id;
     leadForm.style.display = '';
@@ -307,6 +382,14 @@ document.addEventListener('DOMContentLoaded', () => {
     leadOptional.classList.remove('show');
     leadExpandBtn.classList.remove('expanded');
     leadSubmitBtn.classList.remove('loading');
+    if (concern) {
+      const sel = leadForm.querySelector('select[name="primary_concern"]');
+      if (sel && Array.from(sel.options).some(o => o.value === concern)) {
+        sel.value = concern;
+        leadOptional.classList.add('show');
+        leadExpandBtn.classList.add('expanded');
+      }
+    }
     leadOverlay.classList.add('show');
     leadModal.classList.add('show');
     document.body.style.overflow = 'hidden';
@@ -342,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btn.tagName === 'FORM') return;
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openLeadModal(btn.dataset.leadSource, btn.dataset.clinic);
+      openLeadModal(btn.dataset.leadSource, btn.dataset.clinic, btn.dataset.concern);
     });
   });
 
@@ -446,6 +529,8 @@ document.addEventListener('DOMContentLoaded', () => {
         closeLeadModal();
       } else if (navMenu.classList.contains('open')) {
         toggleMenu(false);
+      } else if (document.querySelector('.nav-item.has-children.open')) {
+        closeAllDropdowns();
       }
     }
   });

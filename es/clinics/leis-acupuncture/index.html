@@ -216,29 +216,53 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
 <nav class="navbar">
 <div class="container">
-<a class="nav-brand" href="/en/">
+<a class="nav-brand" href="/es/">
 <img alt="Harmony Pain Alliance" class="nav-logo nav-logo-light" src="/img/hpa_logo_white.svg"/>
 <img alt="Harmony Pain Alliance" class="nav-logo nav-logo-dark" src="/img/favicon.svg"/>
 <span class="nav-brand-text">Harmony Pain Alliance</span>
 </a>
 <div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">Conéctate con una Clínica</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Buscar Atención<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Recuperación post-ACV y Rehabilitación Neurológica</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Dolor crónico y complejo</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Otra preocupación de salud</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">No estoy seguro/a</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clínicas<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/es/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Aprender<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/es/stroke-recovery-acupuncture/">Recuperación post-ACV</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/es/#about">Acerca de HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">Para Clínicas<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/es/join/">Únase a la Red</a></li>
+<li><a href="/es/tech-partnership/">Asociación Tecnológica</a></li>
+</ul></li>
+</ul>
+</div>
 <div class="lang-switch">
 <a data-lang="en" href="/en/clinics/leis-acupuncture/">EN</a>
 <a class="active" data-lang="es" href="/es/clinics/leis-acupuncture/">ES</a>
 <a data-lang="zh" href="/zh/clinics/leis-acupuncture/">中文</a>
 </div>
-<button aria-label="Menú" class="hamburger"><span></span><span></span><span></span></button>
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">Conéctate con una Clínica</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="Menú" class="hamburger"><span></span><span></span><span></span></button>
 </div>
 </div>
 </nav>
 <!-- FIXED: slide-out menu -->
-<div class="nav-menu">
-<a href="/es/#patients">Para Pacientes</a>
-<a href="/es/#about">Nuestra Fundadora</a>
-<a href="/es/join/">Únase a la Red</a>
-<a href="/es/#china">Asociación Tecnológica</a>
-<a href="/es/#apply">Aplicar Ahora</a>
-</div>
 <div class="nav-overlay"></div>
 
 <main>
@@ -567,11 +591,12 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <div class="footer-nav">
 <h4>Navegar</h4>
 <ul>
-<li><a href="/es/#patients">Para Pacientes</a></li>
-<li><a href="/es/join/">Únase a la Red</a></li>
-<li><a href="/es/#china">Asociación Tecnológica</a></li>
-<li><a href="/es/#about">Nuestra Fundadora</a></li>
-<li><a href="/es/#apply">Aplicar Ahora</a></li>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">Buscar Atención</a></li>
+<li><a href="/es/clinics/leis-acupuncture/">Clínicas</a></li>
+<li><a href="/es/stroke-recovery-acupuncture/">Aprender</a></li>
+<li><a href="/es/#about">Acerca de HPA</a></li>
+<li><a href="/es/join/">Para Clínicas</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">Conéctate con una Clínica</a></li>
 </ul>
 </div>
 <div class="footer-social">

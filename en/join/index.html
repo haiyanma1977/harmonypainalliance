@@ -98,34 +98,50 @@
 
 </a>
 <div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Find Care<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Post-Stroke &amp; Neurological Rehabilitation</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Chronic &amp; Complex Pain</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Other Health Concern</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not Sure</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/en/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Learn<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/en/stroke-recovery-acupuncture/">Stroke Recovery</a></li>
+<li><a href="/en/migraine-acupuncture/">Migraine &amp; Chronic Headache</a></li>
+<li><a href="/en/facial-paralysis-acupuncture/">Bell&#39;s Palsy &amp; Facial Paralysis</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/en/#about">About HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">For Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/en/join/">Join the Network</a></li>
+<li><a href="/en/tech-partnership/">Technology Partnership</a></li>
+</ul></li>
+</ul>
+</div>
 <div class="lang-switch">
 <a class="active" data-lang="en" href="/en/join/">EN</a>
 <a data-lang="es" href="/es/join/">ES</a>
 <a data-lang="zh" href="/zh/join/">中文</a>
 </div>
-<button aria-label="Menu" class="hamburger">
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="Menu" class="hamburger">
 <span></span><span></span><span></span>
 </button>
 </div>
 </div>
 </nav>
-<div class="nav-menu">
-<a href="/en/#patients">For Patients</a>
-
-
-<a href="/en/#about">Our Founder</a>
-
-
-<a href="/en/join/">Join the Network</a>
-
-
-<a href="/en/tech-partnership/">Tech Partnership</a>
-
-
-<a href="/en/join/#apply">Apply Now</a>
-
-
-</div>
 <div class="nav-overlay"></div>
 <main>
 <div class="container"><p class="breadcrumb"><a href="/en/">Home</a> &nbsp;›&nbsp; Join the Network</p></div>
@@ -218,6 +234,170 @@
 </div>
 </div>
 </section>
+<!-- ===== LEAD CAPTURE MODAL ===== -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<!-- Modal header -->
+<div class="lead-header">
+<h3>Book Your Appointment</h3>
+
+
+<p class="lead-subtitle">Quick form — takes 30 seconds. You'll be redirected to the clinic's booking page next.</p>
+
+
+</div>
+<form id="leadForm">
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
+<div class="form-group">
+<label>Your Name *</label>
+
+
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+
+
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+<label>Phone *</label>
+
+
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<!-- Expandable optional fields -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+<span>+ Help us prepare for your visit (optional)</span>
+
+
+</button>
+<div class="lead-optional" id="leadOptional">
+<div class="form-group">
+<label>Preferred Language</label>
+
+
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Primary Concern</label>
+
+
+<select name="primary_concern">
+<option value="">—</option>
+<option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
+<option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
+<option value="other-health-concern">Other Health Concern</option>
+<option value="not-sure">Not Sure</option>
+</select>
+</div>
+<div class="form-group">
+<label>How long have you had this condition?</label>
+
+
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">Less than 1 month</option>
+<option value="1-6months">1–6 months</option>
+<option value="6-12months">6–12 months</option>
+<option value="&gt;1year">Over 1 year</option>
+<option value="&gt;5years">Over 5 years</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>First acupuncture experience?</label>
+
+
+<div class="radio-group">
+<label><input name="first_acupuncture" type="radio" value="yes"/> Yes</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> No</label>
+
+
+
+
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Preferred Time</label>
+
+
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
+<option value="weekend">Weekend</option>
+<option value="flexible">Flexible</option>
+</select>
+</div>
+<div class="form-group">
+<label>Insurance</label>
+
+
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">Self-pay</option>
+<option value="va-military">VA / Military</option>
+<option value="private">Private Insurance</option>
+<option value="not-sure">Not sure</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>How did you hear about us?</label>
+
+
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google Search</option>
+<option value="social">Social Media</option>
+<option value="friend">Friend / Family</option>
+<option value="doctor">Doctor Referral</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label>Anything else we should know?</label>
+
+
+<textarea name="notes" rows="2"></textarea>
+</div>
+</div>
+<!-- Submit -->
+<div style="text-align:center;margin-top:20px;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<span class="lead-submit-text">Continue to Booking</span>
+
+
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</div>
+<p class="form-note" style="margin-top:12px;">Your information helps us serve you better. You'll be redirected to the clinic's online booking page.</p>
+
+
+</form>
+<!-- Success state -->
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+<h3>Thank you! Redirecting you to the booking page...</h3>
+
+
+</div>
+</div>
 </main>
 <footer class="footer">
 <div class="container">
@@ -240,11 +420,12 @@
 <div class="footer-nav">
 <h4>Navigate</h4>
 <ul>
-<li><a href="/en/#patients">For Patients</a></li>
-<li><a href="/en/join/">Join the Network</a></li>
-<li><a href="/en/tech-partnership/">Tech Partnership</a></li>
-<li><a href="/en/#about">Our Founder</a></li>
-<li><a href="/en/join/#apply">Apply Now</a></li>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">Find Care</a></li>
+<li><a href="/en/clinics/leis-acupuncture/">Clinics</a></li>
+<li><a href="/en/stroke-recovery-acupuncture/">Learn</a></li>
+<li><a href="/en/#about">About HPA</a></li>
+<li><a href="/en/join/">For Clinics</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">Get Matched</a></li>
 </ul>
 </div>
 <!-- Social -->
