@@ -30,6 +30,34 @@ const HPA_PATIENT_EMAIL = 'info@harmonypainalliance.com';
 
 /* Approved Stage 2a microcopy (10-A final wording, 2026-08-21).
    ES register: usted (K3). Do not edit without Haiyan's approval. */
+/* Mode-aware modal copy (approved 2026-08-21). The static HTML carries the
+   Mode B (Request Appointment) strings verbatim; Mode A (Get Matched) strings
+   are applied by JS at open and restored on every open. Do not edit without
+   Haiyan's approval. */
+const HPA_MODAL_MODE_A = {
+  en: {
+    concernLabel: 'Primary Concern *',
+    title: 'Get Matched with a Clinic',
+    intro: 'Tell us what you need — it takes about 30 seconds. HPA will connect you with an appropriate participating clinic.',
+    submit: 'Get Matched',
+    helper: 'Your information will help HPA match and connect you with an appropriate participating clinic. If the matched clinic offers online booking, you can continue to its booking page.'
+  },
+  es: {
+    concernLabel: 'Preocupación Principal *',
+    title: 'Le Conectamos con una Clínica',
+    intro: 'Cuéntenos qué necesita — toma unos 30 segundos. HPA le conectará con una clínica participante adecuada.',
+    submit: 'Conectarme con una Clínica',
+    helper: 'Su información ayudará a HPA a conectarle con una clínica participante adecuada. Si la clínica asignada ofrece reservas en línea, podrá continuar a su página de reservas.'
+  },
+  zh: {
+    concernLabel: '主要健康问题 *',
+    title: '为您匹配合适的诊所',
+    intro: '告诉我们您的需求——约 30 秒完成。HPA 将为您对接合适的参与诊所。',
+    submit: '开始匹配',
+    helper: '您的信息将用于帮助 HPA 为您匹配并连接合适的参与诊所。如匹配的诊所支持在线预约，您可以继续前往其预约页面。'
+  }
+};
+
 const HPA_CONNECT_I18N = {
   en: {
     concernRequired: 'Please select your primary concern so we can match you with the right clinic.',
@@ -414,6 +442,52 @@ document.addEventListener('DOMContentLoaded', () => {
     return el;
   };
 
+  // ---- Mode-aware modal copy + concern placement (approved 2026-08-21) ----
+  // The shared modal stays ONE component. Static HTML = Mode B (Request
+  // Appointment) verbatim. Mode A (Get Matched) swaps four strings and moves
+  // the required Primary Concern field out of the "(optional)" expander so it
+  // is visible at open. Everything is restored on every open.
+  const modalTitleEl  = leadModal ? leadModal.querySelector('.lead-header h3') : null;
+  const modalIntroEl  = leadModal ? leadModal.querySelector('.lead-subtitle') : null;
+  const modalSubmitEl = leadModal ? leadModal.querySelector('.lead-submit-text') : null;
+  const modalHelperEl = leadForm ? leadForm.querySelector('.form-note') : null;
+  const concernSelect = leadForm ? leadForm.querySelector('select[name="primary_concern"]') : null;
+  const concernGroup  = concernSelect ? concernSelect.closest('.form-group') : null;
+  const concernLabel  = concernGroup ? concernGroup.querySelector('label') : null;
+  // Remember the concern group's home inside the optional block (Mode B).
+  const concernHome = concernGroup
+    ? { parent: concernGroup.parentElement, next: concernGroup.nextElementSibling }
+    : null;
+
+  const cacheOriginal = (el) => {
+    if (el && el.dataset.original === undefined) el.dataset.original = el.textContent;
+  };
+  [modalTitleEl, modalIntroEl, modalSubmitEl, modalHelperEl, concernLabel].forEach(cacheOriginal);
+
+  const applyModalMode = (isMatch) => {
+    const t = HPA_MODAL_MODE_A[getLang()] || HPA_MODAL_MODE_A.en;
+    // 1. Restore Mode B (the HTML originals) first — makes reopening in a
+    //    different mode always clean.
+    [modalTitleEl, modalIntroEl, modalSubmitEl, modalHelperEl, concernLabel].forEach((el) => {
+      if (el && el.dataset.original !== undefined) el.textContent = el.dataset.original;
+    });
+    if (concernGroup && concernHome && concernGroup.parentElement !== concernHome.parent) {
+      concernHome.parent.insertBefore(concernGroup, concernHome.next);
+    }
+    if (!isMatch) return;
+    // 2. Mode A: Get Matched copy + concern visible and marked required.
+    if (modalTitleEl)  modalTitleEl.textContent  = t.title;
+    if (modalIntroEl)  modalIntroEl.textContent  = t.intro;
+    if (modalSubmitEl) modalSubmitEl.textContent = t.submit;
+    if (modalHelperEl) modalHelperEl.textContent = t.helper;
+    if (concernLabel)  concernLabel.textContent  = t.concernLabel;
+    if (concernGroup && leadExpandBtn) {
+      // Place the concern field directly above the "(optional)" expander,
+      // outside the collapsed block. The truly optional fields stay collapsed.
+      leadExpandBtn.parentElement.insertBefore(concernGroup, leadExpandBtn);
+    }
+  };
+
   // Get current language
   const getLang = () => {
     const m = document.body.className.match(/lang-(en|es|zh)/);
@@ -448,12 +522,18 @@ document.addEventListener('DOMContentLoaded', () => {
     leadOptional.classList.remove('show');
     leadExpandBtn.classList.remove('expanded');
     leadSubmitBtn.classList.remove('loading');
+    // Render the correct copy + concern placement for this mode.
+    applyModalMode(leadIsMatchMode);
     if (concern) {
       const sel = leadForm.querySelector('select[name="primary_concern"]');
       if (sel && Array.from(sel.options).some(o => o.value === concern)) {
         sel.value = concern;
-        leadOptional.classList.add('show');
-        leadExpandBtn.classList.add('expanded');
+        // Only expand the optional block if the concern still lives inside it
+        // (Mode B). In Mode A it is already visible above the expander.
+        if (leadOptional.contains(sel)) {
+          leadOptional.classList.add('show');
+          leadExpandBtn.classList.add('expanded');
+        }
       }
     }
     leadOverlay.classList.add('show');
@@ -537,9 +617,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Worker deliberately accepts an absent concern, so this must live
       // here). Never enforced in Request Appointment mode.
       if (leadIsMatchMode && !payload.primary_concern) {
-        leadOptional.classList.add('show');
-        leadExpandBtn.classList.add('expanded');
         const sel = leadForm.querySelector('select[name="primary_concern"]');
+        // In Mode A the concern field sits above the expander and is already
+        // visible; only expand the optional block if it still contains it.
+        if (sel && leadOptional.contains(sel)) {
+          leadOptional.classList.add('show');
+          leadExpandBtn.classList.add('expanded');
+        }
         const group = sel ? sel.closest('.form-group') : null;
         showConnectMessage(group || sel, connectT().concernRequired, 'error');
         if (sel) sel.focus();
