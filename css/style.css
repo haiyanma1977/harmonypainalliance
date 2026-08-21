@@ -1542,3 +1542,10 @@ header .logo, nav .logo, .site-branding,
 @media (max-width: 768px) {
   .hero { padding: 140px 24px 72px; }
 }
+
+/* Clinic Profile practitioner layout (2026-08-21): text left, portrait right.
+   The existing 768px rule collapses .doctor-grid to one column, so on mobile
+   the portrait stacks below the practitioner text. */
+@media (min-width: 769px) {
+  .doctor-grid-rev { grid-template-columns: 1fr 280px; }
+}
