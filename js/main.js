@@ -194,7 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       if (anchor.dataset.leadSource) return; // handled by lead modal
-      const target = document.querySelector(anchor.getAttribute('href'));
+      const href = anchor.getAttribute('href');
+      // Bare "#" is not a valid selector — querySelector('#') THROWS, which
+      // silently broke the homepage brand link (2026-08-21 root cause).
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth' });

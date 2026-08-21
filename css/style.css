@@ -1391,8 +1391,10 @@ header .logo, nav .logo, .site-branding,
   /* The bar is full-bleed on desktop; it does not need to align to the 1140px
      content column, and the six-item nav + localized CTA will not fit if it does. */
   .navbar .container { max-width: none; padding: 0; }
-  .navbar img, nav img { height: 44px !important; }
-  .nav-brand-text { font-size: 18px !important; }
+  /* Brand scale (2026-08-21): 52px logo fills the 76px header exactly
+     (12px padding x2) — stronger identity, zero header growth. */
+  .navbar img, nav img { height: 52px !important; }
+  .nav-brand-text { font-size: 20px !important; letter-spacing: 0.2px; }
   .lang-switch a, .lang-switch button { font-size: 13px !important; padding: 5px 9px !important; }
 }
 /* Between 1025 and 1199px the wordmark is dropped so the six items + CTA fit. */
@@ -1401,6 +1403,7 @@ header .logo, nav .logo, .site-branding,
    than letting it run off-screen. Measured across 10 widths x 3 languages. */
 @media (min-width: 1025px) and (max-width: 1149px) {
   nav.navbar, .navbar { padding: 12px 20px !important; }
+  .navbar img, nav img { height: 48px !important; }
   .navbar .container { gap: 12px; }
   .nav-right { gap: 10px; }
   .nav-links .nav-top-link, .nav-parent { padding: 9px 7px; font-size: 0.85rem; }
