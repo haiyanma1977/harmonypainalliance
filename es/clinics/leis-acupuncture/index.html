@@ -37,7 +37,7 @@ SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
   address .......... 209 E Bay St, Winter Garden, FL 34787
   geo .............. 28.5653, -81.5862
   phone ............ +1-561-403-6485
-  hours ............ Tue–Sun 9:00–17:00
+  hours ............ Mon,Tue,Thu,Fri 9:00–17:00 · Sat 10:00–17:00 · Sun 10:00–16:00 · Wed off-site (FCIM)
   website .......... https://leisacupuncture.com/
   npi .............. 1811880438
   booking_category . 4 Primary-Concern options in the lead modal (per clinic focus)
@@ -123,9 +123,10 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
       {"@type": "MedicalProcedure", "name": "Ventosas"}
     ],
     "isAcceptingNewPatients": true,
-    "paymentAccepted": "Cash, Credit Card, VA/Military Benefits",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, VA/Military Benefits",
     "openingHoursSpecification": [
-      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "17:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday"], "opens": "09:00", "closes": "17:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "17:00"},
       {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00"}
     ],
     "currenciesAccepted": "USD",
@@ -192,7 +193,7 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
 <link href="/css/style.css" rel="stylesheet"/>
-<!-- FIXED: template helper styles. .todo is SKELETON-ONLY — remove rule + all .todo blocks before go-live. -->
+<!-- FIXED: template helper styles. -->
 <style>
   .article-wrap { max-width: 900px; margin: 0 auto; }
   .article-wrap h2 { margin-top: 44px; }
@@ -205,8 +206,6 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
   .learn-more { display: inline-block; margin: 4px 18px 4px 0; font-weight: 600; color: var(--brand-green, #009573); text-decoration: none; }
   .page-cta { text-align: center; padding: 32px; background: var(--blue-50, #eef3fb); border-radius: var(--radius-lg, 14px); margin-top: 40px; }
   .page-cta a.btn { margin-top: 12px; }
-  .todo { border-left: 4px solid #d08700; background: #fff8e6; padding: 12px 16px; margin: 18px 0; border-radius: 8px; font-size: 0.95rem; color: #6b5300; }
-  .todo b { color: #8a6d00; }
   .specialty-tag-primary { background: var(--brand-green, #009573); color: #fff; font-weight: 700; }
   .clinic-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin: 16px 0; }
   .clinic-facts div { padding: 6px 0; border-bottom: 1px solid var(--border, #e6e6e6); }
@@ -283,7 +282,7 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <div class="doctor-photo">
 <picture>
 <source srcset="/img/dr-lei.webp" type="image/webp"/>
-<img alt="Lei Dong, AP — Acupuncture Physician and founder of Lei's Acupuncture in Winter Garden, Florida" height="750" loading="eager" src="/img/dr-lei.jpg" width="600"/>
+<img alt="Lei Dong, AP — Acupuncture Physician y fundador de Lei's Acupuncture en Winter Garden, Florida" height="750" loading="eager" src="/img/dr-lei.jpg" width="600"/>
 </picture>
 </div>
 <div class="doctor-content">
@@ -427,11 +426,11 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <div class="clinic-facts">
 <div><strong>Dirección</strong><br/>209 E Bay St, Winter Garden, FL 34787</div>
 <div><strong>Teléfono</strong><br/><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
-<div><strong>Horario</strong><br/><span>Lun, Mar, Jue, Vie, Sáb: 9:00 AM – 5:00 PM<br/>Dom: 10:00 AM – 4:00 PM<br/><span class="ref-note">Mié: cerrado en esta ubicación (el profesional atiende en la clínica docente FCIM)</span></span></div>
+<div><strong>Horario</strong><br/><span>Lun, Mar, Jue, Vie: 9:00 AM – 5:00 PM<br/>Sáb: 10:00 AM – 5:00 PM<br/>Dom: 10:00 AM – 4:00 PM<br/><span class="ref-note">Mié: cerrado en esta ubicación (el profesional atiende en la clínica docente FCIM)</span></span></div>
 <div><strong>Idiomas</strong><br/><span>Inglés · Chino</span></div>
 </div>
 <div class="clinic-location" style="margin:16px 0;border-radius:14px;overflow:hidden;height:320px;">
-<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Mapa de Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
 </div>
 <p><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Cómo llegar</a> &nbsp; <a class="btn btn-outline" href="https://leisacupuncture.com/" rel="noopener" target="_blank">Visitar el sitio web de la clínica</a></p>
 <!-- /SLOT -->

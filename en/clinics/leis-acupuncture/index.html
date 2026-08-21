@@ -37,7 +37,7 @@ SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
   address .......... 209 E Bay St, Winter Garden, FL 34787
   geo .............. 28.5653, -81.5862
   phone ............ +1-561-403-6485
-  hours ............ Tue–Sun 9:00–17:00
+  hours ............ Mon,Tue,Thu,Fri 9:00–17:00 · Sat 10:00–17:00 · Sun 10:00–16:00 · Wed off-site (FCIM)
   website .......... https://leisacupuncture.com/
   npi .............. 1811880438
   booking_category . 4 Primary-Concern options in the lead modal (per clinic focus)
@@ -123,9 +123,10 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
       {"@type": "MedicalProcedure", "name": "Cupping"}
     ],
     "isAcceptingNewPatients": true,
-    "paymentAccepted": "Cash, Credit Card, VA/Military Benefits",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, VA/Military Benefits",
     "openingHoursSpecification": [
-      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "17:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday"], "opens": "09:00", "closes": "17:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "17:00"},
       {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00"}
     ],
     "currenciesAccepted": "USD",
@@ -192,7 +193,7 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
 <link href="/css/style.css" rel="stylesheet"/>
-<!-- FIXED: template helper styles. .todo is SKELETON-ONLY — remove rule + all .todo blocks before go-live. -->
+<!-- FIXED: template helper styles. -->
 <style>
   .article-wrap { max-width: 900px; margin: 0 auto; }
   .article-wrap h2 { margin-top: 44px; }
@@ -205,8 +206,6 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
   .learn-more { display: inline-block; margin: 4px 18px 4px 0; font-weight: 600; color: var(--brand-green, #009573); text-decoration: none; }
   .page-cta { text-align: center; padding: 32px; background: var(--blue-50, #eef3fb); border-radius: var(--radius-lg, 14px); margin-top: 40px; }
   .page-cta a.btn { margin-top: 12px; }
-  .todo { border-left: 4px solid #d08700; background: #fff8e6; padding: 12px 16px; margin: 18px 0; border-radius: 8px; font-size: 0.95rem; color: #6b5300; }
-  .todo b { color: #8a6d00; }
   .specialty-tag-primary { background: var(--brand-green, #009573); color: #fff; font-weight: 700; }
   .clinic-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin: 16px 0; }
   .clinic-facts div { padding: 6px 0; border-bottom: 1px solid var(--border, #e6e6e6); }
@@ -428,7 +427,7 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <div class="clinic-facts">
 <div><strong>Address</strong><br/>209 E Bay St, Winter Garden, FL 34787</div>
 <div><strong>Phone</strong><br/><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
-<div><strong>Hours</strong><br/><span>Mon, Tue, Thu, Fri, Sat: 9:00 AM – 5:00 PM<br/>Sun: 10:00 AM – 4:00 PM<br/><span class="ref-note">Wed: closed at this location (practitioner at the FCIM teaching clinic)</span></span></div>
+<div><strong>Hours</strong><br/><span>Mon, Tue, Thu, Fri: 9:00 AM – 5:00 PM<br/>Sat: 10:00 AM – 5:00 PM<br/>Sun: 10:00 AM – 4:00 PM<br/><span class="ref-note">Wed: closed at this location (practitioner at the FCIM teaching clinic)</span></span></div>
 <div><strong>Languages</strong><br/><span>English · Chinese</span></div>
 </div>
 <div class="clinic-location" style="margin:16px 0;border-radius:14px;overflow:hidden;height:320px;">
