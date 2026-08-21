@@ -8,7 +8,7 @@
 const HPA_CLINICS = {
   "lei-acupuncture": {
     id: "lei-acupuncture",
-    name: { en: "Lei's Acupuncture", es: "Lei's Acupuncture", zh: "Lei's Acupuncture（磊医师针灸）" },
+    name: { en: "Lei's Acupuncture", es: "Lei's Acupuncture", zh: "Lei's Acupuncture（磊氏针灸）" },
     city: "Winter Garden",
     state: "FL",
     address: "209 E Bay St, Winter Garden, FL 34787",
