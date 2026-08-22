@@ -243,6 +243,24 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   border-color: var(--brand-deep);
 }
 .btn-secondary:hover { background: var(--blue-50); }
+/* .btn-outline — the neutral outlined control. This class was in use on the
+   homepage ("View Clinic Profile") and the Clinic Profiles ("Get Directions")
+   but had NO rule anywhere in the stylesheet, so it inherited only .btn's
+   `border: 2px solid transparent` and rendered as underlined link text with an
+   invisible border (defect confirmed 2026-08-21, fixed here at the shared
+   component level — not with per-page inline styles).
+   Deliberately quieter than .btn-secondary: it is a supporting action and must
+   never compete with the primary green CTA. */
+.btn-outline {
+  background: transparent; color: var(--text-body);
+  border-color: var(--cool-gray);
+  text-decoration: none;
+}
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background: var(--warm-gray); color: var(--text-dark);
+  border-color: var(--text-muted);
+}
 .btn-green {
   background: var(--aux-green); color: var(--white);
   border-color: var(--aux-green);
@@ -939,7 +957,9 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   .hero-text { text-align: center; }
   .hero-cards { grid-template-columns: 1fr; }
   .hero-card { padding: 24px; }
-  .nav-brand-text { display: none !important; }
+  /* Hierarchy correction 2026-08-22 (Option B): the wordmark hide moved from
+     <=768 down to <=640. On tablet the platform must be a NAMED brand — hiding
+     the name left the clinic as the only named identity at those widths. */
   .about-grid { grid-template-columns: 1fr; }
   .about-photo { max-width: 320px; margin: 0 auto; }
   .specialty-tags { grid-template-columns: repeat(2, 1fr); }
@@ -1098,6 +1118,19 @@ header h1, nav h1, header a[href="/"], nav a[href="/"],
   font-weight: 700 !important;
   letter-spacing: 0.3px;
 }
+/* Tablet platform lockup (2026-08-22, Option B §2): the wordmark is visible
+   again at 641-1024px, recalibrated from the 28px base to fit beside the 64px
+   logo, language pills and hamburger without collision (measured at 641, 768
+   and 1024). Logo + name read as one platform brand lockup. */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .nav-brand-text { font-size: 19px !important; letter-spacing: 0.2px; }
+}
+/* At the very bottom of the tablet range 19px fits with zero slack (measured:
+   brand edge touches the controls at exactly 641px) — one step down buys real
+   breathing room there without dulling the common 768-1024 widths. */
+@media (min-width: 641px) and (max-width: 719px) {
+  .nav-brand-text { font-size: 17px !important; }
+}
 
 .lang-switcher a, .lang-switch a, .language-switch a,
 header [class*="lang"] a, header [class*="language"] a,
@@ -1151,6 +1184,10 @@ header .logo, nav .logo, .site-branding,
   .nav-brand-text {
     font-size: 20px !important;
   }
+  /* True mobile: the full wordmark does not fit beside the language pills and
+     hamburger. The compact logo + the page's "HPA · ..." context line carry the
+     platform identity here (founder decision 2026-08-22, Option B §3). */
+  .nav-brand-text { display: none !important; }
   .lang-switcher a, .lang-switch a, .language-switch a,
   .lang-switch button {
     font-size: 14px !important;
@@ -1325,7 +1362,16 @@ header .logo, nav .logo, .site-branding,
     display: flex; align-items: center; width: auto; text-decoration: none;
     white-space: nowrap;
     padding: 10px 14px; border: none; border-radius: 8px;
-    font-size: 0.95rem; font-weight: 600;
+    /* Header micro-calibration 2026-08-21: 0.95rem -> 1rem. Only takes effect
+       at >=1200px (EN/ZH) and >=1450px (ES) — the narrower desktop tiers below
+       keep their own measured, tighter sizes. */
+    font-size: 1rem; font-weight: 600;
+    /* Pre-existing misalignment, fixed here: <a class="nav-top-link"> inherits
+       body line-height 1.7 while <button class="nav-parent"> uses `normal`, so
+       the "About HPA" item's hover pill sat ~9px taller than its neighbours and
+       its box was vertically offset. One shared line-height makes every item
+       the same height. Purely visual — no IA, naming or behaviour change. */
+    line-height: 1.4;
     color: var(--white); background: transparent;
     transition: background 0.2s, color 0.2s;
   }
@@ -1387,23 +1433,25 @@ header .logo, nav .logo, .site-branding,
    bar plus a localized CTA does not fit inside it, so the header is re-proportioned
    at >=1025px only. Mobile keeps the enlarged header exactly as before. */
 @media (min-width: 1025px) {
-  nav.navbar, .navbar { padding: 12px 32px !important; min-height: 76px !important; }
+  /* Brand-hierarchy reset (2026-08-22): the platform frame is the strongest
+     persistent brand element on the page. 84px header = 60px logo + 12px x2.
+     Purely proportional — IA, wording, destinations and behavior unchanged. */
+  nav.navbar, .navbar { padding: 12px 32px !important; min-height: 84px !important; }
   /* The bar is full-bleed on desktop; it does not need to align to the 1140px
      content column, and the six-item nav + localized CTA will not fit if it does. */
   .navbar .container { max-width: none; padding: 0; }
-  /* Brand scale (2026-08-21): 52px logo fills the 76px header exactly
-     (12px padding x2) — stronger identity, zero header growth. */
-  .navbar img, nav img { height: 52px !important; }
-  .nav-brand-text { font-size: 20px !important; letter-spacing: 0.2px; }
-  .lang-switch a, .lang-switch button { font-size: 13px !important; padding: 5px 9px !important; }
+  .navbar img, nav img { height: 60px !important; }
+  .nav-brand-text { font-size: 21px !important; letter-spacing: 0.2px; }
+  .lang-switch a, .lang-switch button { font-size: 14px !important; padding: 5px 10px !important; }
+  .nav-cta-desktop { padding: 12px 24px; font-size: 1rem; }
 }
 /* Between 1025 and 1199px the wordmark is dropped so the six items + CTA fit. */
 /* Narrowest desktop tier: the ES CTA is the longest localized string in the bar
    ("Conéctate con una Clínica"), so the whole header is compressed here rather
    than letting it run off-screen. Measured across 10 widths x 3 languages. */
 @media (min-width: 1025px) and (max-width: 1149px) {
-  nav.navbar, .navbar { padding: 12px 20px !important; }
-  .navbar img, nav img { height: 48px !important; }
+  nav.navbar, .navbar { padding: 14px 20px !important; }
+  .navbar img, nav img { height: 52px !important; }
   .navbar .container { gap: 12px; }
   .nav-right { gap: 10px; }
   .nav-links .nav-top-link, .nav-parent { padding: 9px 7px; font-size: 0.85rem; }
@@ -1420,6 +1468,13 @@ header .logo, nav .logo, .site-branding,
 @media (min-width: 1200px) and (max-width: 1449px) {
   body.lang-es .nav-brand-text { display: none; }
   body.lang-es .nav-links .nav-top-link, body.lang-es .nav-parent { padding: 10px 10px; font-size: 0.9rem; }
+}
+/* Brand-hierarchy reset (2026-08-22): one further nav-typography step where the
+   bar has measured slack for it. At 1200-1279 EN's CTA already sits at the
+   content edge, so the bump starts at 1280. The ES compressed tier above wins
+   over this rule by specificity (body.lang-es ...), exactly as intended. */
+@media (min-width: 1280px) {
+  .nav-links .nav-top-link, .nav-parent { font-size: 1.0625rem; }
 }
 
 /* ---------- drawer offset: match the enlarged mobile header ---------- */
@@ -1543,9 +1598,365 @@ header .logo, nav .logo, .site-branding,
   .hero { padding: 140px 24px 72px; }
 }
 
-/* Clinic Profile practitioner layout (2026-08-21): text left, portrait right.
-   The existing 768px rule collapses .doctor-grid to one column, so on mobile
-   the portrait stacks below the practitioner text. */
-@media (min-width: 769px) {
-  .doctor-grid-rev { grid-template-columns: 1fr 280px; }
+/* NOTE (2026-08-21, Template V1): the former `.doctor-grid-rev` rule that lived
+   here is superseded by `.care-member` below. The Clinic Profile no longer uses
+   the single-practitioner `.doctor-*` layout. The `.doctor-*` cluster further up
+   this file is now unreferenced by any page; it is left in place deliberately —
+   removing it was not authorized in this workstream. See the handoff report. */
+
+/* =========================================================================
+   HPA CLINIC PROFILE — TEMPLATE V1  (2026-08-21)
+
+   Reusable across partner clinics. EVERY rule here is scoped to
+   `body.clinic-profile` so nothing in this block can leak into the homepage,
+   the Learn pages or the condition landing pages. This is where the Clinic
+   Profile's former page-local <style> block now lives, rewritten against the
+   real design tokens (the inline version referenced --brand-green and --border,
+   neither of which exists in :root).
+
+   SLOT MODEL
+     FIXED           platform-level structure/content
+     REQUIRED SLOT   clinic content required for publication
+     OPTIONAL SLOT   disappears cleanly when absent — no placeholder, no
+                     reserved blank space
+     REPEATABLE SLOT 1..n instances
+
+   Hierarchy rule: HPA = platform/publisher (site header + footer).
+   Clinic logo + clinic name = the clinic being profiled. The clinic logo must
+   never read as a co-equal co-branding lockup with the HPA header logo.
+   ========================================================================= */
+
+/* ---- Page shell + rhythm (§18) ---------------------------------------- */
+/* The navbar is fixed and — after the "Enlarge navbar v2" override — is taller
+   than `--section-pad` at every width below 1025px (104px vs 64px, 72px vs
+   48px). The first line of the profile was sliding underneath it. Previously
+   masked by the hero's accidental `header` padding; now cleared explicitly.
+   Scoped to the Clinic Profile — other page types are out of scope here. */
+.clinic-profile .clinic-profile-section { padding-top: 116px; } /* 84px header + 32px */
+@media (max-width: 1024px) { .clinic-profile .clinic-profile-section { padding-top: 132px; } }
+@media (max-width: 640px)  { .clinic-profile .clinic-profile-section { padding-top: 100px; } }
+
+.clinic-profile .clinic-wrap { max-width: 860px; margin: 0 auto; }
+.clinic-profile p { margin: 14px 0; line-height: 1.75; }
+.clinic-profile ul { margin: 12px 0 0 1.15rem; }
+.clinic-profile li { margin: 6px 0; line-height: 1.65; }
+.clinic-profile .ref-note { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+/* Major-section separation: one consistent rule, no decorative cards.
+   These are nested <section> elements, so the global `section { padding: 96px 0 }`
+   and `section:nth-child(even) { background: var(--off-white) }` rules would
+   otherwise apply to them and paint alternating grey bands inside the article
+   column. Both are neutralised explicitly here rather than by changing the
+   global rules, which other pages depend on. */
+.clinic-profile .clinic-section {
+  background: none;
+  margin-top: 56px; padding: 48px 0 0;
+  border-top: 1px solid var(--mid-gray);
 }
+.clinic-section > h2 { margin: 0; font-size: 1.75rem; }
+.clinic-section > h2 + p { margin-top: 10px; }
+.clinic-section h3 { margin: 34px 0 0; font-size: 1.1875rem; }
+.clinic-section h4 { margin: 22px 0 0; font-size: 1rem; }
+
+/* ---- Platform context + breadcrumb (§10, §2) -------------------------- */
+/* Quiet publisher line. HPA presence is legible, never overpowering: no second
+   HPA logo in the clinic hero, no watermark, no repeated badges. */
+/* Brand-hierarchy reset (2026-08-22): platform context and breadcrumb are
+   important HPA context, not fine print — secondary must still be noticeable. */
+.platform-context {
+  font-family: 'Montserrat', 'Noto Sans SC', sans-serif;
+  font-size: 0.9375rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--brand-deep);
+  margin: 0 0 18px;   /* absorbs the removed breadcrumb row's rhythm */
+}
+/* CURRENT breadcrumb only — there is no /clinics/ index page to link to.
+   Demoted to true utility navigation (founder decision 2026-08-22, Option B
+   §5): usable, readable, but deliberately NOT a participant in the hero
+   hierarchy — the eyebrow, status badge and clinic identity carry that. */
+.clinic-profile .clinic-breadcrumb { font-size: 0.8125rem; color: var(--text-muted); margin: 10px 0 12px; }
+.clinic-breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.clinic-breadcrumb a:hover { color: var(--brand-deep); text-decoration: underline; }
+
+/* ---- Clinic identity / hero ------------------------------------------- */
+.clinic-hero { padding-bottom: 4px; }
+
+/* Founding Partner status (2026-08-22, strengthened per founder correction):
+   a distinguished HPA status designation, not a taxonomy pill. One clear tier
+   up in size, dark HPA green for immediate contrast on the pale ground, a
+   hairline border for an official edge, and the muted-gold recognition mark
+   (derived from the existing #D4A843 gold accent) — symbol only, never the
+   whole badge; no gradients, no shadows, no glow. */
+.clinic-profile .clinic-hero .tag {
+  display: inline-flex; align-items: center; gap: 11px;
+  font-size: 1rem;                     /* 16px desktop */
+  font-weight: 700;
+  /* Refinement pass (founder, 2026-08-22 精修): wider, engraved-plate tracking,
+     a warmer parchment ground, an antique-gold border a shade more present,
+     and more horizontal air. Still flat — no gradient, no shadow, no glow.
+     STATUS semantics stay deliberately separated from the green clinical
+     family: an official HPA designation, not a taxonomy pill. */
+  letter-spacing: 0.075em;
+  color: var(--brand-deep);
+  background: #FBF7EC;
+  border: 1px solid rgba(168, 134, 47, 0.5);
+  border-radius: 9px;
+  padding: 11px 22px;
+}
+.clinic-status-mark {
+  /* Refined crown (2026-08-22 精修): three-point silhouette with pearl finials
+     and a separated base band — finer, more heraldic drawing than the previous
+     solid block. Two-tone antique gold: band a shade deeper than the body. */
+  width: 22px; height: 22px; flex-shrink: 0;
+  fill: #B8923D;
+}
+.clinic-status-mark path:last-of-type { fill: #A07E2E; }
+@media (max-width: 640px) {
+  /* Mobile keeps the refined plaque but with compact metrics — the ES label
+     (CLÍNICA SOCIA FUNDADORA DE HPA) must hold one line in a 358px column. */
+  .clinic-profile .clinic-hero .tag { font-size: 0.9375rem; padding: 10px 14px; gap: 9px; letter-spacing: 0.04em; }
+  .clinic-status-mark { width: 21px; height: 21px; }
+}
+/* OPTIONAL SLOT: clinic logo. Bounded box, aspect ratio preserved, no crop, no
+   stretch, no forced square — horizontal, square, vertical and icon+wordmark
+   all land correctly. When the clinic has no logo the element is simply absent
+   and the clinic name becomes the first identity element; nothing here reserves
+   space, so the slot collapses with no visible gap. (§11, §12) */
+/* Clinic identity LOCKUP: logo + clinic-name H1 read as one identity unit.
+   Desktop/tablet: logo sits immediately beside the name, vertically centered.
+   Small screens: the pair stacks with very tight spacing so it still reads as
+   one unit — never a detached decorative logo row. When a clinic has no logo
+   the <img> is deleted and the H1 simply renders alone; the flex container
+   reserves nothing. */
+.clinic-identity {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 16px;
+}
+/* Brand-hierarchy rule (firm, 2026-08-22): the clinic symbol is a SECONDARY
+   participating-clinic identifier and must render visually smaller than the
+   HPA platform logo in the header (60px desktop / 44px mobile). 44px and 32px
+   keep that relationship unambiguous at every width. The mark is near-square
+   (0.99:1) so max-height binds; the artwork itself is untouched. */
+.clinic-logo {
+  display: block; width: auto; height: auto;
+  max-width: 100px; max-height: 44px;
+  object-fit: contain; object-position: left center;
+  flex-shrink: 0; margin: 0;
+}
+@media (max-width: 640px) {
+  /* With the H1 at its restrained profile scale, the compact symbol + name row
+     fits naturally at 390px (~275px used of 358px) — one identity unit on one
+     line, never a detached decorative element. */
+  .clinic-identity { gap: 10px; margin-top: 14px; }
+  .clinic-logo { max-height: 32px; }
+}
+/* Restrained platform-profile scale (2026-08-22 reset): the clinic name stays
+   the semantic H1 and the strongest element within the clinic identity, but it
+   is a profile heading, not a marketing hero headline. 2rem sits one clear
+   tier above the 1.75rem section H2s on desktop; 1.75rem on small screens
+   (weight 800 vs the H2s' 700 keeps it reading first). */
+/* Template V1 rule for participating clinic names (founder typography decision
+   2026-08-22): clear + authoritative + restrained — never heavy-bold black
+   marketing-headline type. Weight 600, and the HPA-compatible dark navy in
+   place of the near-black ink so the name harmonizes with the platform palette
+   instead of fighting it (same treatment as the founder name on the homepage).
+   Size unchanged. Site font family (Montserrat stack) unchanged — no clinic-
+   specific display faces. Not a Lei's-specific exception. */
+.clinic-hero h1 {
+  margin: 0; font-size: 2rem; line-height: 1.25;
+  font-weight: 500; color: var(--brand-deep);
+}
+@media (max-width: 640px) {
+  .clinic-hero h1 { font-size: 1.75rem; }
+}
+.clinic-locality { font-weight: 700; margin: 8px 0 0; color: var(--text-dark); }
+.focus-headline {
+  font-size: 1.0625rem; font-weight: 700; line-height: 1.5;
+  color: var(--aux-green); margin: 14px 0 0;
+}
+.clinic-lede { font-size: 1.0625rem; color: var(--text-muted); margin: 14px 0 0; max-width: 62ch; }
+
+/* Primary connection action owns the hero. Get Directions is patient logistics
+   and is deliberately quieter — never equal to, never stronger than, the HPA
+   connection CTA. There is no clinic-website or direct-booking control here by
+   design (§5, §6, §7). */
+.clinic-hero-actions {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 14px; margin-top: 26px;
+}
+.clinic-hero-actions .btn-outline { padding: 11px 20px; font-size: 0.875rem; }
+
+/* ---- Clinical Focus (REQUIRED + REPEATABLE) --------------------------- */
+/* Clinic-Profile-specific. The homepage `.specialty-tags` grid is a fixed
+   4/3/2-column component that strands empty cells and clips long Spanish
+   strings; it is NOT changed globally (§13) — the Clinic Profile simply stops
+   using it. Content-responsive: no hard-coded column count, any item count. */
+.clinic-focus-list {
+  display: flex; flex-wrap: wrap;
+  gap: 10px; margin: 18px 0 0; padding: 0; list-style: none;
+}
+.clinic-focus-item {
+  display: inline-flex; align-items: center;
+  max-width: 100%;
+  padding: 9px 18px;
+  font-size: 0.9375rem; font-weight: 600; line-height: 1.45;
+  color: var(--brand-deep); background: var(--white);
+  border: 1px solid rgba(7,56,128,0.15); border-radius: 20px;
+}
+/* Emphasis variant. Deliberately the tinted treatment already used by
+   .tag-green / .founder-tag rather than solid green: solid green is reserved
+   for the primary HPA connection CTA, and a row of solid green pills would
+   compete with it. */
+.clinic-focus-item-primary {
+  background: var(--green-100); color: var(--green-600);
+  border-color: rgba(0,149,115,0.22);
+}
+/* Full-width stacking on small screens — long ES strings get the whole row
+   rather than wrapping into a ragged two-up. */
+@media (max-width: 560px) {
+  .clinic-focus-list { display: block; }
+  .clinic-focus-item { display: flex; width: 100%; margin-bottom: 10px; border-radius: var(--radius-md); }
+}
+
+.clinic-learn-more { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 18px 0 0; }
+.clinic-learn-more a { font-weight: 600; color: var(--aux-green); text-decoration: none; }
+.clinic-learn-more a:hover { text-decoration: underline; }
+
+/* ---- Care Team (practitioners = REPEATABLE SLOT) ---------------------- */
+/* Supports 1..n practitioners, with or without a photo, different credentials,
+   optional training and optional continuing education. Training belongs to the
+   practitioner, never to the clinic as a global fact (§14). */
+/* Three named regions so the practitioner's IDENTITY (name + role) can stay
+   ahead of the portrait at every width, while desktop keeps text-left /
+   portrait-right. Areas — not source order — do the work, because on mobile the
+   portrait has to sit BETWEEN identity and details, which `order` alone cannot
+   express when those two are wrapped in one element. */
+.care-member {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  grid-template-areas:
+    "identity photo"
+    "details  photo";
+  gap: 0 40px; align-items: start; margin-top: 30px;
+}
+.care-member + .care-member {
+  margin-top: 44px; padding-top: 40px;
+  border-top: 1px solid var(--mid-gray);
+}
+.care-member-identity { grid-area: identity; min-width: 0; }
+.care-member-details  { grid-area: details;  min-width: 0; }
+/* OPTIONAL SLOT: practitioner photo. Absent -> add .care-member-nophoto and the
+   row collapses to a single text column. No silhouette, no empty photo box, and
+   no reserved 280px column. */
+.care-member-photo { grid-area: photo; }
+.care-member-photo img {
+  width: 100%;
+  aspect-ratio: 4/5;              /* one portrait rule for the whole template */
+  object-fit: cover; object-position: center 22%;
+  border-radius: var(--radius-lg); background: var(--warm-gray);
+}
+.care-member-nophoto {
+  grid-template-columns: 1fr;
+  grid-template-areas: "identity" "details";
+}
+/* Scoped past `.clinic-section h3 { margin: 34px 0 0 }`, which has equal
+   specificity to a bare `.care-member-name` and was winning — dropping the
+   practitioner's name 34px below the top of the portrait, so the portrait read
+   as the first element of the card on desktop too. Identity leads at every width. */
+.clinic-section .care-member-name { margin: 0; font-size: 1.375rem; }
+.care-member-role { margin: 6px 0 0; color: var(--text-muted); font-size: 0.9375rem; }
+.care-member-cert { margin: 8px 0 0; font-weight: 700; color: var(--brand-deep); font-size: 0.9375rem; }
+.care-member-block { margin-top: 24px; }
+.care-member-block h4 {
+  margin: 0 0 10px;
+  font-size: 0.8125rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+.care-member-block p { margin: 0; }
+.care-credential {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.9375rem; line-height: 1.55; margin-bottom: 9px;
+}
+.care-credential-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.4; }
+
+/* Mobile: name and role come first, the portrait sits directly under them, then
+   the credentials and training. The portrait stays close to the practitioner's
+   identity without ever becoming the first thing on the card. Restrained
+   maximum width, left-aligned to the text column. */
+@media (max-width: 768px) {
+  .care-member {
+    grid-template-columns: 1fr;
+    grid-template-areas: "identity" "photo" "details";
+  }
+  .care-member-photo { max-width: 160px; margin: 18px 0 6px; }
+}
+
+/* ---- Clinic Details (§17) --------------------------------------------- */
+/* Phone lives here as information, at information weight. No "Call Clinic"
+   button, no phone in the hero, no phone beside the primary CTA. Clinic website
+   and direct booking system are NOT visible fields. NPI stays out of patient
+   copy. Accessibility/parking are OPTIONAL and only rendered when explicitly
+   confirmed for that clinic — never inferred. */
+.clinic-facts {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 36px; margin: 22px 0 0;
+}
+.clinic-fact {
+  align-self: start;              /* rule hugs its own content, not the row */
+  padding: 14px 0; border-bottom: 1px solid var(--mid-gray);
+  font-size: 0.9375rem; line-height: 1.6;
+}
+.clinic-fact strong {
+  display: block;
+  font-family: 'Montserrat', 'Noto Sans SC', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); margin-bottom: 5px;
+}
+.clinic-fact a { color: var(--brand-deep); font-weight: 400; }
+.clinic-map { margin: 26px 0 0; border-radius: var(--radius-lg); overflow: hidden; height: 320px; }
+.clinic-map iframe { display: block; width: 100%; height: 100%; border: 0; }
+.clinic-details-actions { margin-top: 20px; }
+.clinic-details-actions .btn-outline { padding: 11px 20px; font-size: 0.875rem; }
+@media (max-width: 640px) {
+  .clinic-facts { grid-template-columns: 1fr; }
+  .clinic-map { height: 260px; }
+}
+
+/* ---- HPA connection block --------------------------------------------- */
+.clinic-cta {
+  margin-top: 36px; padding: 36px 32px;
+  background: var(--blue-50); border-radius: var(--radius-lg);
+  text-align: center;
+}
+.clinic-cta h3 { margin: 0 0 6px; }
+.clinic-cta .btn { margin-top: 16px; }
+.clinic-disclaimer { margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--mid-gray); }
+.clinic-disclaimer h4 { margin: 0 0 8px; font-size: 0.9375rem; }
+@media (max-width: 480px) {
+  .clinic-cta { padding: 28px 20px; }
+  .clinic-cta .btn { width: 100%; }
+  /* Only the primary connection CTA goes full-width on the narrowest screens.
+     Get Directions stays auto-width so the hierarchy survives on mobile. */
+  .clinic-hero-actions .btn-green { width: 100%; }
+}
+
+/* ---- Chinese typography (§21) ----------------------------------------- */
+/* Scoped to the Clinic Profile so this is not a site-wide typographic change.
+   CJK must not inherit the Latin-tuned negative tracking on h1, the uppercase
+   letter-spacing on eyebrow labels, or the tight Latin heading leading. */
+body.clinic-profile.lang-zh h1 { letter-spacing: normal; }
+body.clinic-profile.lang-zh h1,
+body.clinic-profile.lang-zh h2,
+body.clinic-profile.lang-zh h3,
+body.clinic-profile.lang-zh h4 { line-height: 1.45; }
+body.clinic-profile.lang-zh p,
+body.clinic-profile.lang-zh li { line-height: 1.85; }
+body.clinic-profile.lang-zh .platform-context,
+body.clinic-profile.lang-zh .tag,
+body.clinic-profile.lang-zh .clinic-fact strong,
+body.clinic-profile.lang-zh .care-member-block h4 {
+  text-transform: none; letter-spacing: 0.04em;
+}
+body.clinic-profile.lang-zh .clinic-focus-item { letter-spacing: 0.02em; }

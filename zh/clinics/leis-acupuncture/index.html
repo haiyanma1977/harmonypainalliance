@@ -1,58 +1,120 @@
 <!DOCTYPE html>
 <!--
 ============================================================================
-HPA CLINIC PAGE TEMPLATE  —  /{lang}/clinics/{slug}/
-Template v2 (2026-08-14) · reusable across partner clinics
-Current instance: Lei's Acupuncture (EN)
+HPA CLINIC PROFILE TEMPLATE  —  /{lang}/clinics/{slug}/
+Template V1 (2026-08-21) · reusable HPA Clinic Profile system
+Current reference implementation: Lei's Acupuncture (ZH)
 ----------------------------------------------------------------------------
-HOW THIS TEMPLATE WORKS
-  • FIXED  = platform-constant. Must be TRUE FOR ANY CLINIC (§3.3).
-             Change only via platform red-line review — never per clinic.
-  • SLOT   = per-clinic. Replace when cloning. In the body each region is wrapped in
-             an HTML comment pair, written here without live delimiters as:
-             [SLOT: name | note]  ...content...  [/SLOT]
-  • Guillemet placeholders (TODO / PENDIENTE / 待确认 inside heavy
-             angle brackets) mark this instance's unfilled SLOTs. Grep the
-             opening guillemet. ALL must be gone before go-live.
-  Clone a new clinic = copy file → replace every SLOT → clear every placeholder.
-  Do NOT edit FIXED regions per clinic.
+This is a PLATFORM TEMPLATE, not a redesign of one clinic. Anything that is
+only true of Lei's Acupuncture belongs in a SLOT.
 
-PAGE ORDER (v2 — focused design):
-  1 Hero · 2 Meet the Practitioner · 3 Clinical Training & Continuing Education ·
-  4 Clinical Focus (Neuro Rehab / Chronic & Complex Pain) · 5 Clinic Gallery ·
-  6 The Leisacupuncture Approach · 7 Is This Clinic a Good Fit for You? ·
-  8 What to Expect · 9 Services · 10 About Harmony Pain Alliance ·
-  11 Insurance & Payment · 12 Visit Us · 13 FAQ · 14 Ready to Schedule · 15 Disclaimer
-  (Removed vs v1: standalone "Long-Term Care" [merged into What to Expect];
-   "Patient Testimonials" [hidden in v1 — see note at that anchor].)
+TEMPLATE CLASSIFICATION (§24)
+  FIXED            Platform-level structure/content. True for ANY clinic.
+                   Change only via platform red-line review — never per clinic.
+  REQUIRED SLOT    Clinic-specific content required for publication.
+  OPTIONAL SLOT    Clinic-specific content that disappears cleanly when absent:
+                   no placeholder, no reserved blank space.
+  REPEATABLE SLOT  1..n instances.
+
+  Clinic Logo ......... OPTIONAL SLOT
+  Practitioners ....... REPEATABLE SLOT
+  Practitioner photo .. OPTIONAL SLOT
+  Clinical Focus ...... REQUIRED + REPEATABLE
+  Services ............ REQUIRED
+
+  In the body each region is wrapped in an HTML comment pair, written here
+  without live delimiters as:  [SLOT: name | note] ...content... [/SLOT]
+  Guillemet placeholders (TODO / PENDIENTE / 待确认 inside heavy angle
+  brackets) mark an instance's unfilled SLOTs. Grep the opening guillemet.
+  ALL must be gone before go-live. Never fill or remove one on your own.
+  Clone a new clinic = copy file -> replace every SLOT -> clear every placeholder.
+
+PAGE ORDER (V1 — patient-intent-first, clinic-centric)
+  Clinic identity -> Clinical Focus -> Care Team -> Services ->
+  Additional Clinic Information -> Clinic Details -> HPA connection
+
+  1 Clinic identity (platform context · breadcrumb · logo slot · name ·
+    location · focus headline · primary connection CTA · directions)
+  2 Clinical Focus        — what problems this clinic works with
+  3 Care Team             — who provides the care (1..n practitioners)
+  4 Services              — what modalities the clinic provides
+  5 Additional Clinic Information (clinic method · good fit · what to expect · FAQ)
+  6 Clinic Details        — address · phone · hours · languages · payment · map
+  7 About Harmony Pain Alliance + connection CTA + disclaimer
+
+  Changed vs Template v2 (2026-08-14): Clinical Focus moved ABOVE Care Team;
+  the single-practitioner "Meet the Practitioner" section replaced by a
+  repeatable Care Team; practitioner training moved INTO the practitioner
+  (it is not a clinic-level fact); Insurance & Payment folded into Clinic
+  Details; Clinic Gallery slot retained (hidden, no photos yet).
+
+RED-LINES BAKED IN (every instance)
+  §3.1 AP-only credential · §3.2 no price-off/special-offer framing ·
+  §3.3 platform-truth (no unverifiable clinic commitments — incl. no
+  "ongoing/continues to train in China"; never write one clinic's attributes
+  as the platform's) · §3.4 FL Ch.457 ("focuses on", no "specializes in",
+  no guaranteed results).
+
+  CONNECTION, NOT BOOKING. Worker v3 is the single authority and may return
+  booking | clinic_will_contact | hpa_will_follow_up. This page must never
+  promise that HPA itself completes a booking — not in the CTA, not in the
+  modal. All CTAs open the HPA lead modal; NEVER Jane App or any clinic
+  booking system direct.
+
+  NO EXTERNAL CONVERSION BYPASS. No "Visit Clinic Website", no clinic website
+  button or link, no direct booking link, no "Book Directly". The clinic
+  website is NOT a visible Clinic Details field. Non-visible technical
+  references (JSON-LD sameAs) are out of scope and stay untouched.
+
+  PHONE = INFORMATION, NOT PRIMARY CTA. Phone belongs in Clinic Details at
+  normal information weight. No phone in the hero, no "Call Clinic" button,
+  no phone beside the primary CTA, no repeated phone CTA.
+
+  HPA PRESENCE, RESTRAINED. Site header/nav, a quiet platform-context line,
+  the participating-clinic badge, the About HPA block, the HPA connection CTA,
+  footer and disclaimer. NO second HPA logo in the clinic hero, no watermark
+  over practitioner photos, no HPA branding over the clinic name, no repeated
+  badges, nothing implying HPA provides clinical care.
 
 SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
   slug ............. leis-acupuncture
   clinic_name ...... Lei's Acupuncture
-  clinic_id ........ lei-acupuncture      (data-clinic= on booking CTAs → lead modal)
+  clinic_logo ...... OPTIONAL — SET. /img/leis-acupuncture-mark.png (640x646,
+                     mark ratio 0.990291). Graphic mark only per founder
+                     instruction — wordmark excluded (H1 carries the name).
+                     Renders inside the .clinic-identity LOCKUP beside the H1
+                     (stacked tight on small screens) — never a standalone row.
+                     For a clinic with no logo, delete the <img> in the
+                     clinic_logo SLOT — the H1 renders alone. Never recreate,
+                     redraw, recolor or substitute a logo, and never use the
+                     HPA logo in its place.
+  clinic_id ........ lei-acupuncture      (data-clinic= on connection CTAs)
   partner_status ... Founding Partner      (values: Partner | Founding Partner)
-  practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate → Dipl. AHM (NCBAHM))
-  focus_headline ... Post-Stroke & Neurological Rehabilitation · Chronic & Complex Pain
+  practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate -> Dipl. AHM (NCBAHM))
+  focus_headline ... Post-Stroke &amp; Neurological Rehabilitation · Chronic &amp; Complex Pain
   clinic_method .... Leisacupuncture / 磊氏针灸  (OPTIONAL — omit for clinics with no named method)
   address .......... 209 E Bay St, Winter Garden, FL 34787
   geo .............. 28.5653, -81.5862
   phone ............ +1-561-403-6485
   hours ............ Mon,Tue,Thu,Fri 9:00–17:00 · Sat 10:00–17:00 · Sun 10:00–16:00 · Wed off-site (FCIM)
-  website .......... https://leisacupuncture.com/
-  npi .............. 1811880438
+  website .......... https://leisacupuncture.com/   (JSON-LD sameAs ONLY — never rendered)
+  npi .............. 1811880438                     (structured data only — never in patient copy)
   booking_category . 4 Primary-Concern options in the lead modal (per clinic focus)
-  block SLOTs ...... focus_lists · completed_training · good_fit · what_to_expect ·
-                     services (+ JSON-LD availableService) · insurance · languages ·
-                     hours · gallery · faq · why_this_clinic line · clinic JSON-LD · physician JSON-LD
+  block SLOTs ...... focus_lists · care_team (practitioner: role · cert · focus note ·
+                     credentials · training) · services (+ JSON-LD availableService) ·
+                     clinic_method · good_fit · what_to_expect · faq · clinic_details
+                     (address · phone · hours · languages · payment) · gallery ·
+                     why_this_clinic line · clinic JSON-LD · physician JSON-LD
 
-RED-LINES BAKED IN (every instance): §3.1 AP-only · §3.2 no price-off/special-offer framing ·
-  §3.3 platform-truth (no unverifiable clinic commitments — incl. no "ongoing/continues to
-  train in China"; never write one clinic's attributes as the platform's) ·
-  §3.4 FL Ch.457 ("focuses on", no "specializes in", no guaranteed results) ·
-  booking → HPA lead modal, NEVER Jane App direct.
-
-TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
+TRILINGUAL: EN / ES / ZH ship together with the same section architecture,
+  component architecture, CTA hierarchy, Care Team structure, Clinic Logo
+  behaviour, Clinic Details structure, HPA context and responsive rules.
+  Text length is NOT expected to match. Design to the Spanish worst case.
   ⚠ ZH: do NOT translate "NCBAHM" — Chinese official name unresolved (locked).
+
+STYLES: all Clinic Profile CSS lives in /css/style.css under
+  "HPA CLINIC PROFILE — TEMPLATE V1", scoped to body.clinic-profile.
+  Do not reintroduce a page-local <style> block.
 ============================================================================
 -->
 <html lang="zh">
@@ -193,26 +255,8 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
 <link href="/css/style.css" rel="stylesheet"/>
-<!-- FIXED: template helper styles. -->
-<style>
-  .article-wrap { max-width: 900px; margin: 0 auto; }
-  .article-wrap h2 { margin-top: 44px; }
-  .article-wrap h3 { margin-top: 26px; }
-  .article-wrap p { margin: 14px 0; line-height: 1.7; }
-  .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin: 18px 0 0; }
-  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
-  .focus-headline { font-size: 1.15rem; font-weight: 700; color: var(--brand-green, #009573); margin: 10px 0 6px; }
-  .ref-note { font-size: 0.9rem; color: var(--text-muted); }
-  .learn-more { display: inline-block; margin: 4px 18px 4px 0; font-weight: 600; color: var(--brand-green, #009573); text-decoration: none; }
-  .page-cta { text-align: center; padding: 32px; background: var(--blue-50, #eef3fb); border-radius: var(--radius-lg, 14px); margin-top: 40px; }
-  .page-cta a.btn { margin-top: 12px; }
-  .specialty-tag-primary { background: var(--brand-green, #009573); color: #fff; font-weight: 700; }
-  .clinic-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin: 16px 0; }
-  .clinic-facts div { padding: 6px 0; border-bottom: 1px solid var(--border, #e6e6e6); }
-  @media (max-width: 640px){ .clinic-facts { grid-template-columns: 1fr; } }
-</style>
 </head>
-<body class="lang-zh">
+<body class="lang-zh clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
 <nav class="navbar">
 <div class="container">
@@ -268,82 +312,92 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <!-- FIXED: slide-out menu -->
 <div class="nav-overlay"></div>
 
-<main>
-<section>
-<div class="container">
-<div class="article-wrap">
 
-<!-- SLOT: breadcrumb -->
-<p class="breadcrumb"><a href="/zh/">首页</a> &nbsp;›&nbsp; Lei's Acupuncture</p>
+<main>
+<section class="clinic-profile-section">
+<div class="container">
+<div class="clinic-wrap">
+
+<!-- ===== 1. CLINIC IDENTITY ===== -->
+<!-- NOT a <header> element: the global "Enlarge navbar v2" block targets bare
+     `header` (padding 28px 56px, min-height 104px, `header img {height:64px}`,
+     `header h1 {font-size:28px}`) and was silently capturing this hero — indenting
+     it 56px past every section below it, shrinking the H1, and clamping the clinic
+     logo. A div carries no such baggage; the H1 provides the document structure. -->
+<div class="clinic-hero">
+<!-- FIXED: quiet platform context. HPA is legible as publisher without competing
+     with the clinic. Do NOT add a second HPA logo or badge anywhere below. -->
+<p class="platform-context">HPA · 诊所主页</p>
+<!-- SLOT: breadcrumb | REMOVED on this shallow route (founder decision
+     2026-08-22): Home is one click away in the header, and the clinic name
+     appeared twice within the hero. The BreadcrumbList JSON-LD above is
+     locked and intentionally retained. RESTORE a visible breadcrumb here
+     (Home › Clinics › {clinic}) when the /clinics/ index page ships —
+     the .clinic-breadcrumb component style is kept in style.css for that. -->
 <!-- /SLOT -->
 
-<!-- ===== 1. HERO ===== -->
 <!-- SLOT: partner_status | Partner | Founding Partner -->
-<span class="tag tag-green">HPA 创始合作诊所</span>
+<span class="tag tag-green"><svg aria-hidden="true" class="clinic-status-mark" focusable="false" viewBox="0 0 24 24"><circle cx="3.6" cy="6.8" r="1.25"/><circle cx="12" cy="4.1" r="1.25"/><circle cx="20.4" cy="6.8" r="1.25"/><path d="M4.7 16.4 3.7 9.3c1.5 1.5 3.2 2.5 4.5 2.2 1.5-.35 2.9-2.9 3.8-5.2.9 2.3 2.3 4.85 3.8 5.2 1.3.3 3-.7 4.5-2.2l-1 7.1H4.7Z"/><path d="M5.1 18.1h13.8c.4 0 .72.32.72.72v.56c0 .4-.32.72-.72.72H5.1c-.4 0-.72-.32-.72-.72v-.56c0-.4.32-.72.72-.72Z"/></svg>HPA 创始合作诊所</span>
+<!-- /SLOT -->
+<!-- FIXED: clinic identity LOCKUP — the clinic logo and clinic-name H1 render
+     as ONE identity unit (logo beside the name on desktop, tightly stacked on
+     small screens). The logo is never a detached standalone row. The HPA
+     platform context stays visually separate above; never combine the HPA
+     logo with the clinic logo. -->
+<div class="clinic-identity">
+<!-- SLOT: clinic_logo | OPTIONAL. Authentic Lei's Acupuncture GRAPHIC MARK ONLY,
+     per founder instruction 2026-08-22: the symbol above the wordmark in the
+     supplied source artwork, with the "Lei's Acupuncture" text excluded because
+     the clinic name beside it is the H1. Extracted from the supplied
+     high-resolution source (the .ai upload did not transfer; the 3544px raster
+     supplied alongside it was used) by cropping at the blank band between mark
+     and wordmark — zero artwork pixels altered, needle graphic and proportions
+     untouched (mark ratio 1428:1442 = 0.990291, preserved at 640x646). No
+     redraw, no effects, no recolor, and no combination with the HPA logo.
+     alt="" is deliberate — the mark is purely graphic and the H1 beside it
+     names the clinic.
+     If a future clinic has no logo, DELETE this <img>: the lockup then renders
+     the clinic name alone, full-width, with no placeholder and no reserved
+     space. Never recreate, redesign, recolor or substitute a clinic logo, and
+     never use the HPA logo in its place. -->
+<img class="clinic-logo" src="/img/leis-acupuncture-mark.png" alt=""/>
 <!-- /SLOT -->
 <!-- SLOT: clinic_name -->
 <h1>Lei's Acupuncture</h1>
 <!-- /SLOT -->
+</div>
 <!-- SLOT: location -->
-<p style="font-weight:700;margin:2px 0 0;">美国佛罗里达州 Winter Garden</p>
+<p class="clinic-locality">美国佛罗里达州 Winter Garden</p>
 <!-- /SLOT -->
 <!-- SLOT: focus_headline -->
 <p class="focus-headline">中风后与神经康复<br/>慢性与复杂性疼痛</p>
 <!-- /SLOT -->
 <!-- SLOT: hero_line -->
-<p class="section-subtitle" style="margin-left:0;text-align:left;">提供个体化针灸治疗，临床重点包括中风后与神经功能康复，以及慢性和复杂性疼痛管理。</p>
+<p class="clinic-lede">提供个体化针灸治疗，临床重点包括中风后与神经功能康复，以及慢性和复杂性疼痛管理。</p>
 <!-- /SLOT -->
-<!-- FIXED: hero CTAs. Book → HPA lead modal (data-clinic = SLOT clinic_id). NEVER Jane App direct (§3.3). -->
-<div style="text-align:left;margin:18px 0 8px;">
-<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">通过 Harmony Pain Alliance 预约</a>
-&nbsp;
+<!-- FIXED: hero actions. Primary = HPA connection (data-clinic = SLOT clinic_id),
+     opens the HPA lead modal — NEVER a clinic booking system direct. Get Directions
+     is patient logistics and stays visually secondary. No phone here, no clinic
+     website link, no direct booking control. -->
+<div class="clinic-hero-actions">
+<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">联系这家诊所</a>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 导航至诊所</a>
 </div>
-
-<!-- ===== 2. MEET THE PRACTITIONER ===== -->
-<!-- SLOT: practitioner | FIXED constraints: AP suffix only §3.1; Diplomate = Dipl. AHM (NCBAHM); "Nationally Board-Certified" must stay anchored to NCBAHM; training = completed facts only §3.3; relationships trained/certified not lineage; not MD/DO/PhD. -->
-<h2>认识 Lei Dong, AP</h2>
-<div class="doctor-grid doctor-grid-rev" style="margin-top:8px;">
-<div class="doctor-content">
-<div>
-<p class="doctor-title">佛罗里达州执照针灸医师 · Lei's Acupuncture 创始人</p>
-<p style="margin:4px 0;"><strong>全国专业委员会认证 · Dipl. AHM (NCBAHM)</strong></p>
-<div class="doctor-specialties">
-<!-- Clinical Focus tags = the TWO primary focuses only (mirror hero). Other conditions go in ONE muted secondary line + the Clinical Focus section — never a big tag cloud here. -->
-<h4>临床重点</h4>
-<div class="specialty-tags">
-<span class="specialty-tag specialty-tag-primary">中风后与神经康复</span>
-<span class="specialty-tag specialty-tag-primary">慢性与复杂性疼痛</span>
-</div>
-<p class="ref-note" style="margin-top:8px;">同时为面瘫、神经病变、耳鸣、偏头痛及相关问题的患者提供针灸治疗。详细内容请参阅下方“临床重点”。</p>
-</div>
-<div class="doctor-credentials">
-<h4 style="margin-bottom:8px;">专业资质</h4>
-<div class="credential-item"><span class="credential-icon">🎓</span> 佛罗里达州执照针灸医师（AP）</div>
-<div class="credential-item"><span class="credential-icon">🎓</span> Florida College of Integrative Medicine 硕士</div>
-</div>
-</div>
 </div>
 
-<div class="doctor-photo">
-<picture>
-<source srcset="/img/dr-lei.webp" type="image/webp"/>
-<img alt="Lei Dong, AP——佛罗里达州 Winter Garden Lei's Acupuncture 针灸医师" height="750" loading="lazy" src="/img/dr-lei.jpg" width="600"/>
-</picture>
-</div>
-</div>
-<!-- /SLOT -->
-
-<!-- ===== 3. CLINICAL TRAINING & CONTINUING EDUCATION ===== -->
-<!-- FIXED: heading. SLOT: body. §3.3 — COMPLETED FACTS ONLY. No ongoing/forward-training framing (see §3.3); completed facts only. -->
-<h2>临床进修与继续教育</h2>
-<!-- SLOT: completed_training -->
-<p>在完成硕士教育之后，Lei Dong 曾在美国和中国继续接受针灸领域的进修与继续教育，进一步丰富了他的临床知识和患者治疗思路。</p>
-<!-- /SLOT -->
-
-<!-- ===== 4. CLINICAL FOCUS ===== -->
-<!-- FIXED: heading. SLOT: conditions + internal links (only link condition pages that exist). -->
+<!-- ===== 2. CLINICAL FOCUS ===== -->
+<!-- FIXED: heading + position (above Care Team). SLOT: focus items, conditions and
+     internal links. Only link condition pages that exist in THIS language. -->
+<section class="clinic-section">
 <h2>临床重点</h2>
+<p>这家诊所主要处理的健康问题：</p>
+<!-- SLOT: focus_items | REQUIRED + REPEATABLE. Content-responsive component —
+     any number of items, any string length. Do not use .specialty-tags here. -->
+<ul class="clinic-focus-list">
+<li class="clinic-focus-item clinic-focus-item-primary">中风后与神经康复</li>
+<li class="clinic-focus-item clinic-focus-item-primary">慢性与复杂性疼痛</li>
+</ul>
+<!-- /SLOT -->
 <!-- SLOT: focus_lists -->
 <h3>神经康复</h3>
 <p>Lei's Acupuncture 的临床重点之一，是为有神经系统相关问题及长期康复需求的患者提供针灸治疗。常见治疗方向包括：</p>
@@ -354,9 +408,10 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <li>耳鸣</li>
 <li>偏头痛及慢性头痛</li>
 </ul>
-<p>
-<a class="learn-more" href="/zh/stroke-recovery-acupuncture/">了解更多：针灸与中风后康复 &rarr;</a>
-</p>
+<div class="clinic-learn-more">
+<a href="/zh/stroke-recovery-acupuncture/">了解更多：针灸与中风后康复 &rarr;</a>
+<a href="/zh/facial-paralysis-acupuncture/">了解更多：针灸与面瘫 &rarr;</a>
+</div>
 
 <h3>慢性与复杂性疼痛</h3>
 <p>Lei's Acupuncture 的另一临床重点，是慢性、反复性及复杂性疼痛。常见治疗方向包括：</p>
@@ -368,56 +423,65 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <li>涉及多种因素的慢性或反复性疼痛</li>
 </ul>
 <!-- /SLOT -->
+</section>
 
-<!-- ===== 5. CLINIC GALLERY ===== -->
-<!-- FIXED: heading. SLOT: photos. -->
-<!-- <h2>诊所环境</h2> — section hidden at launch until photos exist -->
-<!-- SLOT: gallery -->
-<!-- gallery HIDDEN at launch (no photos yet). Restore: place clinic photos in /img/, add a photo grid here, and un-hide the heading above. -->
+<!-- ===== 3. CARE TEAM ===== -->
+<!-- FIXED: heading. Never rename it around one practitioner's name.
+     SLOT: care_team | REPEATABLE — repeat .care-member per practitioner.
+     Practitioner photo is OPTIONAL: omit .care-member-photo and add the
+     .care-member-nophoto class to collapse to text-only. No silhouette,
+     no empty photo box. Training and continuing education belong to the
+     PRACTITIONER, never to the clinic as a global fact (§3.3: completed
+     facts only — no ongoing/forward-training framing).
+     Credential constraints: AP suffix only §3.1; Diplomate = Dipl. AHM
+     (NCBAHM) — do NOT translate "NCBAHM"; "Nationally Board-Certified" must
+     stay anchored to NCBAHM; not MD/DO/PhD. -->
+<section class="clinic-section">
+<h2>医疗团队</h2>
+<!-- SLOT: care_team -->
+<div class="care-member">
+<!-- Identity first at every width. On mobile the portrait sits directly under
+     name + role and above the credentials; on desktop grid areas put it right.
+     Source order matches the mobile reading order. -->
+<div class="care-member-identity">
+<h3 class="care-member-name">Lei Dong, AP</h3>
+<p class="care-member-role">佛罗里达州执照针灸医师 · Lei's Acupuncture 创始人</p>
+</div>
+<!-- OPTIONAL SLOT: practitioner photo -->
+<div class="care-member-photo">
+<picture>
+<source srcset="/img/dr-lei.webp" type="image/webp"/>
+<img alt="Lei Dong, AP——佛罗里达州 Winter Garden Lei's Acupuncture 针灸医师" height="1080" loading="lazy" src="/img/dr-lei.jpg" width="1080"/>
+</picture>
+</div>
+<!-- /OPTIONAL SLOT -->
+<div class="care-member-details">
+<p class="care-member-cert">全国专业委员会认证 · Dipl. AHM (NCBAHM)</p>
+<div class="care-member-block">
+<h4>专业资质</h4>
+<div class="care-credential"><span class="care-credential-icon" aria-hidden="true">🎓</span> <span>佛罗里达州执照针灸医师（AP）</span></div>
+<div class="care-credential"><span class="care-credential-icon" aria-hidden="true">🎓</span> <span>Florida College of Integrative Medicine 硕士</span></div>
+</div>
+<!-- OPTIONAL: practitioner training &amp; continuing education. Omit the whole
+     block for a practitioner with nothing approved to state. -->
+<div class="care-member-block">
+<h4>临床进修与继续教育</h4>
+<p>在完成硕士教育之后，Lei Dong 曾在美国和中国继续接受针灸领域的进修与继续教育，进一步丰富了他的临床知识和患者治疗思路。</p>
+</div>
+<p class="ref-note" style="margin-top:20px;">同时为面瘫、神经病变、耳鸣、偏头痛及相关问题的患者提供针灸治疗。详细内容请参阅上方“临床重点”。</p>
+</div>
+</div>
 <!-- /SLOT -->
+</section>
 
-<!-- ===== 6. THE LEISACUPUNCTURE APPROACH ===== -->
-<!-- SLOT: clinic_method | OPTIONAL (omit for clinics with no named method). v1: keep SHORT — no 大道至简, no heavy 《灵枢》, no long theory. -->
-<h2>磊氏针灸治疗理念</h2>
-<p>Leisacupuncture（磊氏针灸）代表 Lei's Acupuncture 所采用的临床治疗理念。治疗会根据每位患者的整体状况和临床表现进行个体化调整，而不是对所有患者采用相同的固定治疗方案，也不会只关注症状出现的局部位置。</p>
-<!-- Future: link to a standalone "The Leisacupuncture Approach → Learn More" page when built. Do not ship a live link until the page exists. -->
-<!-- /SLOT -->
-
-<!-- ===== 7. IS THIS CLINIC A GOOD FIT FOR YOU? ===== -->
-<!-- FIXED: heading. SLOT: short list — do NOT repeat Clinical Focus conditions here. -->
-<h2>这家诊所是否适合您？</h2>
-<!-- SLOT: good_fit -->
-<p>如果您有以下需求，Lei's Acupuncture 可能适合您：</p>
-<ul>
-<li>正处于神经康复过程中，并希望接受针灸辅助治疗</li>
-<li>正在应对持续性、慢性或复杂性疼痛</li>
-<li>希望根据自身状况和临床评估制定个体化针灸治疗方案</li>
-</ul>
-<!-- /SLOT -->
-
-<!-- ===== 8. WHAT TO EXPECT ===== -->
-<!-- FIXED: heading + "complement not replace" line. SLOT: first-visit list + individualized-care body (mostly reusable). Absorbs continuity-of-care. -->
-<h2>就诊流程</h2>
-<!-- SLOT: what_to_expect -->
-<h3>首次就诊</h3>
-<p>首次就诊通常包括：</p>
-<ul>
-<li>了解病史及症状情况</li>
-<li>讨论目前最主要的问题及功能受限情况</li>
-<li>了解正在使用的药物及相关康复治疗</li>
-<li>个体化针灸评估</li>
-<li>讨论治疗方案</li>
-<li>根据需要建议治疗频率</li>
-</ul>
-<h3>个体化治疗</h3>
-<p>治疗方案会综合考虑患者的主要问题、病史和症状史、症状持续时间及严重程度、康复阶段、功能受限情况、既往治疗反应以及整体临床评估。对于神经康复及长期疼痛患者，治疗可能需要持续一段时间，并根据患者情况定期重新评估。</p>
-<!-- /SLOT -->
-<p><strong>针灸旨在作为辅助治疗，与医生及康复团队的治疗配合使用，而不是替代必要的医疗和康复治疗。</strong></p>
-
-<!-- ===== 9. SERVICES ===== -->
-<!-- FIXED: heading + "vary" note. SLOT: MODALITIES only (not conditions). Keep in sync with jsonld_clinic availableService. -->
+<!-- ===== 4. SERVICES ===== -->
+<!-- FIXED: heading + "vary" note. SLOT: MODALITIES only (what the clinic
+     provides) — never conditions, which belong to Clinical Focus. Keep in sync
+     with jsonld_clinic availableService. Plain list: no cards, no icons, no
+     pricing, no per-service CTA, no marketing expansion. -->
+<section class="clinic-section">
 <h2>治疗服务</h2>
-<!-- SLOT: services -->
+<!-- SLOT: services | REQUIRED -->
 <p>根据患者的具体情况和临床评估，治疗服务可能包括：</p>
 <ul>
 <li>针灸</li>
@@ -428,115 +492,187 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 </ul>
 <!-- /SLOT -->
 <p class="ref-note">具体治疗方式会根据患者情况和临床需要而有所不同。</p>
+</section>
 
-<!-- ===== 10. ABOUT HARMONY PAIN ALLIANCE ===== -->
-<!-- FIXED: generic platform intro — TRUE FOR ANY CLINIC (§3.3). No per-clinic vetting/trust claims; formal qualification system to be built & explained separately. -->
-<h2>关于 Harmony Pain Alliance</h2>
-<p>Harmony Pain Alliance 帮助患者根据地理位置、临床重点及专业背景，寻找合适的独立针灸及中医诊所。</p>
-<!-- SLOT: why_this_clinic | one clinic-specific line: partner status + city -->
-<p><strong>Lei's Acupuncture 是 Harmony Pain Alliance 位于佛罗里达州 Winter Garden 的创始合作诊所。</strong></p>
+<!-- ===== 5. ADDITIONAL CLINIC INFORMATION ===== -->
+<section class="clinic-section">
+<h2>诊所补充信息</h2>
+
+<!-- SLOT: clinic_method | OPTIONAL — omit both heading and body for clinics with
+     no named method. Keep SHORT: no 大道至简, no heavy 《灵枢》, no long theory. -->
+<h3>磊氏针灸治疗理念</h3>
+<p>Leisacupuncture（磊氏针灸）代表 Lei's Acupuncture 所采用的临床治疗理念。治疗会根据每位患者的整体状况和临床表现进行个体化调整，而不是对所有患者采用相同的固定治疗方案，也不会只关注症状出现的局部位置。</p>
+<!-- Future: link to a standalone "The Leisacupuncture Approach → Learn More" page when built. Do not ship a live link until the page exists. -->
 <!-- /SLOT -->
 
-<!-- ===== 11. INSURANCE & PAYMENT ===== -->
-<!-- FIXED: heading + "coverage varies, contact clinic" note. SLOT: clinic specifics. -->
-<h2>保险与付款</h2>
-<!-- SLOT: insurance -->
-<p>Lei's Acupuncture 接受 VA/军人福利、现金以及信用卡或借记卡。</p>
-<!-- /SLOT -->
-<p class="ref-note">保险承保范围和福利因具体保险计划而异。接受治疗前，请直接联系诊所确认资格、保险范围及患者需要承担的费用。</p>
-
-<!-- ===== 12. VISIT US ===== -->
-<!-- FIXED: layout. SLOT: heading clinic_name + address/phone/hours/languages/map. -->
-<h2>诊所信息</h2>
-<!-- SLOT: visit_us -->
-<div class="clinic-facts">
-<div><strong>地址</strong><br/>209 E Bay St, Winter Garden, FL 34787</div>
-<div><strong>电话</strong><br/><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
-<div><strong>营业时间</strong><br/><span>周一、周二、周四、周五：上午 9:00 – 下午 5:00<br/>周六：上午 10:00 – 下午 5:00<br/>周日：上午 10:00 – 下午 4:00<br/><span class="ref-note">周三：本址不接诊（医师于 FCIM 教学诊所）</span></span></div>
-<div><strong>服务语言</strong><br/><span>中文 · 英文</span></div>
-</div>
-<div class="clinic-location" style="margin:16px 0;border-radius:14px;overflow:hidden;height:320px;">
-<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture 位置地图 — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
-</div>
-<p><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 导航至诊所</a></p>
+<!-- FIXED: heading. SLOT: short list — do NOT repeat Clinical Focus conditions here. -->
+<h3>这家诊所是否适合您？</h3>
+<!-- SLOT: good_fit -->
+<p>如果您有以下需求，Lei's Acupuncture 可能适合您：</p>
+<ul>
+<li>正处于神经康复过程中，并希望接受针灸辅助治疗</li>
+<li>正在应对持续性、慢性或复杂性疼痛</li>
+<li>希望根据自身状况和临床评估制定个体化针灸治疗方案</li>
+</ul>
 <!-- /SLOT -->
 
-<!-- ===== 13. FAQ ===== -->
-<!-- FIXED: structure. SLOT: answers (then mirror to jsonld_faq). Languages is NOT a FAQ — lives in Visit Us. -->
-<h2>常见问题</h2>
+<!-- FIXED: heading + "complement not replace" line. SLOT: first-visit list +
+     individualized-care body (mostly reusable). Absorbs continuity-of-care. -->
+<h3>就诊流程</h3>
+<!-- SLOT: what_to_expect -->
+<h4>首次就诊</h4>
+<p>首次就诊通常包括：</p>
+<ul>
+<li>了解病史及症状情况</li>
+<li>讨论目前最主要的问题及功能受限情况</li>
+<li>了解正在使用的药物及相关康复治疗</li>
+<li>个体化针灸评估</li>
+<li>讨论治疗方案</li>
+<li>根据需要建议治疗频率</li>
+</ul>
+<h4>个体化治疗</h4>
+<p>治疗方案会综合考虑患者的主要问题、病史和症状史、症状持续时间及严重程度、康复阶段、功能受限情况、既往治疗反应以及整体临床评估。对于神经康复及长期疼痛患者，治疗可能需要持续一段时间，并根据患者情况定期重新评估。</p>
+<!-- /SLOT -->
+<p><strong>针灸旨在作为辅助治疗，与医生及康复团队的治疗配合使用，而不是替代必要的医疗和康复治疗。</strong></p>
+
+<!-- ===== CLINIC GALLERY ===== -->
+<!-- SLOT: gallery | OPTIONAL — hidden at launch (no photos yet). Restore: place
+     clinic photos in /img/, add an <h3> heading and a photo grid here. -->
+<!-- /SLOT -->
+
+<!-- FIXED: structure. SLOT: answers (then mirror to the FAQPage JSON-LD).
+     Languages is NOT a FAQ — it lives in Clinic Details. -->
+<h3>常见问题</h3>
 <!-- SLOT: faq -->
 <div class="faq-item" data-category="patients">
-<button class="faq-question"><span>目前接受新患者吗？</span></button>
+<button class="faq-question" type="button"><span>目前接受新患者吗？</span></button>
 <div class="faq-answer"><div class="faq-answer-inner">
 <p>是的。Lei's Acupuncture 目前正在接收新患者。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question"><span>第一次就诊需要携带什么？</span></button>
+<button class="faq-question" type="button"><span>第一次就诊需要携带什么？</span></button>
 <div class="faq-answer"><div class="faq-answer-inner">
 <p>请携带身份证件以及相关的病历资料。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question"><span>针灸可以和医生治疗、物理治疗或其他康复项目同时进行吗？</span></button>
+<button class="faq-question" type="button"><span>针灸可以和医生治疗、物理治疗或其他康复项目同时进行吗？</span></button>
 <div class="faq-answer"><div class="faq-answer-inner">
 <p>可以。Lei's Acupuncture 提供的针灸旨在作为辅助治疗，可以与医生治疗、物理治疗、职业治疗及其他康复项目配合进行，并不能替代您的医疗专业人员所建议的必要治疗。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question"><span>接受医疗保险或 VA Community Care 吗？</span></button>
+<button class="faq-question" type="button"><span>接受医疗保险或 VA Community Care 吗？</span></button>
 <div class="faq-answer"><div class="faq-answer-inner">
 <p>Lei's Acupuncture 接受 VA/军人福利、现金以及信用卡或借记卡。有关具体保险计划或 VA Community Care 资格的问题，请在治疗前直接联系诊所确认您的保障范围。</p>
 </div></div>
 </div>
 <!-- /SLOT -->
+</section>
 
-<!-- ===== 14. READY TO SCHEDULE (FINAL CTA) ===== -->
-<!-- FIXED: structure + HPA lead-modal mechanism (NEVER Jane App direct §3.3). SLOT: copy + address + website. -->
-<div class="page-cta">
-<h3 style="margin-top:0;">准备预约了吗？</h3>
-<!-- SLOT: cta_copy -->
-<p>如果您正在寻求中风后或神经康复相关的针灸治疗、慢性或复杂性疼痛治疗，或者有其他可能适合个体化针灸治疗的健康问题，可以向 Lei's Acupuncture 提交预约申请。</p>
-<p style="margin:8px 0;"><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
+<!-- ===== 6. CLINIC DETAILS ===== -->
+<!-- FIXED: layout + "coverage varies" note. SLOT: address · phone · hours ·
+     languages · payment/insurance (where already approved) · map.
+     OPTIONAL and only when EXPLICITLY confirmed for that clinic: accessibility,
+     parking. Never inferred. Clinic website is NOT a visible field. Direct
+     booking system is NOT a visible field. NPI stays out of patient copy.
+     Phone is information at information weight — no "Call Clinic" button. -->
+<section class="clinic-section">
+<h2>诊所信息</h2>
+<!-- SLOT: clinic_details -->
+<div class="clinic-facts">
+<div class="clinic-fact"><strong>地址</strong>209 E Bay St, Winter Garden, FL 34787</div>
+<div class="clinic-fact"><strong>电话</strong><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
+<div class="clinic-fact"><strong>营业时间</strong>周一、周二、周四、周五：上午 9:00 – 下午 5:00<br/>周六：上午 10:00 – 下午 5:00<br/>周日：上午 10:00 – 下午 4:00<br/><span class="ref-note">周三：本址不接诊（医师于 FCIM 教学诊所）</span></div>
+<div class="clinic-fact"><strong>服务语言</strong>中文 · 英文</div>
+<div class="clinic-fact"><strong>付款与保险</strong>Lei's Acupuncture 接受 VA/军人福利、现金以及信用卡或借记卡。</div>
+</div>
+<p class="ref-note" style="margin-top:16px;">保险承保范围和福利因具体保险计划而异。接受治疗前，请直接联系诊所确认资格、保险范围及患者需要承担的费用。</p>
+<div class="clinic-map">
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" title="Lei's Acupuncture 位置地图 — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
+</div>
+<p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 导航至诊所</a></p>
 <!-- /SLOT -->
-<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">通过 Harmony Pain Alliance 预约</a>
+</section>
+
+<!-- ===== 7. HPA CONNECTION ===== -->
+<!-- FIXED: platform intro + founder-review line — TRUE FOR ANY CLINIC (§3.3).
+     The founder-review statement is the approved trust basis for Template V1.
+     Do NOT add standards claims, quality or outcome guarantees, clinic
+     commitment claims, or any unverifiable screening language. -->
+<section class="clinic-section">
+<h2>关于 Harmony Pain Alliance</h2>
+<p>Harmony Pain Alliance 帮助患者根据地理位置、临床重点及专业背景，寻找合适的独立针灸及中医诊所。</p>
+<p>每一家进入 HPA 平台的诊所，都由创始人亲自审核。</p>
+<!-- SLOT: why_this_clinic | one clinic-specific line: partner status + city -->
+<p><strong>Lei's Acupuncture 是 Harmony Pain Alliance 位于佛罗里达州 Winter Garden 的创始合作诊所。</strong></p>
+<!-- /SLOT -->
+
+<!-- FIXED: structure + HPA lead-modal mechanism. Connection language only —
+     HPA does not promise to complete a booking. SLOT: copy + address. -->
+<div class="clinic-cta">
+<h3>准备联系这家诊所了吗？</h3>
+<!-- SLOT: cta_copy -->
+<p>如果您正在寻求中风后或神经康复相关的针灸治疗、慢性或复杂性疼痛治疗，或者有其他可能适合个体化针灸治疗的健康问题，可以就 Lei's Acupuncture 向 Harmony Pain Alliance 提交联系请求。</p>
+<p><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
+<!-- /SLOT -->
+<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">联系这家诊所</a>
 </div>
 
-<!-- ===== 15. DISCLAIMER ===== -->
-<!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke emergency + independent clinical services. Do not trim. -->
-<h4 style="margin-top:36px;">重要说明</h4>
+<!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke
+     emergency + independent clinical services. Do not trim. -->
+<div class="clinic-disclaimer">
+<h4>重要说明</h4>
 <p class="ref-note">本页面内容仅供一般信息参考，不构成医疗建议，也不用于提供诊断、保证治疗效果，或替代医生及康复团队的专业评估和治疗。如果出现医疗紧急情况或急性中风症状，请立即寻求紧急医疗救助。Harmony Pain Alliance 是连接患者与诊所的平台，本身不直接提供医疗服务。所有临床医疗服务均由各诊所独立提供。</p>
+</div>
+</section>
 
 </div>
 </div>
 </section>
 </main>
 
-<!-- FIXED: LEAD CAPTURE MODAL structure/fields (standard). SLOT: booking_category (Primary Concern options per clinic focus). -->
+<!-- FIXED: LEAD CAPTURE MODAL — shared platform component, structurally identical
+     to the homepage modal (short required core + collapsed optional block).
+     The static strings here are MODE B (clinic-scoped connection request);
+     main.js swaps in HPA_MODAL_MODE_A for Get Matched and restores these on
+     every open. Copy is outcome-neutral: the patient is sending a request about
+     this clinic, HPA routes it, and the next step depends on the clinic's
+     configured workflow. Never promise a booking redirect before Worker v3
+     returns its authoritative next_step.
+     SLOT: booking_category (Primary Concern options per clinic focus). -->
 <div class="lead-overlay" id="leadOverlay"></div>
 <div class="lead-modal" id="leadModal">
 <button aria-label="关闭" class="lead-close" id="leadClose">×</button>
 <div class="lead-header">
-<h3>预约门诊</h3>
-<p class="lead-subtitle">快速表单——只需 30 秒。提交后将引导您前往诊所的预约页面。</p>
+<h3>联系这家诊所</h3>
+<p class="lead-subtitle">快速表单——约 30 秒完成。您的请求将提交给 Harmony Pain Alliance，我们会告知您与这家诊所对接的下一步。</p>
 </div>
 <form id="leadForm">
 <input id="leadSource" name="source_button" type="hidden"/>
 <input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
 <div class="form-group">
 <label>您的姓名 *</label>
 <input autocomplete="name" name="name" required="" type="text"/>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>电子邮箱 *</label>
+<label>邮箱 *</label>
 <input autocomplete="email" name="email" required="" type="email"/>
 </div>
 <div class="form-group">
-<label>联系电话 *</label>
+<label>电话 *</label>
 <input autocomplete="tel" name="phone" required="" type="tel"/>
 </div>
 </div>
+<!-- Expandable optional fields — keeps the initial form short while capturing
+     the same qualification data as the homepage. No new lead schema. -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+<span>+ 帮助我们准备您的就诊（选填）</span>
+</button>
+<div class="lead-optional" id="leadOptional">
 <div class="form-group">
 <label>语言偏好</label>
 <div class="radio-group">
@@ -545,9 +681,11 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 <label><input name="language" type="radio" value="中文"/> 中文</label>
 </div>
 </div>
-<!-- SLOT: booking_category | 4 clinic-focus Primary-Concern options -->
+<div class="form-row">
+<!-- SLOT: booking_category | 4 clinic-focus Primary-Concern options. Values are
+     locked Find Care taxonomy — labels localize, values never change. -->
 <div class="form-group">
-<label>主要问题</label>
+<label>主要症状</label>
 <select name="primary_concern">
 <option value="">—</option>
 <option value="post-stroke-neuro">中风后与神经康复</option>
@@ -558,17 +696,76 @@ TRILINGUAL: mirror to /es/ /zh/ ONLY after EN structure is stable (§3.5).
 </div>
 <!-- /SLOT -->
 <div class="form-group">
-<label>请简单告诉我们您的情况</label>
-<textarea name="notes" placeholder="请简要说明您希望获得哪方面的帮助。" rows="3"></textarea>
+<label>症状持续多长时间？</label>
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">不到 1 个月</option>
+<option value="1-6months">1–6 个月</option>
+<option value="6-12months">6–12 个月</option>
+<option value="&gt;1year">超过 1 年</option>
+<option value="&gt;5years">超过 5 年</option>
+</select>
 </div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>是否第一次做针灸？</label>
+<div class="radio-group">
+<label><input name="first_acupuncture" type="radio" value="yes"/> 是</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> 否</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>偏好时间</label>
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">上午</option>
+<option value="afternoon">下午</option>
+<option value="evening">晚间</option>
+<option value="weekend">周末</option>
+<option value="flexible">灵活</option>
+</select>
+</div>
+<div class="form-group">
+<label>保险类型</label>
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">自费</option>
+<option value="va-military">VA / 军人保险</option>
+<option value="private">商业保险</option>
+<option value="not-sure">不确定</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>您是怎么知道我们的？</label>
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google 搜索</option>
+<option value="social">社交媒体</option>
+<option value="friend">朋友 / 家人推荐</option>
+<option value="doctor">医生推荐</option>
+<option value="other">其他</option>
+</select>
+</div>
+<div class="form-group">
+<label>其他补充</label>
+<textarea name="notes" placeholder="请简要说明您希望获得哪方面的帮助。" rows="2"></textarea>
+</div>
+</div>
+<!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
 <button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
-<span class="lead-submit-text">继续预约</span>
+<span class="lead-submit-text">提交请求</span>
 <span class="lead-submit-loading" style="display:none;">...</span>
 </button>
 </div>
-<p class="form-note" style="margin-top:12px;">您的信息有助于我们更好地为您服务。提交后将引导您前往诊所的在线预约页面。</p>
+<p class="form-note" style="margin-top:12px;">您的信息将帮助 HPA 处理您对这家诊所的请求。下一步取决于该诊所与 HPA 的对接方式——提交后我们会立即告知您。</p>
 </form>
+<!-- Success state. This string renders ONLY after Worker v3 has returned
+     next_step = "booking"; every other outcome is written in by main.js. -->
 <div class="lead-success" id="leadSuccess" style="display:none;">
 <div style="font-size:48px;margin-bottom:16px;">✓</div>
 <h3>谢谢！正在为您跳转到预约页面……</h3>
