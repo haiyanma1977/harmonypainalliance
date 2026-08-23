@@ -90,13 +90,13 @@ SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
                      HPA logo in its place.
   clinic_id ........ lei-acupuncture      (data-clinic= on connection CTAs)
   partner_status ... Founding Partner      (values: Partner | Founding Partner)
-  practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate -> Dipl. AHM (NCBAHM))
+  practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate -> Dipl. O.M. (NCCAOM); verified in NCBAHM registry 2026-08-23)
   focus_headline ... Post-Stroke &amp; Neurological Rehabilitation · Chronic &amp; Complex Pain
   clinic_method .... Leisacupuncture / 磊氏针灸  (OPTIONAL — omit for clinics with no named method)
   address .......... 209 E Bay St, Winter Garden, FL 34787
   geo .............. 28.5653, -81.5862
   phone ............ +1-561-403-6485
-  hours ............ Mon,Tue,Thu,Fri 9:00–17:00 · Sat 10:00–17:00 · Sun 10:00–16:00 · Wed off-site (FCIM)
+  hours ............ Mon,Tue,Thu,Fri 9:00–17:00 · Sat 10:00–17:00 · Sun 10:00–16:00 · Wed closed
   website .......... https://leisacupuncture.com/   (JSON-LD sameAs ONLY — never rendered)
   npi .............. 1811880438                     (structured data only — never in patient copy)
   booking_category . 4 Primary-Concern options in the lead modal (per clinic focus)
@@ -110,7 +110,7 @@ TRILINGUAL: EN / ES / ZH ship together with the same section architecture,
   component architecture, CTA hierarchy, Care Team structure, Clinic Logo
   behaviour, Clinic Details structure, HPA context and responsive rules.
   Text length is NOT expected to match. Design to the Spanish worst case.
-  ⚠ ZH: do NOT translate "NCBAHM" — Chinese official name unresolved (locked).
+  ⚠ ZH: do NOT translate "Dipl. O.M. (NCCAOM)" or "NCBAHM" — Chinese official names unresolved (locked).
 
 STYLES: all Clinic Profile CSS lives in /css/style.css under
   "HPA CLINIC PROFILE — TEMPLATE V1", scoped to body.clinic-profile.
@@ -156,6 +156,8 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <meta content="630" property="og:image:height"/>
 <meta content="Harmony Pain Alliance — Redefining Rehabilitation in North America" property="og:image:alt"/>
 <meta content="es_ES" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="zh_CN" property="og:locale:alternate"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="Lei's Acupuncture — Winter Garden, FL | Harmony Pain Alliance" name="twitter:title"/>
 <meta content="Atención de acupuntura individualizada con un enfoque clínico en la recuperación después de un accidente cerebrovascular, la rehabilitación neurológica y el manejo del dolor crónico y complejo." name="twitter:description"/>
@@ -203,7 +205,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
   }
   </script>
 <!-- /SLOT -->
-<!-- SLOT: jsonld_physician | FIXED constraint: honorificSuffix AP only; Diplomate = Dipl. AHM (NCBAHM). -->
+<!-- SLOT: jsonld_physician | FIXED constraint: honorificSuffix AP only; Diplomate = Dipl. O.M. (NCCAOM), issued by NCBAHM. -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -219,7 +221,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
     "knowsAbout": ["Acupuncture", "Post-Stroke Rehabilitation", "Neurological Rehabilitation", "Facial Paralysis", "Neuropathy", "Tinnitus", "Migraine", "Chronic Pain", "Complex Pain", "Traditional Chinese Medicine"],
     "hasCredential": [
       {"@type": "EducationalOccupationalCredential", "credentialCategory": "license", "name": "Licensed Acupuncture Physician (AP)", "recognizedBy": {"@type": "GovernmentOrganization", "name": "Florida Board of Acupuncture"}},
-      {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Diplomate in Acupuncture & Herbal Medicine — Dipl. AHM (NCBAHM)", "recognizedBy": {"@type": "Organization", "name": "National Certification Board for Acupuncture and Herbal Medicine (NCBAHM)", "url": "https://www.ncbahm.org/"}}
+      {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Diplomate of Oriental Medicine — Dipl. O.M. (NCCAOM)", "recognizedBy": {"@type": "Organization", "name": "National Certification Board for Acupuncture and Herbal Medicine (NCBAHM)", "url": "https://www.ncbahm.org/"}}
     ],
     "identifier": {"@type": "PropertyValue", "propertyID": "NPI", "value": "1811880438"}
   }
@@ -433,9 +435,9 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      no empty photo box. Training and continuing education belong to the
      PRACTITIONER, never to the clinic as a global fact (§3.3: completed
      facts only — no ongoing/forward-training framing).
-     Credential constraints: AP suffix only §3.1; Diplomate = Dipl. AHM
-     (NCBAHM); "Nationally Board-Certified" must stay anchored to NCBAHM;
-     not MD/DO/PhD. -->
+     Credential constraints: AP suffix only §3.1; Diplomate = Dipl. O.M.
+     (NCCAOM), issued by NCBAHM; "Nationally Board-Certified" must stay
+     anchored to NCBAHM; not MD/DO/PhD. -->
 <section class="clinic-section">
 <h2>Equipo de atención</h2>
 <!-- SLOT: care_team -->
@@ -456,7 +458,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 </div>
 <!-- /OPTIONAL SLOT -->
 <div class="care-member-details">
-<p class="care-member-cert">Certificación nacional · Dipl. AHM (NCBAHM)</p>
+<p class="care-member-cert">Certificación nacional · Dipl. O.M. (NCCAOM)</p>
 <div class="care-member-block">
 <h4>Credenciales profesionales</h4>
 <div class="care-credential"><span class="care-credential-icon" aria-hidden="true">🎓</span> <span>Acupuncture Physician con licencia del estado de Florida (AP)</span></div>
@@ -584,7 +586,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="clinic-facts">
 <div class="clinic-fact"><strong>Dirección</strong>209 E Bay St, Winter Garden, FL 34787</div>
 <div class="clinic-fact"><strong>Teléfono</strong><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
-<div class="clinic-fact"><strong>Horario</strong>Lun, Mar, Jue, Vie: 9:00 AM – 5:00 PM<br/>Sáb: 10:00 AM – 5:00 PM<br/>Dom: 10:00 AM – 4:00 PM<br/><span class="ref-note">Mié: cerrado en esta ubicación (el profesional atiende en la clínica docente FCIM)</span></div>
+<div class="clinic-fact"><strong>Horario</strong>Lun, Mar, Jue, Vie: 9:00 AM – 5:00 PM<br/>Sáb: 10:00 AM – 5:00 PM<br/>Dom: 10:00 AM – 4:00 PM<br/><span class="ref-note">Mié: Cerrado</span></div>
 <div class="clinic-fact"><strong>Idiomas</strong>Inglés · Chino</div>
 <div class="clinic-fact"><strong>Pago y seguro</strong>Lei's Acupuncture acepta beneficios de VA/militares, efectivo y tarjetas de crédito o débito.</div>
 </div>
