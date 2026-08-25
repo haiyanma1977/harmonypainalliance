@@ -35,6 +35,12 @@
 
   /* Green scale */
   --green-600: #007d60;
+  --green-700: #00694f;
+  /* Green token roles (2026-08-25): --aux-green #009573 is the BRAND/DECORATIVE
+     green — dividers, blockquote rules, 1px borders, anything that carries no
+     text. It measures 3.79:1 on white and must never be used for text or as a
+     fill behind white text. --green-600 #007d60 (5.12:1) is the TEXT and FILL
+     green. --green-700 #00694f (6.70:1) is the fill HOVER green. */
   --green-500: #009573;
   --green-400: #1aaa88;
   --green-100: #E0F5EF;
@@ -262,10 +268,15 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   border-color: var(--text-muted);
 }
 .btn-green {
-  background: var(--aux-green); color: var(--white);
-  border-color: var(--aux-green);
+  background: var(--green-600); color: var(--white);
+  border-color: var(--green-600);
 }
-.btn-green:hover { background: var(--green-600); border-color: var(--green-600); color: var(--white); }
+.btn-green:hover { background: var(--green-700); border-color: var(--green-700); color: var(--white); }
+/* .nav-menu a { color: var(--text-dark) } outranks .btn-green's white text
+   (0,1,1 vs 0,1,0), so the mobile slide-out CTA rendered ink-on-green: 3.39:1
+   after the 2026-08-25 fill darkening (4.28:1 before it, already failing).
+   Restored to white on --green-600 = 5.12:1. */
+.nav-menu a.btn-green, .nav-cta-mobile { color: var(--white) !important; }
 .btn-white {
   background: var(--white); color: var(--brand-deep);
   border-color: var(--white);
@@ -420,7 +431,7 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   padding: 5px 14px;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--aux-green);
+  color: var(--green-600);
   background: var(--green-100);
   border: 1px solid rgba(26, 138, 96, 0.15);
   border-radius: 16px;
@@ -657,7 +668,10 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 .condition-card ul li { padding: 4px 0 4px 20px; position: relative; font-size: 0.9375rem; }
 .condition-card ul li::before { content: '·'; position: absolute; left: 4px; color: var(--aux-green); font-weight: 700; }
 .condition-links { margin: 12px 0; font-size: 0.92rem; }
-.condition-links a { color: var(--brand-green, #009573); text-decoration: none; font-weight: 600; }
+/* Was var(--brand-green, #009573) — --brand-green is defined nowhere in this
+   stylesheet, so the fallback was always what rendered, at 3.79:1 on white
+   (AA fail for 16px/600 body text). Pinned to the text-green token: 5.12:1. */
+.condition-links a { color: var(--green-600); text-decoration: none; font-weight: 600; }
 .condition-links a:hover { text-decoration: underline; }
 
 /* ===========================
@@ -1042,12 +1056,21 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 }
 
 .hero .btn-primary, .hero .cta-primary, .hero .btn-green {
-  background: #009573 !important;
+  background: var(--green-600) !important;
   color: #ffffff !important;
   border: none !important;
   padding: 14px 32px;
   border-radius: 8px;
   font-weight: 600;
+}
+
+/* The default declaration above is !important, so the non-!important
+   .btn-green:hover could never win — hero buttons had no hover feedback at all
+   (pre-existing, confirmed by before/after measurement 2026-08-25). Background
+   only: colour, border and padding are already locked by the rule above. All
+   three classes share that rule, so all three are restored together. */
+.hero .btn-primary:hover, .hero .cta-primary:hover, .hero .btn-green:hover {
+  background: var(--green-700) !important;
 }
 
 .hero .btn-secondary, .hero .cta-secondary, .hero .btn-outline-light {
@@ -1306,7 +1329,7 @@ header .logo, nav .logo, .site-branding,
 .lead-success h3 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600; font-size: 1.1rem;
-  color: var(--aux-green);
+  color: var(--green-600);
 }
 
 @media (max-width: 640px) {
@@ -1626,21 +1649,84 @@ header .logo, nav .logo, .site-branding,
    never read as a co-equal co-branding lockup with the HPA header logo.
    ========================================================================= */
 
+/* ---- Breadcrumb bar (frame layer, above .clinic-profile-section) ------- */
+/* 导航栏真实高度在三个断点各不相同(实测 84 / 104 / 72),且与全局
+   --nav-h(64 / 56)不符 —— 差值由 style.css 中多条 min-height:!important
+   造成。修正 --nav-h 属于全站改动,不在本轮范围,故此处用页面作用域变量。 */
+body.clinic-profile { --hpa-nav-real: 84px; }
+@media (max-width: 1024px) { body.clinic-profile { --hpa-nav-real: 104px; } }
+@media (max-width: 640px)  { body.clinic-profile { --hpa-nav-real: 72px; } }
+
+#bcbar {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E9E6DF;
+  padding-top: calc(var(--hpa-nav-real) + 13px);
+  padding-bottom: 13px;
+}
+#bcbar .bcbar-wrap { max-width: 860px; margin: 0 auto; }
+
+/* 必须保留:抵消
+   `header, nav, .navbar, .header, .site-header { padding:16px 20px !important;
+    min-height:72px !important; }`
+   对页面上任意 <nav> 元素的劫持(见 v2 §0.1)。
+   不加这段,面包屑会被撑到 104px 高并向右移位。
+   这些 !important 是反劫持所必需的,不要"优化"掉。 */
+nav.clinic-breadcrumb {
+  padding: 0 !important;
+  min-height: 0 !important;
+  display: block !important;
+  line-height: 1.45 !important;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6E6A63;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+nav.clinic-breadcrumb a {
+  color: #6E6A63 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline !important;
+  border: 0 !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  text-decoration: none;
+}
+nav.clinic-breadcrumb a:hover {
+  color: var(--brand-deep) !important;
+  text-decoration: underline;
+}
+nav.clinic-breadcrumb .sep { margin: 0 7px; color: #C6C1B8; }
+nav.clinic-breadcrumb .cur { color: #6E6A63; }
+
 /* ---- Page shell + rhythm (§18) ---------------------------------------- */
 /* The navbar is fixed and — after the "Enlarge navbar v2" override — is taller
    than `--section-pad` at every width below 1025px (104px vs 64px, 72px vs
    48px). The first line of the profile was sliding underneath it. Previously
    masked by the hero's accidental `header` padding; now cleared explicitly.
    Scoped to the Clinic Profile — other page types are out of scope here. */
-.clinic-profile .clinic-profile-section { padding-top: 116px; } /* 84px header + 32px */
-@media (max-width: 1024px) { .clinic-profile .clinic-profile-section { padding-top: 132px; } }
-@media (max-width: 640px)  { .clinic-profile .clinic-profile-section { padding-top: 100px; } }
+.clinic-profile .clinic-profile-section { padding-top: 38px; } /* 84px header + 32px */
+@media (max-width: 1024px) { .clinic-profile .clinic-profile-section { padding-top: 34px; } }
+@media (max-width: 640px)  { .clinic-profile .clinic-profile-section { padding-top: 26px; } }
 
 .clinic-profile .clinic-wrap { max-width: 860px; margin: 0 auto; }
 .clinic-profile p { margin: 14px 0; line-height: 1.75; }
 .clinic-profile ul { margin: 12px 0 0 1.15rem; }
 .clinic-profile li { margin: 6px 0; line-height: 1.65; }
 .clinic-profile .ref-note { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+/* WCAG 2.4.7 — the stylesheet only carried focus styles for .btn-outline and
+   .findcare-card, so the primary CTA, FAQ buttons, learn-more links, the phone
+   link and the breadcrumb links had no visible keyboard focus. Scoped to the
+   Clinic Profile for this round; a site-wide focus style is a separate change. */
+body.clinic-profile a:focus-visible,
+body.clinic-profile button:focus-visible {
+  outline: 2px solid var(--brand-deep);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
 
 /* Major-section separation: one consistent rule, no decorative cards.
    These are nested <section> elements, so the global `section { padding: 96px 0 }`
@@ -1653,10 +1739,20 @@ header .logo, nav .logo, .site-branding,
   margin-top: 56px; padding: 48px 0 0;
   border-top: 1px solid var(--mid-gray);
 }
-.clinic-section > h2 { margin: 0; font-size: 1.75rem; }
+
+/* The global `section:nth-child(even) { background: var(--off-white) }` now
+   lands on this section, because #bcbar (added 2026-08-25) made it the second
+   child of <main>. The warm ground is intended — the white breadcrumb bar and
+   the white FAQ cards read as a separate frame layer against it — but relying
+   on nth-child counting is fragile: inserting anything else into <main> would
+   silently flip it back to white. Pinned explicitly here, the same way
+   .clinic-profile .clinic-section neutralises the same global rule, rather than
+   by changing the global rule that other pages depend on. */
+.clinic-profile .clinic-profile-section { background: var(--off-white); }
+.clinic-section > h2 { margin: 0; font-size: 1.5rem; }
 .clinic-section > h2 + p { margin-top: 10px; }
-.clinic-section h3 { margin: 34px 0 0; font-size: 1.1875rem; }
-.clinic-section h4 { margin: 22px 0 0; font-size: 1rem; }
+.clinic-section h3 { margin: 34px 0 0; font-size: 1.125rem; }
+.clinic-section h4 { margin: 22px 0 0; font-size: 0.9375rem; color: var(--text-muted); }
 
 /* ---- Platform context + breadcrumb (§10, §2) -------------------------- */
 /* Quiet publisher line. HPA presence is legible, never overpowering: no second
@@ -1670,52 +1766,37 @@ header .logo, nav .logo, .site-branding,
   color: var(--brand-deep);
   margin: 0 0 18px;   /* absorbs the removed breadcrumb row's rhythm */
 }
-/* CURRENT breadcrumb only — there is no /clinics/ index page to link to.
-   Demoted to true utility navigation (founder decision 2026-08-22, Option B
-   §5): usable, readable, but deliberately NOT a participant in the hero
-   hierarchy — the eyebrow, status badge and clinic identity carry that. */
-.clinic-profile .clinic-breadcrumb { font-size: 0.8125rem; color: var(--text-muted); margin: 10px 0 12px; }
-.clinic-breadcrumb a { color: var(--text-muted); text-decoration: none; }
-.clinic-breadcrumb a:hover { color: var(--brand-deep); text-decoration: underline; }
 
 /* ---- Clinic identity / hero ------------------------------------------- */
 .clinic-hero { padding-bottom: 4px; }
 
-/* Founding Partner status (2026-08-22, strengthened per founder correction):
-   a distinguished HPA status designation, not a taxonomy pill. One clear tier
-   up in size, dark HPA green for immediate contrast on the pale ground, a
-   hairline border for an official edge, and the muted-gold recognition mark
-   (derived from the existing #D4A843 gold accent) — symbol only, never the
-   whole badge; no gradients, no shadows, no glow. */
+/* FIXED: partner-status badge (founder decision 2026-08-25, supersedes the
+   2026-08-22 gold-plaque treatment). Outline seal, not a plaque: transparent
+   ground, 1px brand-deep border, uppercase 13px brand-deep text, no icon.
+   Rationale: the filled parchment block measured 371x51 against a 284x40 H1,
+   so the platform badge outweighed the clinic name; and the crown read as a
+   quality ranking ("best"), while Founding Partner is a chronological fact
+   ("first") — HPA has no mechanism to rank clinics. Gold is deliberately
+   absent: it is not in the HPA palette, and a gold tier would force a colour
+   ladder that every non-founding partner clinic would read as a demotion.
+   Do NOT add an icon here, including the HPA mark — see the two locked notes
+   in the hero. */
 .clinic-profile .clinic-hero .tag {
-  display: inline-flex; align-items: center; gap: 11px;
-  font-size: 1rem;                     /* 16px desktop */
-  font-weight: 700;
-  /* Refinement pass (founder, 2026-08-22 精修): wider, engraved-plate tracking,
-     a warmer parchment ground, an antique-gold border a shade more present,
-     and more horizontal air. Still flat — no gradient, no shadow, no glow.
-     STATUS semantics stay deliberately separated from the green clinical
-     family: an official HPA designation, not a taxonomy pill. */
-  letter-spacing: 0.075em;
+  display: inline-flex; align-items: center;
+  font-size: 0.8125rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.09em;
   color: var(--brand-deep);
-  background: #FBF7EC;
-  border: 1px solid rgba(168, 134, 47, 0.5);
-  border-radius: 9px;
-  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid rgba(7, 56, 128, 0.32);
+  border-radius: 6px; padding: 7px 13px;
+  margin: 10px 0 0;
 }
-.clinic-status-mark {
-  /* Refined crown (2026-08-22 精修): three-point silhouette with pearl finials
-     and a separated base band — finer, more heraldic drawing than the previous
-     solid block. Two-tone antique gold: band a shade deeper than the body. */
-  width: 22px; height: 22px; flex-shrink: 0;
-  fill: #B8923D;
-}
-.clinic-status-mark path:last-of-type { fill: #A07E2E; }
 @media (max-width: 640px) {
-  /* Mobile keeps the refined plaque but with compact metrics — the ES label
-     (CLÍNICA SOCIA FUNDADORA DE HPA) must hold one line in a 358px column. */
-  .clinic-profile .clinic-hero .tag { font-size: 0.9375rem; padding: 10px 14px; gap: 9px; letter-spacing: 0.04em; }
-  .clinic-status-mark { width: 21px; height: 21px; }
+  .clinic-profile .clinic-hero .tag { padding: 7px 12px; }
+}
+/* Narrowest screens: EN/ES labels fold to two lines at 320px without this. */
+@media (max-width: 340px) {
+  .clinic-profile .clinic-hero .tag { font-size: 0.75rem; letter-spacing: 0.06em; padding: 6px 10px; }
 }
 /* OPTIONAL SLOT: clinic logo. Bounded box, aspect ratio preserved, no crop, no
    stretch, no forced square — horizontal, square, vertical and icon+wordmark
@@ -1764,15 +1845,15 @@ header .logo, nav .logo, .site-branding,
    specific display faces. Not a Lei's-specific exception. */
 .clinic-hero h1 {
   margin: 0; font-size: 2rem; line-height: 1.25;
-  font-weight: 500; color: var(--brand-deep);
+  font-weight: 600; color: var(--brand-deep);
 }
 @media (max-width: 640px) {
   .clinic-hero h1 { font-size: 1.75rem; }
 }
-.clinic-locality { font-weight: 700; margin: 8px 0 0; color: var(--text-dark); }
+.clinic-locality { font-weight: 500; margin: 10px 0 0; color: var(--text-muted); }
 .focus-headline {
   font-size: 1.0625rem; font-weight: 700; line-height: 1.5;
-  color: var(--aux-green); margin: 14px 0 0;
+  color: var(--green-600); margin: 14px 0 0;
 }
 .clinic-lede { font-size: 1.0625rem; color: var(--text-muted); margin: 14px 0 0; max-width: 62ch; }
 
@@ -1819,7 +1900,7 @@ header .logo, nav .logo, .site-branding,
 }
 
 .clinic-learn-more { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 18px 0 0; }
-.clinic-learn-more a { font-weight: 600; color: var(--aux-green); text-decoration: none; }
+.clinic-learn-more a { font-weight: 600; color: var(--green-600); text-decoration: none; }
 .clinic-learn-more a:hover { text-decoration: underline; }
 
 /* ---- Care Team (practitioners = REPEATABLE SLOT) ---------------------- */
@@ -1880,16 +1961,31 @@ header .logo, nav .logo, .site-branding,
 }
 .care-credential-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.4; }
 
-/* Mobile: name and role come first, the portrait sits directly under them, then
-   the credentials and training. The portrait stays close to the practitioner's
-   identity without ever becoming the first thing on the card. Restrained
-   maximum width, left-aligned to the text column. */
-@media (max-width: 768px) {
-  .care-member {
-    grid-template-columns: 1fr;
-    grid-template-areas: "identity" "photo" "details";
+/* FIXED: care-member layout (founder decision 2026-08-25, supersedes the
+   earlier mobile stacking rule). Text left, portrait right at ALL widths.
+   Desktop and tablet: the portrait occupies a right-hand column spanning both
+   rows, sized min(30%, 240px) — the min() cap matters, because a bare 30%
+   computes to 258px at a 900px viewport, i.e. LARGER than the 240px desktop
+   value. Below 700px the portrait sits beside name + role at a fixed 96px
+   while the credentials span the full width, because a credentials column
+   narrower than ~340px is not readable. The :not(.care-member-nophoto) guard
+   is required: without it these rules override the single-column fallback and
+   a practitioner with no photo gets an empty column — see the locked note in
+   the HTML ("No silhouette, no empty photo box"). */
+body.clinic-profile .care-member:not(.care-member-nophoto) {
+  grid-template-columns: 1fr min(30%, 240px);
+  grid-template-areas: "identity photo" "details photo";
+  gap: 0 clamp(24px, 4%, 40px);
+}
+body.clinic-profile .care-member-photo { max-width: none; margin: 0; }
+
+@media (max-width: 700px) {
+  body.clinic-profile .care-member:not(.care-member-nophoto) {
+    grid-template-columns: 1fr 96px;
+    grid-template-areas: "identity photo" "details details";
+    gap: 0 16px;
   }
-  .care-member-photo { max-width: 160px; margin: 18px 0 6px; }
+  body.clinic-profile .care-member-details { margin-top: 20px; max-width: 640px; }
 }
 
 /* ---- Clinic Details (§17) --------------------------------------------- */
@@ -1933,7 +2029,7 @@ header .logo, nav .logo, .site-branding,
 .clinic-cta h3 { margin: 0 0 6px; }
 .clinic-cta .btn { margin-top: 16px; }
 .clinic-disclaimer { margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--mid-gray); }
-.clinic-disclaimer h4 { margin: 0 0 8px; font-size: 0.9375rem; }
+.clinic-disclaimer h4 { margin: 0 0 8px; font-size: 0.9375rem; color: var(--text-dark); }
 @media (max-width: 480px) {
   .clinic-cta { padding: 28px 20px; }
   .clinic-cta .btn { width: 100%; }

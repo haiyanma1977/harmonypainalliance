@@ -219,6 +219,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Mirrors the .open class onto aria-expanded. Derived from the class rather
+  // than toggled inline, so every open/close path stays in step automatically.
+  // Deliberately defensive: .faq-question also exists on pages whose markup has
+  // no aria-expanded (homepage, /join, /learn, condition pages). Those questions
+  // must neither throw nor silently acquire a half-wired ARIA attribute, so only
+  // questions already marked up with aria-expanded are touched.
+  const syncFaqAria = (item) => {
+    if (!item) return;
+    const q = item.querySelector('.faq-question');
+    if (q && q.hasAttribute('aria-expanded')) {
+      q.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+    }
+  };
+
   // --- FAQ Accordion ---
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -229,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (other !== item) {
           other.classList.remove('open');
           other.querySelector('.faq-answer').style.maxHeight = '0';
+          syncFaqAria(other);
         }
       });
       if (isOpen) {
@@ -238,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
       }
+      syncFaqAria(item);
     });
   });
 
@@ -253,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!match) {
           item.classList.remove('open');
           item.querySelector('.faq-answer').style.maxHeight = '0';
+          syncFaqAria(item);
         }
       });
     });

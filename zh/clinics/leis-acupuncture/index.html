@@ -194,7 +194,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
       {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00"}
     ],
     "currenciesAccepted": "USD",
-    "parentOrganization": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/"},
+    "memberOf": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/"},
     "sameAs": [
       "https://leisacupuncture.com/",
       "https://maps.google.com/?cid=16091939224095567889",
@@ -236,6 +236,20 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
       {"@type": "ListItem", "position": 1, "name": "首页", "item": "https://harmonypainalliance.com/zh/"},
       {"@type": "ListItem", "position": 2, "name": "Lei's Acupuncture", "item": "https://harmonypainalliance.com/zh/clinics/leis-acupuncture/"}
     ]
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_webpage | HPA is the PUBLISHER of this page; the clinic is its subject.
+     `about` points at the clinic entity's canonical @id as written in THIS file. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://harmonypainalliance.com/zh/clinics/leis-acupuncture/#webpage",
+    "url": "https://harmonypainalliance.com/zh/clinics/leis-acupuncture/",
+    "isPartOf": {"@type": "WebSite", "url": "https://harmonypainalliance.com/"},
+    "publisher": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/"},
+    "about": {"@id": "https://harmonypainalliance.com/en/clinics/leis-acupuncture/#clinic"}
   }
   </script>
 <!-- /SLOT -->
@@ -316,6 +330,28 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 
 
 <main>
+<!-- FIXED: breadcrumb (founder decision 2026-08-25, supersedes 2026-08-22
+     removal). The 2026-08-22 removal was correct about the symptom — the clinic
+     name read twice inside the hero — but the cause was LAYER, not the breadcrumb
+     itself: it sat inside the hero, on the same layer as the H1. It now renders as
+     a standalone full-width bar ABOVE .clinic-profile-section (white on the
+     section's warm #F8F7F4), so it belongs to the frame layer alongside the navbar
+     and no longer competes with the clinic identity. Two levels only —
+     Home › {clinic} — matching the locked BreadcrumbList JSON-LD. Do NOT add a
+     "Clinics" level: /en|es|zh/clinics/ do not exist (verified 404, 2026-08-25).
+     Upgrade to three levels, and add the matching JSON-LD node, only when the
+     /clinics/ index page ships. -->
+<div id="bcbar">
+  <div class="container">
+    <div class="bcbar-wrap">
+      <nav class="clinic-breadcrumb" aria-label="Breadcrumb">
+        <a href="/zh/">首页</a>
+        <span class="sep" aria-hidden="true">&rsaquo;</span>
+        <span class="cur" aria-current="page">Lei's Acupuncture</span>
+      </nav>
+    </div>
+  </div>
+</div>
 <section class="clinic-profile-section">
 <div class="container">
 <div class="clinic-wrap">
@@ -329,18 +365,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="clinic-hero">
 <!-- FIXED: quiet platform context. HPA is legible as publisher without competing
      with the clinic. Do NOT add a second HPA logo or badge anywhere below. -->
-<p class="platform-context">HPA · 诊所主页</p>
-<!-- SLOT: breadcrumb | REMOVED on this shallow route (founder decision
-     2026-08-22): Home is one click away in the header, and the clinic name
-     appeared twice within the hero. The BreadcrumbList JSON-LD above is
-     locked and intentionally retained. RESTORE a visible breadcrumb here
-     (Home › Clinics › {clinic}) when the /clinics/ index page ships —
-     the .clinic-breadcrumb component style is kept in style.css for that. -->
-<!-- /SLOT -->
 
-<!-- SLOT: partner_status | Partner | Founding Partner -->
-<span class="tag tag-green"><svg aria-hidden="true" class="clinic-status-mark" focusable="false" viewBox="0 0 24 24"><circle cx="3.6" cy="6.8" r="1.25"/><circle cx="12" cy="4.1" r="1.25"/><circle cx="20.4" cy="6.8" r="1.25"/><path d="M4.7 16.4 3.7 9.3c1.5 1.5 3.2 2.5 4.5 2.2 1.5-.35 2.9-2.9 3.8-5.2.9 2.3 2.3 4.85 3.8 5.2 1.3.3 3-.7 4.5-2.2l-1 7.1H4.7Z"/><path d="M5.1 18.1h13.8c.4 0 .72.32.72.72v.56c0 .4-.32.72-.72.72H5.1c-.4 0-.72-.32-.72-.72v-.56c0-.4.32-.72.72-.72Z"/></svg>HPA 创始合作诊所</span>
-<!-- /SLOT -->
 <!-- FIXED: clinic identity LOCKUP — the clinic logo and clinic-name H1 render
      as ONE identity unit (logo beside the name on desktop, tightly stacked on
      small screens). The logo is never a detached standalone row. The HPA
@@ -371,6 +396,9 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <!-- SLOT: location -->
 <p class="clinic-locality">美国佛罗里达州 Winter Garden</p>
 <!-- /SLOT -->
+<!-- SLOT: partner_status | Partner | Founding Partner -->
+<span class="tag tag-green">HPA 创始合作诊所</span>
+<!-- /SLOT -->
 <!-- SLOT: focus_headline -->
 <p class="focus-headline">中风后与神经康复<br/>慢性与复杂性疼痛</p>
 <!-- /SLOT -->
@@ -382,7 +410,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      is patient logistics and stays visually secondary. No phone here, no clinic
      website link, no direct booking control. -->
 <div class="clinic-hero-actions">
-<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">联系这家诊所</a>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">联系这家诊所</button>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 导航至诊所</a>
 </div>
 </div>
@@ -442,9 +470,13 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <h2>医疗团队</h2>
 <!-- SLOT: care_team -->
 <div class="care-member">
-<!-- Identity first at every width. On mobile the portrait sits directly under
-     name + role and above the credentials; on desktop grid areas put it right.
-     Source order matches the mobile reading order. -->
+<!-- Identity first at every width (founder decision 2026-08-25, supersedes the
+     earlier mobile stacking rule). Text left, portrait right at ALL widths:
+     desktop and tablet place the portrait in a right-hand column spanning both
+     rows; below 700px the portrait sits beside name + role while the credentials
+     span the full width, because a credentials column narrower than ~340px is
+     not readable. Source order (identity → photo → details) still matches the
+     reading order. -->
 <div class="care-member-identity">
 <h3 class="care-member-name">Lei Dong, AP</h3>
 <p class="care-member-role">佛罗里达州执照针灸医师 · Lei's Acupuncture 创始人</p>
@@ -547,26 +579,26 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <h3>常见问题</h3>
 <!-- SLOT: faq -->
 <div class="faq-item" data-category="patients">
-<button class="faq-question" type="button"><span>目前接受新患者吗？</span></button>
-<div class="faq-answer"><div class="faq-answer-inner">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-1"><span>目前接受新患者吗？</span></button>
+<div class="faq-answer" id="faq-answer-1"><div class="faq-answer-inner">
 <p>是的。Lei's Acupuncture 目前正在接收新患者。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question" type="button"><span>第一次就诊需要携带什么？</span></button>
-<div class="faq-answer"><div class="faq-answer-inner">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2"><span>第一次就诊需要携带什么？</span></button>
+<div class="faq-answer" id="faq-answer-2"><div class="faq-answer-inner">
 <p>请携带身份证件以及相关的病历资料。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question" type="button"><span>针灸可以和医生治疗、物理治疗或其他康复项目同时进行吗？</span></button>
-<div class="faq-answer"><div class="faq-answer-inner">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-3"><span>针灸可以和医生治疗、物理治疗或其他康复项目同时进行吗？</span></button>
+<div class="faq-answer" id="faq-answer-3"><div class="faq-answer-inner">
 <p>可以。Lei's Acupuncture 提供的针灸旨在作为辅助治疗，可以与医生治疗、物理治疗、职业治疗及其他康复项目配合进行，并不能替代您的医疗专业人员所建议的必要治疗。</p>
 </div></div>
 </div>
 <div class="faq-item" data-category="patients">
-<button class="faq-question" type="button"><span>接受医疗保险或 VA Community Care 吗？</span></button>
-<div class="faq-answer"><div class="faq-answer-inner">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-4"><span>接受医疗保险或 VA Community Care 吗？</span></button>
+<div class="faq-answer" id="faq-answer-4"><div class="faq-answer-inner">
 <p>Lei's Acupuncture 接受 VA/军人福利、现金以及信用卡或借记卡。有关具体保险计划或 VA Community Care 资格的问题，请在治疗前直接联系诊所确认您的保障范围。</p>
 </div></div>
 </div>
@@ -619,7 +651,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p>如果您正在寻求中风后或神经康复相关的针灸治疗、慢性或复杂性疼痛治疗，或者有其他可能适合个体化针灸治疗的健康问题，可以就 Lei's Acupuncture 向 Harmony Pain Alliance 提交联系请求。</p>
 <p><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
 <!-- /SLOT -->
-<a class="btn btn-green" href="#" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">联系这家诊所</a>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">联系这家诊所</button>
 </div>
 
 <!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke
