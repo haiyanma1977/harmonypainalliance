@@ -1851,10 +1851,6 @@ body.clinic-profile button:focus-visible {
   .clinic-hero h1 { font-size: 1.75rem; }
 }
 .clinic-locality { font-weight: 500; margin: 10px 0 0; color: var(--text-muted); }
-.focus-headline {
-  font-size: 1.0625rem; font-weight: 700; line-height: 1.5;
-  color: var(--green-600); margin: 14px 0 0;
-}
 .clinic-lede { font-size: 1.0625rem; color: var(--text-muted); margin: 14px 0 0; max-width: 62ch; }
 
 /* Primary connection action owns the hero. Get Directions is patient logistics
@@ -1919,17 +1915,20 @@ body.clinic-profile button:focus-visible {
     "identity photo"
     "details  photo";
   gap: 0 40px; align-items: start; margin-top: 30px;
+  background: var(--white);
+  border: 1px solid var(--mid-gray);
+  border-radius: var(--radius-lg);
+  padding: 28px;
 }
-.care-member + .care-member {
-  margin-top: 44px; padding-top: 40px;
-  border-top: 1px solid var(--mid-gray);
-}
+/* Card border IS the separation — the old border-top would read as a line
+   stacked on a frame. */
+.care-member + .care-member { margin-top: 20px; }
 .care-member-identity { grid-area: identity; min-width: 0; }
 .care-member-details  { grid-area: details;  min-width: 0; }
 /* OPTIONAL SLOT: practitioner photo. Absent -> add .care-member-nophoto and the
    row collapses to a single text column. No silhouette, no empty photo box, and
    no reserved 280px column. */
-.care-member-photo { grid-area: photo; }
+.care-member-photo { grid-area: photo; align-self: center; }
 .care-member-photo img {
   width: 100%;
   aspect-ratio: 4/5;              /* one portrait rule for the whole template */
@@ -1959,7 +1958,6 @@ body.clinic-profile button:focus-visible {
   display: flex; align-items: flex-start; gap: 10px;
   font-size: 0.9375rem; line-height: 1.55; margin-bottom: 9px;
 }
-.care-credential-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.4; }
 
 /* FIXED: care-member layout (founder decision 2026-08-25, supersedes the
    earlier mobile stacking rule). Text left, portrait right at ALL widths.
@@ -1995,11 +1993,10 @@ body.clinic-profile .care-member-photo { max-width: none; margin: 0; }
    copy. Accessibility/parking are OPTIONAL and only rendered when explicitly
    confirmed for that clinic — never inferred. */
 .clinic-facts {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 36px; margin: 22px 0 0;
+  display: grid; grid-template-columns: 1fr;
+  gap: 0; margin: 22px 0 0;
 }
 .clinic-fact {
-  align-self: start;              /* rule hugs its own content, not the row */
   padding: 14px 0; border-bottom: 1px solid var(--mid-gray);
   font-size: 0.9375rem; line-height: 1.6;
 }
@@ -2015,8 +2012,19 @@ body.clinic-profile .care-member-photo { max-width: none; margin: 0; }
 .clinic-map iframe { display: block; width: 100%; height: 100%; border: 0; }
 .clinic-details-actions { margin-top: 20px; }
 .clinic-details-actions .btn-outline { padding: 11px 20px; font-size: 0.875rem; }
+/* §3b: Clinic Details reads as one block against the page. Tinted panel only —
+   NOT a full-bleed band, which would require touching the outer container that
+   also carries the breadcrumb bar and the section rhythm. */
+.clinic-profile .clinic-section-tinted {
+  background: var(--warm-gray);
+  border-top: 0;                  /* the tint separates; the rule would double it */
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
 @media (max-width: 640px) {
-  .clinic-facts { grid-template-columns: 1fr; }
+  .clinic-profile .clinic-section-tinted { padding: 22px 18px; }
+}
+@media (max-width: 640px) {
   .clinic-map { height: 260px; }
 }
 

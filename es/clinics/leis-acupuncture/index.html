@@ -34,7 +34,7 @@ PAGE ORDER (V1 — patient-intent-first, clinic-centric)
   Additional Clinic Information -> Clinic Details -> HPA connection
 
   1 Clinic identity (platform context · breadcrumb · logo slot · name ·
-    location · focus headline · primary connection CTA · directions)
+    location · lede · primary connection CTA · directions)
   2 Clinical Focus        — what problems this clinic works with
   3 Care Team             — who provides the care (1..n practitioners)
   4 Services              — what modalities the clinic provides
@@ -91,7 +91,6 @@ SLOT INVENTORY (atomic values — current = Lei's Acupuncture)
   clinic_id ........ lei-acupuncture      (data-clinic= on connection CTAs)
   partner_status ... Founding Partner      (values: Partner | Founding Partner)
   practitioner ..... Lei Dong, AP          (AP suffix only §3.1; Diplomate -> Dipl. O.M. (NCCAOM); verified in NCBAHM registry 2026-08-23)
-  focus_headline ... Post-Stroke &amp; Neurological Rehabilitation · Chronic &amp; Complex Pain
   clinic_method .... Leisacupuncture / 磊氏针灸  (OPTIONAL — omit for clinics with no named method)
   address .......... 209 E Bay St, Winter Garden, FL 34787
   geo .............. 28.5653, -81.5862
@@ -145,6 +144,9 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <link href="/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
 <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/img/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<meta content="#073880" name="theme-color"/>
 <!-- SLOT: social_preview -->
 <meta content="website" property="og:type"/>
 <meta content="Harmony Pain Alliance" property="og:site_name"/>
@@ -399,9 +401,6 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <!-- SLOT: partner_status | Partner | Founding Partner -->
 <span class="tag tag-green">Clínica Socia Fundadora de HPA</span>
 <!-- /SLOT -->
-<!-- SLOT: focus_headline -->
-<p class="focus-headline">Rehabilitación neurológica y recuperación después de un accidente cerebrovascular<br/>Dolor crónico y complejo</p>
-<!-- /SLOT -->
 <!-- SLOT: hero_line -->
 <p class="clinic-lede">Atención de acupuntura individualizada con un enfoque clínico en la recuperación después de un accidente cerebrovascular, la rehabilitación neurológica y el manejo del dolor crónico y complejo.</p>
 <!-- /SLOT -->
@@ -411,7 +410,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      website link, no direct booking control. -->
 <div class="clinic-hero-actions">
 <button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">Contactar con esta clínica</button>
-<a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Cómo llegar</a>
+<a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">Cómo llegar</a>
 </div>
 </div>
 
@@ -493,8 +492,8 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p class="care-member-cert">Certificación nacional · Dipl. O.M. (NCCAOM)</p>
 <div class="care-member-block">
 <h4>Credenciales profesionales</h4>
-<div class="care-credential"><span class="care-credential-icon" aria-hidden="true">🎓</span> <span>Acupuncture Physician con licencia del estado de Florida (AP)</span></div>
-<div class="care-credential"><span class="care-credential-icon" aria-hidden="true">🎓</span> <span>Maestría, Florida College of Integrative Medicine</span></div>
+<div class="care-credential"><span>Acupuncture Physician con licencia del estado de Florida (AP)</span></div>
+<div class="care-credential"><span>Maestría, Florida College of Integrative Medicine</span></div>
 </div>
 <!-- OPTIONAL: practitioner training &amp; continuing education. Omit the whole
      block for a practitioner with nothing approved to state. -->
@@ -612,7 +611,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      parking. Never inferred. Clinic website is NOT a visible field. Direct
      booking system is NOT a visible field. NPI stays out of patient copy.
      Phone is information at information weight — no "Call Clinic" button. -->
-<section class="clinic-section">
+<section class="clinic-section clinic-section-tinted">
 <h2>Datos de la clínica</h2>
 <!-- SLOT: clinic_details -->
 <div class="clinic-facts">
@@ -626,7 +625,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="clinic-map">
 <iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" title="Mapa de Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
 </div>
-<p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">📍 Cómo llegar</a></p>
+<p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">Cómo llegar</a></p>
 <!-- /SLOT -->
 </section>
 
@@ -638,7 +637,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <section class="clinic-section">
 <h2>Acerca de Harmony Pain Alliance</h2>
 <p>Harmony Pain Alliance ayuda a los pacientes a encontrar clínicas independientes de acupuntura y Medicina Tradicional China según su ubicación, enfoque clínico y trayectoria profesional.</p>
-<p>Cada clínica de la plataforma HPA es revisada personalmente por nuestra fundadora antes de unirse.</p>
+<p>Durante la fase de lanzamiento de HPA, cada clínica de la plataforma es revisada personalmente por nuestra fundadora antes de unirse.</p>
 <!-- SLOT: why_this_clinic | one clinic-specific line: partner status + city -->
 <p><strong>Lei's Acupuncture es la clínica socia fundadora de Harmony Pain Alliance en Winter Garden, Florida.</strong></p>
 <!-- /SLOT -->
