@@ -535,6 +535,43 @@ document.addEventListener('DOMContentLoaded', () => {
   //  other-health-concern | not-sure. STAGE 1: target_clinic is still sent, so
   //  this is Request Appointment mode. Stage 2a switches Find Care to the
   //  Worker's existing Get Matched mode by omitting target_clinic.
+
+  // WCAG 2.4.3 — the element that opened the dialog, so focus can be returned
+  // to it on close instead of falling back to <body>.
+  let lastFocusedBeforeModal = null;
+
+  // The elements THIS open() actually switched to inert. closeLeadModal clears
+  // inert from exactly this list and never re-queries the DOM, so nothing that
+  // was already inert for another reason gets cleared, and nothing added or
+  // moved while the dialog was open can be left inert.
+  let inertedByModal = [];
+
+  // #leadModal sits inside <main>, so <main> itself cannot be inerted — that
+  // would deactivate the dialog too. Inert the navbar, the footer, and every
+  // direct child of <main> except the dialog and its overlay. `inert` replaces
+  // a hand-written focus trap: fewer moving parts, and it also removes the
+  // background from the accessibility tree.
+  const setBackgroundInert = () => {
+    const targets = [];
+    document.querySelectorAll('nav.navbar, footer').forEach((el) => targets.push(el));
+    const main = document.querySelector('main');
+    if (main) {
+      Array.prototype.forEach.call(main.children, (el) => {
+        if (el === leadModal || el === leadOverlay) return;
+        if (leadModal && el.contains(leadModal)) return;
+        if (leadOverlay && el.contains(leadOverlay)) return;
+        targets.push(el);
+      });
+    }
+    inertedByModal = targets.filter((el) => !el.inert);
+    inertedByModal.forEach((el) => { el.inert = true; });
+  };
+
+  const clearBackgroundInert = () => {
+    inertedByModal.forEach((el) => { el.inert = false; });
+    inertedByModal = [];
+  };
+
   const openLeadModal = (source, clinicId, concern) => {
     leadSource.value = source || 'unknown';
     // Mode: data-clinic present -> Request Appointment (clinic-scoped);
@@ -571,6 +608,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     leadOverlay.classList.add('show');
     leadModal.classList.add('show');
+    lastFocusedBeforeModal = document.activeElement;
+    setBackgroundInert();
     document.body.style.overflow = 'hidden';
     // Focus first input
     setTimeout(() => {
@@ -584,6 +623,11 @@ document.addEventListener('DOMContentLoaded', () => {
     leadOverlay.classList.remove('show');
     leadModal.classList.remove('show');
     document.body.style.overflow = '';
+    clearBackgroundInert();
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+      lastFocusedBeforeModal.focus();
+    }
+    lastFocusedBeforeModal = null;
   };
 
   if (leadClose) leadClose.addEventListener('click', closeLeadModal);

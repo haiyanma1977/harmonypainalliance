@@ -333,7 +333,7 @@
     }
   ]
   </script>
-<!-- JSON-LD: FAQPage — patient-facing FAQs (English; ES/ZH translations live in page body) -->
+<!-- JSON-LD: FAQPage — patient-facing FAQs (each language file carries its own translated FAQ schema) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -694,11 +694,11 @@
 </section>
 <!-- ===== LEAD CAPTURE MODAL ===== -->
 <div class="lead-overlay" id="leadOverlay"></div>
-<div class="lead-modal" id="leadModal">
+<div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
 <button aria-label="Close" class="lead-close" id="leadClose">×</button>
 <!-- Modal header -->
 <div class="lead-header">
-<h3>Connect with This Clinic</h3>
+<h3 id="leadModalTitle">Connect with This Clinic</h3>
 
 
 <p class="lead-subtitle">Quick form — takes about 30 seconds. Your request goes to Harmony Pain Alliance, and we'll tell you the next step for this clinic.</p>
@@ -710,23 +710,23 @@
 <input id="leadClinic" name="target_clinic" type="hidden"/>
 <!-- Required fields -->
 <div class="form-group">
-<label>Your Name *</label>
+<label for="lead-name">Your Name *</label>
 
 
-<input autocomplete="name" name="name" required="" type="text"/>
+<input autocomplete="name" id="lead-name" name="name" required="" type="text"/>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>Email *</label>
+<label for="lead-email">Email *</label>
 
 
-<input autocomplete="email" name="email" required="" type="email"/>
+<input autocomplete="email" id="lead-email" name="email" required="" type="email"/>
 </div>
 <div class="form-group">
-<label>Phone *</label>
+<label for="lead-phone">Phone *</label>
 
 
-<input autocomplete="tel" name="phone" required="" type="tel"/>
+<input autocomplete="tel" id="lead-phone" name="phone" required="" type="tel"/>
 </div>
 </div>
 <!-- Expandable optional fields -->
@@ -736,8 +736,8 @@
 
 </button>
 <div class="lead-optional" id="leadOptional">
-<div class="form-group">
-<label>Preferred Language</label>
+<fieldset class="form-group">
+<legend>Preferred Language</legend>
 
 
 <div class="radio-group">
@@ -745,13 +745,13 @@
 <label><input name="language" type="radio" value="Español"/> Español</label>
 <label><input name="language" type="radio" value="中文"/> 中文</label>
 </div>
-</div>
+</fieldset>
 <div class="form-row">
 <div class="form-group">
-<label>Primary Concern</label>
+<label for="lead-concern">Primary Concern</label>
 
 
-<select name="primary_concern">
+<select id="lead-concern" name="primary_concern">
 <option value="">—</option>
 <option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
 <option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
@@ -760,10 +760,10 @@
 </select>
 </div>
 <div class="form-group">
-<label>How long have you had this condition?</label>
+<label for="lead-duration">How long have you had this condition?</label>
 
 
-<select name="duration">
+<select id="lead-duration" name="duration">
 <option value="">—</option>
 <option value="&lt;1month">Less than 1 month</option>
 <option value="1-6months">1–6 months</option>
@@ -774,8 +774,8 @@
 </div>
 </div>
 <div class="form-row">
-<div class="form-group">
-<label>First acupuncture experience?</label>
+<fieldset class="form-group">
+<legend>First acupuncture experience?</legend>
 
 
 <div class="radio-group">
@@ -786,14 +786,14 @@
 
 
 </div>
-</div>
+</fieldset>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>Preferred Time</label>
+<label for="lead-time">Preferred Time</label>
 
 
-<select name="preferred_time">
+<select id="lead-time" name="preferred_time">
 <option value="">—</option>
 <option value="morning">Morning</option>
 <option value="afternoon">Afternoon</option>
@@ -803,10 +803,10 @@
 </select>
 </div>
 <div class="form-group">
-<label>Insurance</label>
+<label for="lead-insurance">Insurance</label>
 
 
-<select name="insurance">
+<select id="lead-insurance" name="insurance">
 <option value="">—</option>
 <option value="self-pay">Self-pay</option>
 <option value="va-military">VA / Military</option>
@@ -816,10 +816,10 @@
 </div>
 </div>
 <div class="form-group">
-<label>How did you hear about us?</label>
+<label for="lead-howfound">How did you hear about us?</label>
 
 
-<select name="how_found">
+<select id="lead-howfound" name="how_found">
 <option value="">—</option>
 <option value="google">Google Search</option>
 <option value="social">Social Media</option>
@@ -829,10 +829,10 @@
 </select>
 </div>
 <div class="form-group">
-<label>Anything else we should know?</label>
+<label for="lead-notes">Anything else we should know?</label>
 
 
-<textarea name="notes" rows="2"></textarea>
+<textarea id="lead-notes" name="notes" rows="2"></textarea>
 </div>
 </div>
 <!-- Submit -->

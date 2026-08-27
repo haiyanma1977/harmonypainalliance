@@ -333,7 +333,7 @@
     }
   ]
   </script>
-<!-- JSON-LD: FAQPage — patient-facing FAQs (English; ES/ZH translations live in page body) -->
+<!-- JSON-LD: FAQPage — patient-facing FAQs (each language file carries its own translated FAQ schema) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -694,13 +694,13 @@
 </section>
 <!-- ===== LEAD CAPTURE MODAL ===== -->
 <div class="lead-overlay" id="leadOverlay"></div>
-<div class="lead-modal" id="leadModal">
+<div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
 <button aria-label="Close" class="lead-close" id="leadClose">×</button>
 <!-- Modal header -->
 <div class="lead-header">
 
 
-<h3>联系这家诊所</h3>
+<h3 id="leadModalTitle">联系这家诊所</h3>
 
 
 <p class="lead-subtitle">快速表单——约 30 秒完成。您的请求将提交给 Harmony Pain Alliance，我们会告知您与这家诊所对接的下一步。</p>
@@ -712,21 +712,21 @@
 <div class="form-group">
 
 
-<label>您的姓名 *</label>
-<input autocomplete="name" name="name" required="" type="text"/>
+<label for="lead-name">您的姓名 *</label>
+<input autocomplete="name" id="lead-name" name="name" required="" type="text"/>
 </div>
 <div class="form-row">
 <div class="form-group">
 
 
-<label>邮箱 *</label>
-<input autocomplete="email" name="email" required="" type="email"/>
+<label for="lead-email">邮箱 *</label>
+<input autocomplete="email" id="lead-email" name="email" required="" type="email"/>
 </div>
 <div class="form-group">
 
 
-<label>电话 *</label>
-<input autocomplete="tel" name="phone" required="" type="tel"/>
+<label for="lead-phone">电话 *</label>
+<input autocomplete="tel" id="lead-phone" name="phone" required="" type="tel"/>
 </div>
 </div>
 <!-- Expandable optional fields -->
@@ -736,22 +736,22 @@
 <span>+ 帮助我们准备您的就诊（选填）</span>
 </button>
 <div class="lead-optional" id="leadOptional">
-<div class="form-group">
+<fieldset class="form-group">
 
 
-<label>语言偏好</label>
+<legend>语言偏好</legend>
 <div class="radio-group">
 <label><input checked="" name="language" type="radio" value="English"/> English</label>
 <label><input name="language" type="radio" value="Español"/> Español</label>
 <label><input name="language" type="radio" value="中文"/> 中文</label>
 </div>
-</div>
+</fieldset>
 <div class="form-row">
 <div class="form-group">
 
 
-<label>主要症状</label>
-<select name="primary_concern">
+<label for="lead-concern">主要症状</label>
+<select id="lead-concern" name="primary_concern">
 <option value="">—</option>
 <option value="post-stroke-neuro">中风后与神经康复</option>
 <option value="chronic-complex-pain">慢性与复杂性疼痛</option>
@@ -762,8 +762,8 @@
 <div class="form-group">
 
 
-<label>症状持续多长时间？</label>
-<select name="duration">
+<label for="lead-duration">症状持续多长时间？</label>
+<select id="lead-duration" name="duration">
 <option value="">—</option>
 <option value="&lt;1month">不到 1 个月</option>
 <option value="1-6months">1–6 个月</option>
@@ -774,10 +774,10 @@
 </div>
 </div>
 <div class="form-row">
-<div class="form-group">
+<fieldset class="form-group">
 
 
-<label>是否第一次做针灸？</label>
+<legend>是否第一次做针灸？</legend>
 <div class="radio-group">
 
 
@@ -786,14 +786,14 @@
 <label><input name="first_acupuncture" type="radio" value="yes"/> 是</label>
 <label><input name="first_acupuncture" type="radio" value="no"/> 否</label>
 </div>
-</div>
+</fieldset>
 </div>
 <div class="form-row">
 <div class="form-group">
 
 
-<label>偏好时间</label>
-<select name="preferred_time">
+<label for="lead-time">偏好时间</label>
+<select id="lead-time" name="preferred_time">
 <option value="">—</option>
 <option value="morning">上午</option>
 <option value="afternoon">下午</option>
@@ -805,8 +805,8 @@
 <div class="form-group">
 
 
-<label>保险类型</label>
-<select name="insurance">
+<label for="lead-insurance">保险类型</label>
+<select id="lead-insurance" name="insurance">
 <option value="">—</option>
 <option value="self-pay">自费</option>
 <option value="va-military">VA / 军人保险</option>
@@ -818,8 +818,8 @@
 <div class="form-group">
 
 
-<label>您是怎么知道我们的？</label>
-<select name="how_found">
+<label for="lead-howfound">您是怎么知道我们的？</label>
+<select id="lead-howfound" name="how_found">
 <option value="">—</option>
 <option value="google">Google 搜索</option>
 <option value="social">社交媒体</option>
@@ -831,8 +831,8 @@
 <div class="form-group">
 
 
-<label>其他补充</label>
-<textarea name="notes" rows="2"></textarea>
+<label for="lead-notes">其他补充</label>
+<textarea id="lead-notes" name="notes" rows="2"></textarea>
 </div>
 </div>
 <!-- Submit -->

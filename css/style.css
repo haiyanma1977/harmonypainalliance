@@ -98,13 +98,6 @@ h4 { font-size: 1.125rem; font-weight: 700; }
 section { padding: var(--section-pad) 0; }
 section:nth-child(even) { background: var(--off-white); }
 
-/* --- Gold accent for key terms --- */
-.gold-accent {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic; font-weight: 600;
-  color: #D4A843;
-}
-
 /* --- Language Toggle System --- */
 /* Hide non-active languages; active language elements keep their natural display value */
 body.lang-en [lang-es], body.lang-en [lang-zh] { display: none !important; }
@@ -322,7 +315,9 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 .hero-accent {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic; font-weight: 600;
-  color: #D4A843;
+  /* No colour here: the later `.hero .accent, .hero em, .hero-accent` override
+     at the end of this file sets #D4A574 !important, so a declaration in this
+     rule never took effect. */
 }
 .hero-layout {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -696,6 +691,15 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   box-shadow: 0 0 0 3px rgba(7,56,128,0.1);
 }
 .form-group textarea { resize: vertical; min-height: 100px; }
+
+/* Homepage lead form: the two radio groups are now <fieldset class="form-group">
+   with a <legend> group title (the old <label> named no single control). Reset
+   the UA fieldset box, and give the legend the appearance the label had. */
+.form-group[class] { border: 0; margin: inherit; padding: 0; min-width: 0; }
+.form-group > legend {
+  display: block; font-size: 0.875rem; font-weight: 600;
+  color: var(--text-dark); margin-bottom: 6px; padding: 0;
+}
 .radio-group { display: flex; gap: 20px; margin-top: 6px; }
 .radio-group label { font-weight: 400; display: flex; align-items: center; gap: 6px; cursor: pointer; }
 .radio-group input[type="radio"] { width: auto; accent-color: var(--brand-deep); }
@@ -947,7 +951,7 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   font-size: 0.8125rem;
 }
 .footer-bottom a {
-  color: rgba(255,255,255,0.5); margin-left: 16px;
+  color: rgba(255,255,255,0.72); margin-left: 16px;
   transition: color 0.2s;
 }
 .footer-bottom a:hover { color: var(--white); }
@@ -1022,7 +1026,7 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
 }
 @media (max-width: 480px) {
   .hero, .hero-layout, .hero-section, section.hero {
-    padding: 72px 12px 40px;
+    padding: 100px 12px 40px;
   }
   .hero h1 {
     font-size: 1.375rem !important;
@@ -1037,6 +1041,15 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
   color: #D4A574 !important;
   font-family: 'Playfair Display', serif;
   font-style: italic;
+}
+
+/* No italics for CJK: Playfair Display carries no CJK glyphs, so the fallback
+   face gets synthesised oblique. Chinese carries the emphasis with weight and
+   the gold, not italic. */
+body.lang-zh .hero-accent {
+  font-family: 'Noto Sans SC', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 700;
 }
 
 .hero-card, .card-patients, .card-practitioners {
@@ -1268,6 +1281,7 @@ header .logo, nav .logo, .site-branding,
 
 .lead-modal .form-group { margin-bottom: 16px; }
 .lead-modal .form-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.875rem; color: var(--text-dark); }
+.lead-modal .form-group > legend { margin-bottom: 4px; font-weight: 600; font-size: 0.875rem; color: var(--text-dark); }
 .lead-modal .form-group input[type="text"],
 .lead-modal .form-group input[type="email"],
 .lead-modal .form-group input[type="tel"],
@@ -1509,6 +1523,11 @@ header .logo, nav .logo, .site-branding,
   .nav-menu   { top: 104px; height: calc(100vh - 104px); }
   .nav-overlay{ top: 104px; }
   .nav-cta-mobile { border-bottom: none !important; padding: 14px 20px !important; }
+  /* Closed drawer must leave the tab order. It is only pushed off-screen
+     (right: -320px) and stayed focusable, so Tab landed on the CTA and the five
+     nav links outside the viewport. Same pattern as .nav-overlay above. */
+  .nav-menu { visibility: hidden; transition: right 0.35s ease, visibility 0s linear 0.35s; }
+  .nav-menu.open { visibility: visible; transition: right 0.35s ease, visibility 0s; }
 }
 @media (max-width: 640px) {
   .nav-menu   { top: 72px; height: calc(100vh - 72px); }
@@ -1554,7 +1573,7 @@ header .logo, nav .logo, .site-branding,
 .findcare-card p { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; }
 .findcare-go {
   position: absolute; right: 20px; top: 26px;
-  font-size: 1.25rem; font-weight: 700; color: var(--aux-green);
+  font-size: 1.25rem; font-weight: 700; color: var(--green-600);
   transition: transform 0.2s;
 }
 .findcare-card:hover .findcare-go { transform: translateX(4px); }
@@ -1576,7 +1595,7 @@ header .logo, nav .logo, .site-branding,
 }
 .learn-card:hover { border-color: var(--brand-deep); box-shadow: 0 6px 18px rgba(7,56,128,0.08); }
 .learn-card h3 { font-size: 1.0625rem; margin: 0; }
-.learn-go { color: var(--aux-green); font-weight: 700; font-size: 1.125rem; flex-shrink: 0; }
+.learn-go { color: var(--green-600); font-weight: 700; font-size: 1.125rem; flex-shrink: 0; }
 
 /* How HPA Works */
 .how-steps {
@@ -1719,13 +1738,27 @@ nav.clinic-breadcrumb .cur { color: #6E6A63; }
 
 /* WCAG 2.4.7 — the stylesheet only carried focus styles for .btn-outline and
    .findcare-card, so the primary CTA, FAQ buttons, learn-more links, the phone
-   link and the breadcrumb links had no visible keyboard focus. Scoped to the
-   Clinic Profile for this round; a site-wide focus style is a separate change. */
-body.clinic-profile a:focus-visible,
-body.clinic-profile button:focus-visible {
+   link and the breadcrumb links had no visible keyboard focus. Now site-wide:
+   this rule applies on every page, not only the Clinic Profile. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
   outline: 2px solid var(--brand-deep);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+/* Deep-blue grounds. The ring above is --brand-deep (#073880), which is exactly
+   the hero and footer background colour, so it measured 1.00:1 and was invisible.
+   The navbar is transparent until .scrolled, so at the top of the page it floats
+   on that same hero blue. Colour only — width, offset and radius are unchanged. */
+.hero a:focus-visible,
+.hero button:focus-visible,
+footer a:focus-visible,
+footer button:focus-visible,
+.navbar:not(.scrolled) a:focus-visible,
+.navbar:not(.scrolled) button:focus-visible {
+  outline-color: #fff;
 }
 
 /* Major-section separation: one consistent rule, no decorative cards.
@@ -2064,3 +2097,16 @@ body.clinic-profile.lang-zh .care-member-block h4 {
   text-transform: none; letter-spacing: 0.04em;
 }
 body.clinic-profile.lang-zh .clinic-focus-item { letter-spacing: 0.02em; }
+
+/* ---- Reduced motion ---------------------------------------------------- */
+/* prefers-reduced-motion: reduce — collapse animation and transition durations.
+   transition-delay is untouched, so the drawer's delayed visibility switch
+   (see the <=1024px block) still hides it after the slide. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
