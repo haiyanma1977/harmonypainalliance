@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<!--
+============================================================================
+HPA CLINIC PROFILE TEMPLATE  —  /{lang}/clinics/{slug}/
+Template V1 (2026-08-21) · reusable HPA Clinic Profile system
+Instance: South Florida TCM (EN) — cloned from Template V1 on 2026-09-16
+----------------------------------------------------------------------------
+This is a PLATFORM TEMPLATE, not a redesign of one clinic. Anything that is
+only true of one clinic belongs in a SLOT.
+
+TEMPLATE CLASSIFICATION (§24)
+  FIXED            Platform-level structure/content. True for ANY clinic.
+                   Change only via platform red-line review — never per clinic.
+  REQUIRED SLOT    Clinic-specific content required for publication.
+  OPTIONAL SLOT    Clinic-specific content that disappears cleanly when absent:
+                   no placeholder, no reserved blank space.
+  REPEATABLE SLOT  1..n instances.
+
+  Clinic Logo ......... OPTIONAL SLOT
+  Practitioners ....... REPEATABLE SLOT
+  Practitioner photo .. OPTIONAL SLOT
+  Clinical Focus ...... REQUIRED + REPEATABLE
+  Services ............ REQUIRED
+
+  In the body each region is wrapped in an HTML comment pair, written here
+  without live delimiters as:  [SLOT: name | note] ...content... [/SLOT]
+  Guillemet placeholders (TODO / PENDIENTE / 待确认 inside heavy angle
+  brackets) mark an instance's unfilled SLOTs. Grep the opening guillemet.
+  ALL must be gone before go-live. Never fill or remove one on your own.
+  Clone a new clinic = copy file -> replace every SLOT -> clear every placeholder.
+
+PAGE ORDER (V1 — patient-intent-first, clinic-centric)
+  Clinic identity -> Clinical Focus -> Care Team -> Services ->
+  Additional Clinic Information -> Clinic Details -> HPA connection
+
+  1 Clinic identity (platform context · breadcrumb · logo slot · name ·
+    location · lede · primary connection CTA · directions)
+  2 Clinical Focus        — what problems this clinic works with
+  3 Care Team             — who provides the care (1..n practitioners)
+  4 Services              — what modalities the clinic provides
+  5 Additional Clinic Information (clinic method · good fit · what to expect · FAQ)
+  6 Clinic Details        — address · phone · hours · languages · payment · map
+  7 About Harmony Pain Alliance + connection CTA + disclaimer
+
+  Changed vs Template v2 (2026-08-14): Clinical Focus moved ABOVE Care Team;
+  the single-practitioner "Meet the Practitioner" section replaced by a
+  repeatable Care Team; practitioner training moved INTO the practitioner
+  (it is not a clinic-level fact); Insurance & Payment folded into Clinic
+  Details; Clinic Gallery slot retained (hidden, no photos yet).
+
+RED-LINES BAKED IN (every instance)
+  §3.1 AP-only credential · §3.2 no price-off/special-offer framing ·
+  §3.3 platform-truth (no unverifiable clinic commitments — incl. no
+  "ongoing/continues to train in China"; never write one clinic's attributes
+  as the platform's) · §3.4 FL Ch.457 ("focuses on", no "specializes in",
+  no guaranteed results).
+
+  CONNECTION, NOT BOOKING. Worker v3 is the single authority and may return
+  booking | clinic_will_contact | hpa_will_follow_up. This page must never
+  promise that HPA itself completes a booking — not in the CTA, not in the
+  modal. All CTAs open the HPA lead modal; NEVER Jane App or any clinic
+  booking system direct.
+
+  NO EXTERNAL CONVERSION BYPASS. No "Visit Clinic Website", no clinic website
+  button or link, no direct booking link, no "Book Directly". The clinic
+  website is NOT a visible Clinic Details field. Non-visible technical
+  references (JSON-LD sameAs) are out of scope and stay untouched.
+
+  PHONE = INFORMATION, NOT PRIMARY CTA. Phone belongs in Clinic Details at
+  normal information weight. No phone in the hero, no "Call Clinic" button,
+  no phone beside the primary CTA, no repeated phone CTA.
+
+  HPA PRESENCE, RESTRAINED. Site header/nav, a quiet platform-context line,
+  the participating-clinic badge, the About HPA block, the HPA connection CTA,
+  footer and disclaimer. NO second HPA logo in the clinic hero, no watermark
+  over practitioner photos, no HPA branding over the clinic name, no repeated
+  badges, nothing implying HPA provides clinical care.
+
+SLOT INVENTORY (atomic values — current = South Florida TCM)
+  slug ............. south-florida-tcm
+  clinic_name ...... South Florida TCM
+  clinic_logo ...... OPTIONAL — NOT SET (none supplied): <img> omitted, H1 renders alone.
+  clinic_id ........ south-florida-tcm     (data-clinic= on connection CTAs; NOT yet in the
+                     hpa-leads Worker registry — add it there BEFORE go-live)
+  partner_status ... Partner
+  practitioner ..... Huayu (Lucy) Brooks, AP   (AP suffix only §3.1; academic degree stated in the bio text only;
+                     photo OPTIONAL — not supplied, .care-member-nophoto)
+  clinic_method .... none (OPTIONAL block omitted)
+  address .......... 9776 S. Military Trail, Ste D2-3, Boynton Beach, FL 33436
+  geo .............. not published
+  phone ............ +1-561-666-8826
+  hours ............ Mon, Wed, Fri 10:00–18:00, by appointment
+  website .......... not published (no sameAs)
+  npi .............. not published
+  booking_category . 4 Primary-Concern options in the lead modal (locked taxonomy)
+  concern preselect  hero CTA = chronic-complex-pain · closing CTA = post-stroke-neuro
+  block SLOTs ...... focus_items · care_team (role · bio) · services (+ JSON-LD availableService,
+                     5 named modalities) · faq (insurance · hours) · clinic_details
+                     (address · phone · hours · languages · payment) · why_this_clinic line ·
+                     clinic JSON-LD · physician JSON-LD · FAQPage JSON-LD
+  omitted .......... focus_lists · clinic_method · good_fit · what_to_expect body · map · gallery
+  copy source ...... EN/ES/ZH copy supplied by the founder 2026-09-16 — do not self-translate.
+
+TRILINGUAL: EN / ES / ZH ship together with the same section architecture,
+  component architecture, CTA hierarchy, Care Team structure, Clinic Logo
+  behaviour, Clinic Details structure, HPA context and responsive rules.
+  Text length is NOT expected to match. Design to the Spanish worst case.
+  ⚠ ES/ZH copy for this instance was supplied by the founder — never self-translate.
+
+STYLES: all Clinic Profile CSS lives in /css/style.css under
+  "HPA CLINIC PROFILE — TEMPLATE V1", scoped to body.clinic-profile.
+  Do not reintroduce a page-local <style> block.
+============================================================================
+-->
+<html lang="en">
+<head>
+<!-- HEAD — structure/keys + font/css/favicon links are FIXED.
+     Every VALUE below (title, description, canonical/hreflang, og/twitter, both JSON-LD payloads) is a per-clinic SLOT. -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SLOT: head_meta -->
+<title>South Florida TCM | Acupuncture in Boynton Beach, FL | Harmony Pain Alliance</title>
+<meta content="South Florida TCM in Boynton Beach, Florida. Acupuncture and Traditional Chinese Medicine with Huayu (Lucy) Brooks, Florida Licensed Acupuncture Physician. English and Chinese." name="description"/>
+<meta content="Harmony TCM International Group LLC" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="US-FL" name="geo.region"/>
+<meta content="Boynton Beach, Florida" name="geo.placename"/>
+<!-- /SLOT -->
+<!-- SLOT: canonical_hreflang | swap {slug} per clinic -->
+<link href="https://harmonypainalliance.com/en/clinics/south-florida-tcm/" rel="canonical"/>
+<link href="https://harmonypainalliance.com/en/clinics/south-florida-tcm/" hreflang="en" rel="alternate"/>
+<link href="https://harmonypainalliance.com/es/clinics/south-florida-tcm/" hreflang="es" rel="alternate"/>
+<link href="https://harmonypainalliance.com/zh/clinics/south-florida-tcm/" hreflang="zh" rel="alternate"/>
+<link href="https://harmonypainalliance.com/en/clinics/south-florida-tcm/" hreflang="x-default" rel="alternate"/>
+<!-- /SLOT -->
+<!-- FIXED: favicons -->
+<link href="/img/hpa-favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/img/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<meta content="#073880" name="theme-color"/>
+<!-- SLOT: social_preview -->
+<meta content="website" property="og:type"/>
+<meta content="Harmony Pain Alliance" property="og:site_name"/>
+<meta content="https://harmonypainalliance.com/en/clinics/south-florida-tcm/" property="og:url"/>
+<meta content="South Florida TCM | Acupuncture in Boynton Beach, FL | Harmony Pain Alliance" property="og:title"/>
+<meta content="South Florida TCM in Boynton Beach, Florida. Acupuncture and Traditional Chinese Medicine with Huayu (Lucy) Brooks, Florida Licensed Acupuncture Physician. English and Chinese." property="og:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Harmony Pain Alliance — Redefining Rehabilitation in North America" property="og:image:alt"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="es_ES" property="og:locale:alternate"/>
+<meta content="zh_CN" property="og:locale:alternate"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="South Florida TCM | Acupuncture in Boynton Beach, FL | Harmony Pain Alliance" name="twitter:title"/>
+<meta content="South Florida TCM in Boynton Beach, Florida. Acupuncture and Traditional Chinese Medicine with Huayu (Lucy) Brooks, Florida Licensed Acupuncture Physician. English and Chinese." name="twitter:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" name="twitter:image"/>
+<!-- /SLOT -->
+
+<!-- SLOT: jsonld_clinic | MedicalClinic. Only what is visible on the page. availableService = the 5 named modalities in Services (§9). telephone mirrors Clinic Details. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  "@id": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/#clinic",
+  "name": "South Florida TCM",
+  "url": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/",
+  "description": "South Florida TCM in Boynton Beach, Florida. Acupuncture and Traditional Chinese Medicine with Huayu (Lucy) Brooks, Florida Licensed Acupuncture Physician. English and Chinese.",
+  "telephone": "+15616668826",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "9776 S. Military Trail, Ste D2-3",
+    "addressLocality": "Boynton Beach",
+    "addressRegion": "FL",
+    "postalCode": "33436",
+    "addressCountry": "US"
+  },
+  "medicalSpecialty": [
+    "Acupuncture"
+  ],
+  "availableService": [
+    {
+      "@type": "MedicalProcedure",
+      "name": "Acupuncture"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Tui Na (Chinese medical massage)"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Chinese herbal medicine"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Cupping"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Ear seed therapy"
+    }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "opens": "10:00",
+      "closes": "18:00"
+    }
+  ],
+  "memberOf": {
+    "@type": "Organization",
+    "name": "Harmony Pain Alliance",
+    "url": "https://harmonypainalliance.com/"
+  }
+}
+</script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_physician | FIXED constraint: honorificSuffix AP only; credentials limited to what is visible on the page. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/#practitioner",
+  "name": "Huayu Brooks",
+  "alternateName": "Lucy Brooks",
+  "honorificSuffix": [
+    "AP"
+  ],
+  "jobTitle": "Florida Licensed Acupuncture Physician",
+  "url": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/",
+  "worksFor": {
+    "@type": "MedicalClinic",
+    "@id": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/#clinic"
+  },
+  "knowsAbout": [
+    "Sciatica and chronic neck, shoulder, and back pain",
+    "Post-stroke rehabilitation and neurological recovery",
+    "Knee pain, arthritis, and mobility problems"
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "license",
+      "name": "Florida Licensed Acupuncture Physician",
+      "recognizedBy": {
+        "@type": "GovernmentOrganization",
+        "name": "Florida Board of Acupuncture"
+      }
+    }
+  ]
+}
+</script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_breadcrumb -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://harmonypainalliance.com/en/"},
+      {"@type": "ListItem", "position": 2, "name": "South Florida TCM", "item": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/"}
+    ]
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_webpage | HPA is the PUBLISHER of this page; the clinic is its subject.
+     `about` points at the clinic entity's canonical @id as written in THIS file. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/#webpage",
+    "url": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/",
+    "isPartOf": {"@type": "WebSite", "url": "https://harmonypainalliance.com/"},
+    "publisher": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/"},
+    "about": {"@id": "https://harmonypainalliance.com/en/clinics/south-florida-tcm/#clinic"}
+  }
+  </script>
+<!-- /SLOT -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does South Florida TCM accept health insurance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. South Florida TCM is a self-pay practice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When is the clinic open?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monday, Wednesday, and Friday, 10:00 AM–6:00 PM, by appointment. Additional appointment days may be available as needed."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- FIXED: fonts + stylesheet -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
+<link href="/css/style.css" rel="stylesheet"/>
+</head>
+<body class="lang-en clinic-profile">
+<!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
+<nav class="navbar">
+<div class="container">
+<a class="nav-brand" href="/en/">
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-light" src="/img/hpa_logo_white.svg"/>
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-dark" src="/img/favicon.svg"/>
+<span class="nav-brand-text">Harmony Pain Alliance</span>
+</a>
+<div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Find Care<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Post-Stroke &amp; Neurological Rehabilitation</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Chronic &amp; Complex Pain</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Other Health Concern</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not Sure</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/en/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Learn<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/en/stroke-recovery-acupuncture/">Stroke Recovery</a></li>
+<li><a href="/en/facial-paralysis-acupuncture/">Bell&#39;s Palsy &amp; Facial Paralysis</a></li>
+<li><a href="/en/migraine-acupuncture/">Migraine &amp; Chronic Headache</a></li>
+<li><a href="/en/learn/">All Learn Topics &rarr;</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/en/#about">About HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">For Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/en/join/">Join the Network</a></li>
+<li><a href="/en/tech-partnership/">Technology Partnership</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="lang-switch">
+<a class="active" data-lang="en" href="/en/clinics/south-florida-tcm/">EN</a>
+<a data-lang="es" href="/es/clinics/south-florida-tcm/">ES</a>
+<a data-lang="zh" href="/zh/clinics/south-florida-tcm/">中文</a>
+</div>
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="Menu" class="hamburger"><span></span><span></span><span></span></button>
+</div>
+</div>
+</nav>
+<!-- FIXED: slide-out menu -->
+<div class="nav-overlay"></div>
+
+
+<main>
+<!-- FIXED: breadcrumb (founder decision 2026-08-25, supersedes 2026-08-22
+     removal). The 2026-08-22 removal was correct about the symptom — the clinic
+     name read twice inside the hero — but the cause was LAYER, not the breadcrumb
+     itself: it sat inside the hero, on the same layer as the H1. It now renders as
+     a standalone full-width bar ABOVE .clinic-profile-section (white on the
+     section's warm #F8F7F4), so it belongs to the frame layer alongside the navbar
+     and no longer competes with the clinic identity. Two levels only —
+     Home › {clinic} — matching the locked BreadcrumbList JSON-LD. Do NOT add a
+     "Clinics" level: /en|es|zh/clinics/ do not exist (verified 404, 2026-08-25).
+     Upgrade to three levels, and add the matching JSON-LD node, only when the
+     /clinics/ index page ships. -->
+<div id="bcbar">
+  <div class="container">
+    <div class="bcbar-wrap">
+      <nav class="clinic-breadcrumb" aria-label="Breadcrumb">
+        <a href="/en/">Home</a>
+        <span class="sep" aria-hidden="true">&rsaquo;</span>
+        <span class="cur" aria-current="page">South Florida TCM</span>
+      </nav>
+    </div>
+  </div>
+</div>
+<section class="clinic-profile-section">
+<div class="container">
+<div class="clinic-wrap">
+
+<!-- ===== 1. CLINIC IDENTITY ===== -->
+<!-- NOT a <header> element: the global "Enlarge navbar v2" block targets bare
+     `header` (padding 28px 56px, min-height 104px, `header img {height:64px}`,
+     `header h1 {font-size:28px}`) and was silently capturing this hero — indenting
+     it 56px past every section below it, shrinking the H1, and clamping the clinic
+     logo. A div carries no such baggage; the H1 provides the document structure. -->
+<div class="clinic-hero">
+<!-- FIXED: quiet platform context. HPA is legible as publisher without competing
+     with the clinic. Do NOT add a second HPA logo or badge anywhere below. -->
+
+<!-- FIXED: clinic identity LOCKUP — the clinic logo and clinic-name H1 render
+     as ONE identity unit (logo beside the name on desktop, tightly stacked on
+     small screens). The logo is never a detached standalone row. The HPA
+     platform context stays visually separate above; never combine the HPA
+     logo with the clinic logo. -->
+<div class="clinic-identity">
+<!-- SLOT: clinic_logo | OPTIONAL — no logo supplied for this clinic, so the <img> is omitted and the
+     H1 renders alone. Never recreate or substitute a clinic logo, and never use the HPA logo in its place. -->
+<!-- /SLOT -->
+<!-- SLOT: clinic_name -->
+<h1>South Florida TCM</h1>
+<!-- /SLOT -->
+</div>
+<!-- SLOT: location -->
+<p class="clinic-locality">Boynton Beach, Florida</p>
+<!-- /SLOT -->
+<!-- SLOT: partner_status | Partner -->
+<span class="tag tag-green">HPA Partner Clinic</span>
+<!-- /SLOT -->
+<!-- SLOT: hero_line -->
+<p class="clinic-lede">Acupuncture combined with Traditional Chinese Medicine therapies, according to each patient's individual condition.</p>
+<!-- /SLOT -->
+<!-- FIXED: hero actions. Primary = HPA connection (data-clinic = SLOT clinic_id),
+     opens the HPA lead modal — NEVER a clinic booking system direct. Get Directions
+     is patient logistics and stays visually secondary. No phone here, no clinic
+     website link, no direct booking control. -->
+<div class="clinic-hero-actions">
+<button type="button" class="btn btn-green" data-clinic="south-florida-tcm" data-concern="chronic-complex-pain" data-lead-source="clinic-hero">Connect with This Clinic</button>
+<a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&amp;query=9776+S.+Military+Trail+Ste+D2-3+Boynton+Beach+FL+33436" rel="noopener" target="_blank">Get Directions</a>
+</div>
+</div>
+
+<!-- ===== 2. CLINICAL FOCUS ===== -->
+<!-- FIXED: heading + position (above Care Team). SLOT: focus items, conditions and
+     internal links. Only link condition pages that exist in THIS language. -->
+<section class="clinic-section">
+<h2>Clinical Focus</h2>
+<p>What this clinic primarily works with:</p>
+<!-- SLOT: focus_items | REQUIRED + REPEATABLE. Content-responsive component —
+     any number of items, any string length. Do not use .specialty-tags here. -->
+<ul class="clinic-focus-list">
+<li class="clinic-focus-item clinic-focus-item-primary">Sciatica and chronic neck, shoulder, and back pain</li>
+<li class="clinic-focus-item clinic-focus-item-primary">Post-stroke rehabilitation and neurological recovery</li>
+<li class="clinic-focus-item clinic-focus-item-primary">Knee pain, arthritis, and mobility problems</li>
+</ul>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 3. CARE TEAM ===== -->
+<!-- FIXED: heading. Never rename it around one practitioner's name.
+     SLOT: care_team | REPEATABLE — repeat .care-member per practitioner.
+     Practitioner photo is OPTIONAL: omit .care-member-photo and add the
+     .care-member-nophoto class to collapse to text-only. No silhouette,
+     no empty photo box. Training and continuing education belong to the
+     PRACTITIONER, never to the clinic as a global fact (§3.3: completed
+     facts only — no ongoing/forward-training framing).
+     Credential constraints: AP suffix only §3.1; not MD/DO/PhD. -->
+<section class="clinic-section">
+<h2>Care Team</h2>
+<!-- SLOT: care_team -->
+<div class="care-member care-member-nophoto">
+<!-- Identity first at every width (founder decision 2026-08-25, supersedes the
+     earlier mobile stacking rule). Text left, portrait right at ALL widths:
+     desktop and tablet place the portrait in a right-hand column spanning both
+     rows; below 700px the portrait sits beside name + role while the credentials
+     span the full width, because a credentials column narrower than ~340px is
+     not readable. Source order (identity → photo → details) still matches the
+     reading order. -->
+<div class="care-member-identity">
+<h3 class="care-member-name">Huayu (Lucy) Brooks, AP</h3>
+<p class="care-member-role">Florida Licensed Acupuncture Physician</p>
+</div>
+<!-- OPTIONAL SLOT: practitioner photo — not supplied; omitted (.care-member-nophoto). -->
+<div class="care-member-details">
+<p>Lucy Brooks is a Florida Licensed Acupuncture Physician with a Doctor of Acupuncture and Oriental Medicine (DAOM) degree and approximately 20 years of experience in Tui Na and therapeutic bodywork. Her approach combines acupuncture with Traditional Chinese Medicine therapies according to each patient's individual condition.</p>
+</div>
+</div>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 4. SERVICES ===== -->
+<!-- FIXED: heading + "vary" note. SLOT: MODALITIES only (what the clinic
+     provides) — never conditions, which belong to Clinical Focus. Keep in sync
+     with jsonld_clinic availableService. Plain list: no cards, no icons, no
+     pricing, no per-service CTA, no marketing expansion. -->
+<section class="clinic-section">
+<h2>Services</h2>
+<!-- SLOT: services | REQUIRED -->
+<ul>
+<li>Acupuncture</li>
+<li>Tui Na (Chinese medical massage)</li>
+<li>Chinese herbal medicine</li>
+<li>Cupping</li>
+<li>Ear seed therapy</li>
+<li>Other Traditional Chinese Medicine therapies</li>
+</ul>
+<p>When appropriate, acupuncture is combined with Tui Na and other TCM modalities rather than relying on a single treatment method.</p>
+<!-- /SLOT -->
+<p class="ref-note">Available services may vary by patient and clinical indication.</p>
+</section>
+
+<!-- ===== 5. ADDITIONAL CLINIC INFORMATION ===== -->
+<section class="clinic-section">
+<h2>Additional Clinic Information</h2>
+
+<!-- clinic_method, good_fit and what_to_expect SLOTs omitted for this clinic: no approved copy. -->
+<p><strong>Acupuncture is intended to complement, not replace, care from your physician and rehabilitation team.</strong></p>
+
+<!-- ===== CLINIC GALLERY ===== -->
+<!-- SLOT: gallery | OPTIONAL — hidden at launch (no photos yet). Restore: place
+     clinic photos in /img/, add an <h3> heading and a photo grid here. -->
+<!-- /SLOT -->
+
+<!-- FIXED: structure. SLOT: answers (then mirror to the FAQPage JSON-LD).
+     Languages is NOT a FAQ — it lives in Clinic Details. -->
+<h3>Frequently Asked Questions</h3>
+<!-- SLOT: faq -->
+<div class="faq-item" data-category="patients">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-1"><span>Does South Florida TCM accept health insurance?</span></button>
+<div class="faq-answer" id="faq-answer-1"><div class="faq-answer-inner">
+<p>No. South Florida TCM is a self-pay practice.</p>
+</div></div>
+</div>
+<div class="faq-item" data-category="patients">
+<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2"><span>When is the clinic open?</span></button>
+<div class="faq-answer" id="faq-answer-2"><div class="faq-answer-inner">
+<p>Monday, Wednesday, and Friday, 10:00 AM–6:00 PM, by appointment. Additional appointment days may be available as needed.</p>
+</div></div>
+</div>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 6. CLINIC DETAILS ===== -->
+<!-- FIXED: layout + "coverage varies" note. SLOT: address · phone · hours ·
+     languages · payment/insurance (where already approved) · map.
+     OPTIONAL and only when EXPLICITLY confirmed for that clinic: accessibility,
+     parking. Never inferred. Clinic website is NOT a visible field. Direct
+     booking system is NOT a visible field. NPI stays out of patient copy.
+     Phone is information at information weight — no "Call Clinic" button. -->
+<section class="clinic-section clinic-section-tinted">
+<h2>Clinic Details</h2>
+<!-- SLOT: clinic_details -->
+<div class="clinic-facts">
+<div class="clinic-fact"><strong>Address</strong>9776 S. Military Trail, Ste D2-3, Boynton Beach, FL 33436</div>
+<div class="clinic-fact"><strong>Phone</strong><a href="tel:+15616668826">+1 (561) 666-8826</a></div>
+<div class="clinic-fact"><strong>Hours</strong>Monday, Wednesday, and Friday, 10:00 AM–6:00 PM, by appointment. Additional appointment days may be available as needed.</div>
+<div class="clinic-fact"><strong>Languages</strong>English, Chinese</div>
+<div class="clinic-fact"><strong>Payment</strong>Self-pay. South Florida TCM does not accept health insurance.</div>
+</div>
+<p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&amp;query=9776+S.+Military+Trail+Ste+D2-3+Boynton+Beach+FL+33436" rel="noopener" target="_blank">Get Directions</a></p>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 7. HPA CONNECTION ===== -->
+<!-- FIXED: platform intro + founder-review line — TRUE FOR ANY CLINIC (§3.3).
+     The founder-review statement is the approved trust basis for Template V1.
+     Do NOT add standards claims, outcome guarantees, clinic
+     commitment claims, or any unverifiable screening language. -->
+<section class="clinic-section">
+<h2>About Harmony Pain Alliance</h2>
+<p>Harmony Pain Alliance helps patients discover independent acupuncture and Traditional Chinese Medicine clinics based on location, clinical focus, and professional background.</p>
+<p>During HPA's launch phase, every clinic on the platform is personally reviewed by our founder before joining.</p>
+<!-- SLOT: why_this_clinic | one clinic-specific line: partner status + city -->
+<p><strong>South Florida TCM is an HPA Partner Clinic in Boynton Beach, Florida.</strong></p>
+<!-- /SLOT -->
+
+<!-- FIXED: structure + HPA lead-modal mechanism. Connection language only —
+     HPA does not promise to complete a booking. SLOT: copy + address. -->
+<div class="clinic-cta">
+<h3>Ready to Connect with This Clinic?</h3>
+<!-- SLOT: cta_copy -->
+<p>If you are seeking acupuncture care for sciatica or chronic neck, shoulder, or back pain, post-stroke rehabilitation or neurological recovery, knee pain, arthritis, or mobility problems, or another health concern, you can send Harmony Pain Alliance a request about South Florida TCM.</p>
+<p><strong>9776 S. Military Trail, Ste D2-3, Boynton Beach, FL 33436</strong></p>
+<!-- /SLOT -->
+<button type="button" class="btn btn-green" data-clinic="south-florida-tcm" data-concern="post-stroke-neuro" data-lead-source="clinic-cta">Connect with This Clinic</button>
+</div>
+
+<!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke
+     emergency + independent clinical services. Do not trim. -->
+<div class="clinic-disclaimer">
+<h4>Important Information</h4>
+<p class="ref-note">This page is for general informational purposes only and is not medical advice. It does not provide a diagnosis, guarantee treatment outcomes, or replace evaluation and care from your physician or rehabilitation team. Patients experiencing a medical emergency or symptoms of an acute stroke should seek emergency medical care immediately. Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are provided independently by the clinic.</p>
+</div>
+</section>
+
+</div>
+</div>
+</section>
+</main>
+
+<!-- FIXED: LEAD CAPTURE MODAL — shared platform component, structurally identical
+     to the homepage modal (short required core + collapsed optional block).
+     The static strings here are MODE B (clinic-scoped connection request);
+     main.js swaps in HPA_MODAL_MODE_A for Get Matched and restores these on
+     every open. Copy is outcome-neutral: the patient is sending a request about
+     this clinic, HPA routes it, and the next step depends on the clinic's
+     configured workflow. Never promise a booking redirect before Worker v3
+     returns its authoritative next_step.
+     SLOT: booking_category (Primary Concern options per clinic focus). -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<div class="lead-header">
+<h3>Connect with This Clinic</h3>
+<p class="lead-subtitle">Quick form — takes about 30 seconds. Your request goes to Harmony Pain Alliance, and we'll tell you the next step for this clinic.</p>
+</div>
+<form id="leadForm">
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
+<div class="form-group">
+<label>Your Name *</label>
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+<label>Phone *</label>
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<!-- Expandable optional fields — keeps the initial form short while capturing
+     the same qualification data as the homepage. No new lead schema. -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+<span>+ Help us prepare for your visit (optional)</span>
+</button>
+<div class="lead-optional" id="leadOptional">
+<div class="form-group">
+<label>Preferred Language</label>
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<div class="form-row">
+<!-- SLOT: booking_category | 4 clinic-focus Primary-Concern options. Values are
+     locked Find Care taxonomy — labels localize, values never change. -->
+<div class="form-group">
+<label>Primary Concern</label>
+<select name="primary_concern">
+<option value="">—</option>
+<option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
+<option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
+<option value="other-health-concern">Other Health Concern</option>
+<option value="not-sure">Not Sure</option>
+</select>
+</div>
+<!-- /SLOT -->
+<div class="form-group">
+<label>How long have you had this condition?</label>
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">Less than 1 month</option>
+<option value="1-6months">1–6 months</option>
+<option value="6-12months">6–12 months</option>
+<option value="&gt;1year">Over 1 year</option>
+<option value="&gt;5years">Over 5 years</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>First acupuncture experience?</label>
+<div class="radio-group">
+<label><input name="first_acupuncture" type="radio" value="yes"/> Yes</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> No</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Preferred Time</label>
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
+<option value="weekend">Weekend</option>
+<option value="flexible">Flexible</option>
+</select>
+</div>
+<div class="form-group">
+<label>Insurance</label>
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">Self-pay</option>
+<option value="va-military">VA / Military</option>
+<option value="private">Private Insurance</option>
+<option value="not-sure">Not sure</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>How did you hear about us?</label>
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google Search</option>
+<option value="social">Social Media</option>
+<option value="friend">Friend / Family</option>
+<option value="doctor">Doctor Referral</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label>Anything else we should know?</label>
+<textarea name="notes" placeholder="Please briefly tell us what you'd like help with." rows="2"></textarea>
+</div>
+</div>
+<!-- Submit -->
+<div style="text-align:center;margin-top:20px;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<span class="lead-submit-text">Send Request</span>
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</div>
+<p class="form-note" style="margin-top:12px;">Your information helps HPA handle your request about this clinic. What happens next depends on how this clinic works with HPA — we'll tell you right after you submit.</p>
+</form>
+<!-- Success state. This string renders ONLY after Worker v3 has returned
+     next_step = "booking"; every other outcome is written in by main.js. -->
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+<h3>Thank you! Redirecting you to the booking page...</h3>
+</div>
+</div>
+
+<!-- FIXED: FOOTER (standard) -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="footer-logo-group">
+<img alt="Harmony Pain Alliance" class="footer-logo-img" src="/img/hpa_logo_white.svg"/>
+<span class="footer-logo-text">Harmony Pain Alliance</span>
+</div>
+<p>Bridging advanced acupuncture systems developed in China with North American clinics.</p>
+<p>Winter Garden, Florida, USA</p>
+<p><a href="mailto:founder@harmonypainalliance.com" style="color:rgba(255,255,255,0.7);">founder@harmonypainalliance.com</a></p>
+</div>
+<div class="footer-nav">
+<h4>Navigate</h4>
+<ul>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">Find Care</a></li>
+<li><a href="/en/clinics/leis-acupuncture/">Clinics</a></li>
+<li><a href="/en/learn/">Learn</a></li>
+<li><a href="/en/#about">About HPA</a></li>
+<li><a href="/en/join/">For Clinics</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">Get Matched</a></li>
+</ul>
+</div>
+<div class="footer-social">
+<h4>Follow Us</h4>
+<a href="https://facebook.com/harmonypainalliance" rel="noopener" target="_blank">Facebook — HPA</a>
+<a href="https://facebook.com/hpatcm" rel="noopener" target="_blank">Facebook — Harmony TCM</a>
+<a href="https://instagram.com/harmonypainalliance" rel="noopener" target="_blank">Instagram — @harmonypainalliance</a>
+<a href="https://instagram.com/hpatcm" rel="noopener" target="_blank">Instagram — @hpatcm</a>
+</div>
+<div class="footer-legal">
+<h4>Disclaimer</h4>
+<p>Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are delivered independently by member clinics.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Harmony TCM International Group LLC · All Rights Reserved</span>
+<span>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/js/main.js"></script>
+</body>
+</html>
