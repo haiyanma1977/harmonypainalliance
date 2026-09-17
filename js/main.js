@@ -73,7 +73,7 @@ const HPA_CONNECT_I18N = {
     failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
     clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamar directamente a la clínica al:',
     fieldError: 'Revise este campo e inténtelo de nuevo.',
-    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica asociada adecuada y se pondrá en contacto con usted. Si en este momento ninguna clínica se ajusta a sus necesidades, también se lo informaremos. Tenga en cuenta que todavía no se ha programado ninguna cita; el horario debe confirmarse con la clínica. HPA se encarga de ponerle en contacto, y la atención la brinda la clínica.'
+    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica colaboradora que se ajuste a sus necesidades y se pondrá en contacto con usted. Si actualmente no hay ninguna que se ajuste a sus necesidades, también se lo informaremos. Tenga en cuenta que su cita aún no está programada: la fecha y la hora deben confirmarse con la clínica. HPA le ayuda a ponerse en contacto con la clínica; la atención la brinda la clínica.'
   },
   zh: {
     concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
