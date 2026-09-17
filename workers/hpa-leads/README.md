@@ -40,10 +40,22 @@ new version has proven itself in production.
 
 | Deploy | Version ID | Source | Notes |
 |---|---|---|---|
-| **v3.0 — CURRENT** | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor |
+| **v3.0 + KV binding `HPA_RATELIMIT` — CURRENT** | **`34f81f94`** | `worker.js` (code unchanged) | 2026-09-17, dashboard "Added KV namespace binding HPA_RATELIMIT" (namespace `hpa-ratelimit`, `55cc138db8ec44cfa5b64b9e94746028`). ⚠ See note below: on Workers Free this limiter cannot stop bursts and spends the shared daily KV write quota. Rollback target: `33a1db41`. |
+| v3.0 — previous | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor. No `HPA_RATELIMIT` binding. |
 | v2.0 — rollback target | **`778d24c9`** | `worker.v2-deployed-778d24c9.js` | Deployed 2026-04-20T02:29:37Z. **Keep available.** |
 
 **Rollback:** Dashboard → Workers & Pages → hpa-leads → Deployments → **`778d24c9`** → Rollback.
+
+> **KV rate limiter — finding (2026-09-17).** A live burst of 31 requests from one IP
+> never returned 429. Two KV properties explain it: KV allows at most **1 write per second
+> to the same key** (faster writes throw, and `isRateLimited()` deliberately fails open), and
+> reads are edge-cached, so the counter lags. The limiter therefore cannot stop bursts.
+> It also calls `put()` on **every** request that passes the honeypot — including malformed
+> spam that is rejected later — and on Workers Free the **1,000 writes/day limit is
+> account-wide**, shared with `HPA_LEADS`. A spam run could exhaust it and make real lead
+> writes fail (503). Recommended: remove the binding (roll back to `33a1db41`) and use a
+> zone **WAF rate limiting rule** on `POST /api/lead` instead (Free plan: 1 rule, 10 s
+> period, per-IP, Block for 10 s).
 
 ---
 
