@@ -618,7 +618,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="clinic-fact"><strong>Address</strong>209 E Bay St, Winter Garden, FL 34787</div>
 <div class="clinic-fact"><strong>Phone</strong><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
 <div class="clinic-fact"><strong>Hours</strong>Mon, Tue, Thu, Fri: 9:00 AM – 5:00 PM<br/>Sat: 10:00 AM – 5:00 PM<br/>Sun: 10:00 AM – 4:00 PM<br/><span class="ref-note">Wed: Closed</span></div>
-<div class="clinic-fact"><strong>Languages</strong>English · Chinese</div>
+<div class="clinic-fact"><strong>Languages</strong>English, Chinese; Spanish via translation tools</div>
 <div class="clinic-fact"><strong>Payment &amp; Insurance</strong>Lei's Acupuncture accepts VA/Military benefits, cash, and credit or debit cards.</div>
 </div>
 <p class="ref-note" style="margin-top:16px;">Insurance coverage and benefits vary. Please contact the clinic directly to confirm eligibility, coverage, and financial responsibility before treatment.</p>
@@ -683,6 +683,8 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p class="lead-subtitle">Quick form — takes about 30 seconds. Your request goes to Harmony Pain Alliance, and we'll tell you the next step for this clinic.</p>
 </div>
 <form id="leadForm">
+<!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
+<div class="hp-field" aria-hidden="true"><label>Leave this field empty<input autocomplete="off" name="website_url_hp" tabindex="-1" type="text" value=""/></label></div>
 <input id="leadSource" name="source_button" type="hidden"/>
 <input id="leadClinic" name="target_clinic" type="hidden"/>
 <!-- Required fields -->

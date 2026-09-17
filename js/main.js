@@ -40,21 +40,21 @@ const HPA_MODAL_MODE_A = {
     title: 'Get Matched with a Clinic',
     intro: 'Tell us what you need — it takes about 30 seconds. HPA will connect you with an appropriate participating clinic.',
     submit: 'Get Matched',
-    helper: 'Your information will help HPA match and connect you with an appropriate participating clinic. If the matched clinic offers online booking, you can continue to its booking page.'
+    helper: 'Your information will help HPA match and connect you with an appropriate participating clinic.'
   },
   es: {
     concernLabel: 'Preocupación Principal *',
     title: 'Le Conectamos con una Clínica',
     intro: 'Cuéntenos qué necesita — toma unos 30 segundos. HPA le conectará con una clínica participante adecuada.',
     submit: 'Conectarme con una Clínica',
-    helper: 'Su información ayudará a HPA a conectarle con una clínica participante adecuada. Si la clínica asignada ofrece reservas en línea, podrá continuar a su página de reservas.'
+    helper: 'Su información ayudará a HPA a conectarle con una clínica participante adecuada.'
   },
   zh: {
     concernLabel: '主要健康问题 *',
     title: '为您匹配合适的诊所',
     intro: '告诉我们您的需求——约 30 秒完成。HPA 将为您对接合适的参与诊所。',
     submit: '开始匹配',
-    helper: '您的信息将用于帮助 HPA 为您匹配并连接合适的参与诊所。如匹配的诊所支持在线预约，您可以继续前往其预约页面。'
+    helper: '您的信息将用于帮助 HPA 为您匹配并连接合适的参与诊所。'
   }
 };
 
@@ -64,21 +64,24 @@ const HPA_CONNECT_I18N = {
     followUp: "Thank you — we've received your request. HPA will contact you to help you find the right clinic.",
     failure: "Sorry — our system couldn't submit your request just now. Please try again in a few minutes, or email us directly at " + HPA_PATIENT_EMAIL + " (an email draft may have opened for you).",
     clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also reach them at:',
-    fieldError: 'Please check this field and try again.'
+    fieldError: 'Please check this field and try again.',
+    matchConfirm: "We've received your information. HPA will look for a suitable partner clinic and contact you. If no clinic currently fits your needs, we will let you know. Please note that no appointment has been made yet; the time needs to be confirmed with the clinic. HPA handles the connection, and care is provided by the clinic."
   },
   es: {
     concernRequired: 'Seleccione su principal problema de salud para que podamos conectarle con la clínica adecuada.',
     followUp: 'Gracias — hemos recibido su solicitud. HPA se pondrá en contacto con usted para ayudarle a encontrar la clínica adecuada.',
     failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
     clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamar directamente a la clínica al:',
-    fieldError: 'Revise este campo e inténtelo de nuevo.'
+    fieldError: 'Revise este campo e inténtelo de nuevo.',
+    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica asociada adecuada y se pondrá en contacto con usted. Si en este momento ninguna clínica se ajusta a sus necesidades, también se lo informaremos. Tenga en cuenta que todavía no se ha programado ninguna cita; el horario debe confirmarse con la clínica. HPA se encarga de ponerle en contacto, y la atención la brinda la clínica.'
   },
   zh: {
     concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
     followUp: '感谢您的提交。HPA 将与您联系，帮助您找到合适的诊所。',
     failure: '抱歉，系统暂时无法提交您的请求。请几分钟后重试，或直接发送邮件至 ' + HPA_PATIENT_EMAIL + '（您的邮件应用中可能已为您打开一封草稿）。',
     clinicContact: '感谢您的提交，诊所将直接与您联系安排就诊。您也可以致电诊所：',
-    fieldError: '请检查此项内容后重新提交。'
+    fieldError: '请检查此项内容后重新提交。',
+    matchConfirm: '我们已经收到您的信息。HPA 会为您查找合适的合作诊所并与您联系；如果目前没有符合您需求的诊所，我们也会告知您。请注意，此时尚未完成预约，具体时间需与诊所确认；HPA 负责对接，诊疗由诊所提供。'
   }
 };
 
@@ -708,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       leadSubmitBtn.classList.add('loading');
-      submitLead(payload, { form: leadForm, inModal: true });
+      submitLead(payload, { form: leadForm, inModal: true, matchMode: leadIsMatchMode });
     });
   }
 
@@ -773,7 +776,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Stored. Branch on the Worker's authoritative next_step.
+    // Stored. GET MATCHED never redirects (live fixes v1, 2026-09-17): the
+    // Worker may still resolve a clinic, but HPA follows up by hand, so the
+    // patient stays on the confirmation message. Request Appointment
+    // (data-clinic present) keeps the Worker-driven branches below.
+    if (ctx.inModal && ctx.matchMode) {
+      showModalOutcome(t.matchConfirm);
+      return;
+    }
+
+    // Branch on the Worker's authoritative next_step.
     const nextStep = data.next_step;
     const clinic = data.clinic || null;
 

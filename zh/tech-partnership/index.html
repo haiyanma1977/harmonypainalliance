@@ -242,6 +242,8 @@
 <p class="lead-subtitle">快速表单——30 秒完成，随后跳转到诊所预约页面。</p>
 </div>
 <form id="leadForm">
+<!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
+<div class="hp-field" aria-hidden="true"><label>Leave this field empty<input autocomplete="off" name="website_url_hp" tabindex="-1" type="text" value=""/></label></div>
 <input id="leadSource" name="source_button" type="hidden"/>
 <input id="leadClinic" name="target_clinic" type="hidden"/>
 <!-- Required fields -->

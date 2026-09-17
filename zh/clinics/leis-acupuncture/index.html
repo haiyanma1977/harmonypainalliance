@@ -618,7 +618,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="clinic-fact"><strong>地址</strong>209 E Bay St, Winter Garden, FL 34787</div>
 <div class="clinic-fact"><strong>电话</strong><a href="tel:+15614036485">+1 (561) 403-6485</a></div>
 <div class="clinic-fact"><strong>营业时间</strong>周一、周二、周四、周五：上午 9:00 – 下午 5:00<br/>周六：上午 10:00 – 下午 5:00<br/>周日：上午 10:00 – 下午 4:00<br/><span class="ref-note">周三：休息</span></div>
-<div class="clinic-fact"><strong>服务语言</strong>中文 · 英文</div>
+<div class="clinic-fact"><strong>服务语言</strong>英文、中文；西班牙语可通过翻译工具沟通</div>
 <div class="clinic-fact"><strong>付款与保险</strong>Lei's Acupuncture 接受 VA/军人福利、现金以及信用卡或借记卡。</div>
 </div>
 <p class="ref-note" style="margin-top:16px;">保险承保范围和福利因具体保险计划而异。接受治疗前，请直接联系诊所确认资格、保险范围及患者需要承担的费用。</p>
@@ -683,6 +683,8 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p class="lead-subtitle">快速表单——约 30 秒完成。您的请求将提交给 Harmony Pain Alliance，我们会告知您与这家诊所对接的下一步。</p>
 </div>
 <form id="leadForm">
+<!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
+<div class="hp-field" aria-hidden="true"><label>Leave this field empty<input autocomplete="off" name="website_url_hp" tabindex="-1" type="text" value=""/></label></div>
 <input id="leadSource" name="source_button" type="hidden"/>
 <input id="leadClinic" name="target_clinic" type="hidden"/>
 <!-- Required fields -->

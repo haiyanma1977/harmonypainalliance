@@ -2110,3 +2110,7 @@ body.clinic-profile.lang-zh .clinic-focus-item { letter-spacing: 0.02em; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Anti-spam honeypot for the lead form (live fixes v1, 2026-09-17).
+   Off-screen rather than display:none so simple bots still fill it. */
+.hp-field { position: absolute !important; left: -10000px !important; top: auto !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
