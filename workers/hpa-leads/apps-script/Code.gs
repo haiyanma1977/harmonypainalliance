@@ -1,5 +1,5 @@
 /**
- * HPA Lead Capture — Google Apps Script v2.0
+ * HPA Lead Capture — Google Apps Script v2.1 (2026-09-18)
  *
  * 功能：
  * 1. 接收 Cloudflare Worker POST 请求，将留资数据写入 Google Sheets
@@ -10,11 +10,21 @@
 
 var NOTIFY_EMAIL = "founder@harmonypainalliance.com";
 
+// Worker sends this exact string as target_clinic_name for Get Matched leads
+// (no clinic resolved). Must match UNASSIGNED_CLINIC_LABEL in worker.js.
+var UNASSIGNED_CLINIC_LABEL = "(unassigned — manual follow-up)";
+
+// v2.1 (2026-09-18): standalone project under founder@ — the sheet is opened
+// by ID instead of getActiveSpreadsheet(). Real ID lives only in the deployed
+// script (see private-handoffs/2026-09-18-identity-migration-v4.md).
+var SHEET_ID = "REPLACE_WITH_SHEET_ID";
+var SHEET_NAME = "Sheet1";
+
 // 收到 POST 请求时自动执行
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
 
     // 如果是第一行（空表），先写表头
     if (sheet.getLastRow() === 0) {
@@ -88,8 +98,12 @@ function doPost(e) {
 function sendNotification(data) {
   try {
     var concern = data.primary_concern ? " — " + data.primary_concern : "";
-    var clinicName = data.target_clinic_name || "Unknown Clinic";
-    var subject = "[HPA Lead] " + (data.name || "Unknown") + concern + " — " + clinicName;
+    // Unassigned = empty name or the Worker's placeholder → two-segment subject.
+    var rawClinic = data.target_clinic_name || "";
+    var unassigned = !rawClinic || rawClinic === UNASSIGNED_CLINIC_LABEL;
+    var clinicName = unassigned ? UNASSIGNED_CLINIC_LABEL : rawClinic;
+    var subject = "[HPA Lead] " + (data.name || "Unknown") + concern
+      + (unassigned ? "" : " — " + clinicName);
 
     var body = "New HPA Lead Received!\n"
       + "━━━━━━━━━━━━━━━━━━━━━\n\n"
@@ -113,7 +127,8 @@ function sendNotification(data) {
       + "Notes: " + (data.notes || "None") + "\n\n"
       + "ROUTING\n"
       + "Target Clinic: " + clinicName + "\n"
-      + "Booking URL: " + (data.target_booking_url || "") + "\n\n"
+      + (data.target_booking_url ? "Booking URL: " + data.target_booking_url + "\n" : "")
+      + "\n"
       + "GEO\n"
       + "Location: " + (data.user_city || "") + ", " + (data.user_region || "") + " " + (data.user_country || "") + "\n"
       + "Page Language: " + (data.page_language || "");
@@ -128,6 +143,6 @@ function sendNotification(data) {
 // 收到 GET 请求时返回状态（用于测试）
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.0 is active" }))
+    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.1 is active" }))
     .setMimeType(ContentService.MimeType.JSON);
 }

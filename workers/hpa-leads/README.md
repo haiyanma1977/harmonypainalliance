@@ -40,7 +40,8 @@ new version has proven itself in production.
 
 | Deploy | Version ID | Source | Notes |
 |---|---|---|---|
-| **v3.1 seven-category — CURRENT** | **`737a95f3`** | `worker.js` | Deployed 2026-09-18 UTC (09-17 ET) via dashboard editor. `ALLOWED_CONCERNS` = 9 values; `LEGACY_CONCERN_MAP` (remove after 2026-10-18); Get Matched no longer resolves a clinic server-side. Live test 5/5 passed — `private-handoffs/2026-09-18-seven-category-v1-worker.md` §7. Rollback target: `33a1db41`. |
+| **v3.1 + founder@ Apps Script — CURRENT** | **`f6b02f03`** | `worker.js` (code unchanged) | 2026-09-18, dashboard: `GOOGLE_SCRIPT_URL` value changed to the founder@ script's `/exec`. Live test 3/3 passed (identity-migration-v4 handoff §B). Rollback target: `737a95f3` (would point back at the legacy script). |
+| v3.1 seven-category | **`737a95f3`** | `worker.js` | Deployed 2026-09-18 UTC (09-17 ET) via dashboard editor. `ALLOWED_CONCERNS` = 9 values; `LEGACY_CONCERN_MAP` (remove after 2026-10-18); Get Matched no longer resolves a clinic server-side. Live test 5/5 passed — `private-handoffs/2026-09-18-seven-category-v1-worker.md` §7. Rollback target: `33a1db41`. |
 | v3.0 + KV binding `HPA_RATELIMIT` — **rolled back 2026-09-17** | `34f81f94` | `worker.js` (code unchanged) | 2026-09-17, dashboard "Added KV namespace binding HPA_RATELIMIT" (namespace `hpa-ratelimit`, `55cc138db8ec44cfa5b64b9e94746028`). ⚠ See note below: on Workers Free this limiter cannot stop bursts and spends the shared daily KV write quota. Rollback target: `33a1db41`. |
 | v3.0 — rollback target (four-value taxonomy) | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor. No `HPA_RATELIMIT` binding. Haiyan rolled back to this version on 2026-09-17 after the KV limiter finding below. |
 | v2.0 — rollback target | **`778d24c9`** | `worker.v2-deployed-778d24c9.js` | Deployed 2026-04-20T02:29:37Z. **Keep available.** |
@@ -79,85 +80,44 @@ Operational notes:
 
 ---
 
-## Apps Script deployment reference
+## Apps Script deployment reference — founder@ (since 2026-09-18)
 
-Confirmed by Haiyan, 2026-08-20, from the Apps Script editor.
+**Identity migration done 2026-09-18** (`private-handoffs/2026-09-18-identity-migration-v4.md`).
+The Sheet, the script and the notification sender all live in HPA's Google Workspace now.
 
 | Item | Value |
 |---|---|
-| Active deployment | **Version 3** |
-| Created | **2026-04-19, 10:25 PM** (America/New_York) = 2026-04-20T02:25Z |
-| Description | `HPA lead receiver Vison` *(sic — "Vison")* |
-| Pinned to | **Version 3, NOT HEAD** |
-| Owner account | `haiyanma256@gmail.com` (**personal Gmail**) |
+| Project | `hpa-leads-script` (standalone) — ID `1PzlAFXbijh26cs8daa7rO8yV62ssdWCzbEDphuD-9FvlwzwEeVrABpfy` |
+| Owner / Execute as | **`founder@harmonypainalliance.com`** (Workspace) |
+| Who has access | Anyone (required — the Worker calls it unauthenticated) |
+| Active deployment | **Version 1**, 2026-09-18 08:56 (America/New_York), description `HPA lead receiver v2.1 (founder@, seven-category)` |
+| Source | `apps-script/Code.gs` **v2.1** in this folder — byte-identical to the deployed script except `SHEET_ID`, which is a placeholder here (real ID in the handoff above; not committed) |
+| Sheet | "HPA Leads", owned by `founder@`, tab `Sheet1`, opened by ID (`SpreadsheetApp.openById(SHEET_ID).getSheetByName("Sheet1")`) |
+| Notification | `MailApp.sendEmail` → `founder@harmonypainalliance.com`, **sent as `founder@`** |
+| `/exec` URL | stored only in the Worker variable `GOOGLE_SCRIPT_URL` (Worker version `f6b02f03`) — value not committed |
+| Shared secret | none — the script checks no token; the unguessable `/exec` URL is the only credential |
 
-> **Confirmed 2026-08-20:** HPA already operates a **Google Workspace environment for
-> `harmonypainalliance.com`**, hosting `info@harmonypainalliance.com` and
-> `founder@harmonypainalliance.com`. Corroborated independently by DNS — the domain's MX records are
-> the standard Google Workspace set.
->
-> **Consequence for the ownership-migration plan (Task 3 §2):** the destination tenant
-> **already exists**. Migration no longer requires provisioning Workspace — steps 1 and part of 2 of
-> the proposed sequence collapse to "pick the owning account in the existing tenant."
->
-> The production "HPA Leads" Sheet and its bound Apps Script nonetheless **still live in a personal
-> Gmail account**, outside that Workspace — so they sit outside HPA's admin console, Drive restore,
-> audit logging, and any retention policy. The gap is now a **configuration** gap, not a
-> provisioning one.
->
-> **No migration authorized. Nothing moved.**
+**Verified 2026-09-18 13:32–13:34 UTC** with three live submissions (Get Matched / clinic path /
+legacy value): rows landed in the founder@ Sheet with the expected cols 7/17/18/19; three emails
+arrived from `founder@` with the v2.1 subject rules (two segments when unassigned, three with a
+clinic) and no empty `Booking URL:` line; no email came from the old account.
 
-**Consequence: editing `Code.gs` does not change production.** A version-pinned Web App keeps
-serving its pinned version; saved edits reach only the `/dev` URL, which requires a logged-in
-Google session and is not what the Worker calls.
+**Editing the script:** `Code.gs` here is the source of truth. To ship a change: paste into the
+project → **Deploy → Manage deployments → edit the existing deployment → Version: New version →
+Deploy**. Updating the *existing* deployment keeps the `/exec` URL, so `GOOGLE_SCRIPT_URL` does not
+change. A *new deployment* mints a new URL and requires a Worker variable change.
 
-To make an edit live: **Deploy → Manage deployments → edit the existing deployment →
-Version: New version → Deploy.** Updating the *existing* deployment **preserves the `/exec` URL**,
-so `GOOGLE_SCRIPT_URL` does not change. Creating a *new deployment* instead mints a new URL and
-would silently break the Worker.
+### Legacy (pre-2026-09-18) — awaiting archive by Haiyan
 
-### Deployment timeline (all America/New_York)
-
-| When | What |
+| Item | Value |
 |---|---|
-| Apr 19, 22:25 | Apps Script **Version 3** deployed — **currently live** |
-| Apr 19, 22:29 | Worker deployed (v2.0) — **currently live**. 4 minutes later: consistent with pasting the new `/exec` URL into `GOOGLE_SCRIPT_URL` and redeploying. |
-| Apr 19, 23:27 | `worker/google-apps-script.js` edited locally — **62 min AFTER** the live deployment |
-| Apr 20, 01:53 | `worker/hpa-leads-worker.js` edited locally — **3h24m AFTER** the live deployment. **Confirmed divergent** (see below). |
+| Sheet | "HPA Leads" in `haiyanma256@gmail.com` (personal) — holds all leads Apr–Sep 2026; test rows removed 2026-09-18 |
+| Script | container-bound to that Sheet; Web App **Version 3** (2026-04-19 22:25 ET, description `HPA lead receiver Vison`), Execute as `haiyanma256@`, Anyone |
+| `/exec` | the previous `GOOGLE_SCRIPT_URL` value — no longer called by the Worker, **still live until archived** |
+| To do | export the Sheet to CSV into founder@ Drive, then Apps Script → Deploy → Manage deployments → Archive |
 
-### ⚠️ `apps-script/Code.gs` is UNVERIFIED against live Version 3
-
-The recovered `Code.gs` was **modified locally after Version 3 was deployed** — the same pattern
-that produced the confirmed Worker divergence. It may or may not match what is actually running.
-There is no API in use here that can read a deployed Apps Script version, so this **cannot be
-verified remotely**.
-
-**Verification attempted and FAILED.** Haiyan opened Project History and selected Version 3 on
-2026-08-20; **the code pane renders blank**, so the deployed source cannot be read from the UI.
-There is no API in use here that can read it either.
-
-**Status: deployed Version 3 source is UNVERIFIED and must be treated as unknown.**
-
-Everything downstream was derived from the **local** file, not from deployed Version 3 — the Sheet
-column mapping, the `founder@` recipient, the subject/body construction, and the error-handling
-behaviour. Do not assume any of it describes production.
-
-### How this resolves
-
-Two things make this a documented limitation rather than a blocker:
-
-1. **The deployed script's behaviour is observable in its outputs.** The Sheet's header row and
-   populated columns show exactly what deployed Version 3 writes; an existing `[HPA Lead]` email
-   shows the real recipient, subject format, and rendered fields. The column-mapping question can
-   be re-grounded on artefacts that already exist — **no test submission and no code change
-   required.**
-2. **It self-resolves at the next deployment.** The v2 edit will deploy a new version *from*
-   `apps-script/Code.gs`. At that moment production becomes byte-identical to source control and
-   the uncertainty disappears permanently.
-
-**Rule until then: do not rely on any assumption about Version 3's internals.** Ground every claim
-about current behaviour in observed Sheet/email artefacts, and treat the v2 deployment as the point
-where source control becomes authoritative.
+The column mapping evidence below was gathered against the legacy Sheet on 2026-08-20; the header
+row is identical in the new Sheet (verified column by column on 2026-09-18).
 
 ---
 
@@ -235,11 +195,10 @@ Preferred Time · Insurance — **all six, in the same order as `Code.gs`.**
 **One visible tab, named `Sheet1`** — the untouched default, consistent with the deployment guide's
 "script creates the headers automatically" setup.
 
-This makes `SpreadsheetApp.getActiveSheet()` **unambiguous today**, but it stays fragile: adding a
-second tab and leaving it active would silently divert lead rows.
-
-> **v2 recommendation:** change the writer to `getSheetByName("Sheet1")`. Any future purge script
-> must also target the sheet **by name**, never "active".
+The legacy script used `SpreadsheetApp.getActiveSheet()`, which was fragile (a second tab left
+active would divert rows). **Done in v2.1 (2026-09-18):** the founder@ script opens the Sheet by ID
+and the tab by name (`getSheetByName("Sheet1")`). Any future purge script must also target the
+sheet **by name**, never "active".
 
 ### Divergence assessment — risk now LOW
 
@@ -387,10 +346,10 @@ Google Sheet, and the notification inbox (D23 / `privacy.html` §4).
 |---|---|
 | Note cap | **2000** — migration window. Tighten to 300 only when the shared component ships with a visible counter. |
 | `HPA_RATELIMIT` | **unbound** — rate limiting inert |
-| `GOOGLE_SCRIPT_URL` | present, still a **Text variable** — Secret conversion pending |
+| `GOOGLE_SCRIPT_URL` | founder@ script `/exec` (since 2026-09-18) — check Type in dashboard; Secret preferred |
 | Postmark | **not configured** — clinic notification stubbed |
 | `connection_status` | always **`stored`** — never claims `clinic_notified` |
-| Apps Script | **unchanged** — Version 3, still notifies `founder@` |
+| Apps Script | founder@ `hpa-leads-script` Version 1 (since 2026-09-18); notifies and sends as `founder@` |
 | Sheet cols 20–21 | **blank for new rows** — accepted (D9) |
 
 ---
@@ -405,9 +364,9 @@ browser  ──POST /api/lead──▶  hpa-leads Worker
                                  │
                                  └─▶ POST GOOGLE_SCRIPT_URL  (full lead JSON)
                                           │
-                                          └─▶ Google Apps Script (see apps-script/)
-                                                 ├─ appendRow → "HPA Leads" Sheet
-                                                 └─ MailApp   → founder@harmonypainalliance.com
+                                          └─▶ Google Apps Script hpa-leads-script (founder@, see apps-script/)
+                                                 ├─ appendRow → "HPA Leads" Sheet (founder@ Drive)
+                                                 └─ MailApp   → founder@harmonypainalliance.com (sent as founder@)
 ```
 
 ### Bindings
@@ -415,7 +374,7 @@ browser  ──POST /api/lead──▶  hpa-leads Worker
 | Kind | Name | Value |
 |---|---|---|
 | KV namespace | `HPA_LEADS` | `hpa-leads` — `0a7c30cc4d6c49298efc0be6e0b37a34` (**the only KV namespace on the account**) |
-| Variable | `GOOGLE_SCRIPT_URL` | Apps Script `/exec` endpoint — **value not committed** |
+| Variable | `GOOGLE_SCRIPT_URL` | founder@ `hpa-leads-script` `/exec` endpoint — **value not committed** |
 
 ### Endpoint
 
