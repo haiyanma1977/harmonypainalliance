@@ -1,5 +1,5 @@
 /**
- * HPA Lead Capture — Google Apps Script v2.1 (2026-09-18)
+ * HPA Lead Capture — Google Apps Script v2.2 (2026-09-18)
  *
  * 功能：
  * 1. 接收 Cloudflare Worker POST 请求，将留资数据写入 Google Sheets
@@ -131,7 +131,10 @@ function sendNotification(data) {
       + "\n"
       + "GEO\n"
       + "Location: " + (data.user_city || "") + ", " + (data.user_region || "") + " " + (data.user_country || "") + "\n"
-      + "Page Language: " + (data.page_language || "");
+      + "Page Language: " + (data.page_language || "") + "\n\n"
+      // v2.2 (2026-09-18): link to the live sheet so the reader lands on the
+      // one sheet the script writes to (there are look-alike files in Drive).
+      + "Sheet: https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit";
 
     MailApp.sendEmail(NOTIFY_EMAIL, subject, body);
   } catch (err) {
@@ -143,6 +146,6 @@ function sendNotification(data) {
 // 收到 GET 请求时返回状态（用于测试）
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.1 is active" }))
+    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.2 is active" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
