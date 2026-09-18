@@ -54,8 +54,27 @@ new version has proven itself in production.
 > spam that is rejected later — and on Workers Free the **1,000 writes/day limit is
 > account-wide**, shared with `HPA_LEADS`. A spam run could exhaust it and make real lead
 > writes fail (503). Recommended: remove the binding (roll back to `33a1db41`) and use a
-> zone **WAF rate limiting rule** on `POST /api/lead` instead (Free plan: 1 rule, 10 s
-> period, per-IP, Block for 10 s).
+> zone **WAF rate limiting rule** on `POST /api/lead` instead (parameters in the
+> Cloudflare dashboard).
+
+---
+
+## 限流架构（Rate limiting — as deployed, 2026-09-17）
+
+**Where rate limiting actually happens: the Cloudflare WAF, not the Worker.**
+
+| Layer | State | Fact |
+|---|---|---|
+| Cloudflare zone WAF — rate limiting rule | **Active** | A zone-level rate limiting rule on `harmonypainalliance.com` covers `POST /api/lead`. 参数见 Cloudflare 控制台 WAF 规则。Created by Haiyan in the dashboard on 2026-09-17. Verified externally the same day: a burst of POSTs from one IP started returning **`429`** with body `error code: 1015` (Cloudflare's rate-limit response, not the Worker's); GETs on the same path were never limited. The rule runs **before** the request reaches the Worker. |
+| KV namespace `hpa-ratelimit` | **Exists, unused** | ID `55cc138db8ec44cfa5b64b9e94746028`. Created 2026-09-17. It is **not bound** to the Worker (the `HPA_RATELIMIT` binding was added in version `34f81f94` and removed by rolling back to `33a1db41` the same day). Idle, no cost. |
+| Worker code — `isRateLimited()` in `worker.js` | **Present, not active** | The function only runs when `env.HPA_RATELIMIT` is bound; with no binding it is skipped. Current production version `33a1db41` has no such binding, so the in-Worker KV limiter is **inert**. The code has not been changed. |
+
+Why the KV limiter is not used: see the finding above (KV allows at most 1 write/s per key and reads are edge-cached, so bursts pass; every request that passes the honeypot would spend the account-wide 1,000 writes/day free quota shared with `HPA_LEADS`).
+
+Operational notes:
+- A `429` on `POST /api/lead` is produced by the WAF rule, not by Worker code. Look for it in the zone's Security → Events, not in Worker logs.
+- Changing the rule's parameters is a dashboard change to the WAF rule, not a Worker deploy.
+- Do not re-add the `HPA_RATELIMIT` binding without revisiting the finding above; the namespace may be deleted or kept — either is harmless.
 
 ---
 
