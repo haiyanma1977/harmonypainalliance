@@ -477,12 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Map a Worker `field` name onto the actual input in this form.
-  // (#bookingForm splits name into first_name/last_name.)
-  const connectFieldEl = (form, field) => {
-    let el = form.querySelector('[name="' + field + '"]');
-    if (!el && field === 'name') el = form.querySelector('[name="first_name"]');
-    return el;
-  };
+  const connectFieldEl = (form, field) => form.querySelector('[name="' + field + '"]');
 
   // ---- Mode-aware modal copy + concern placement (approved 2026-08-21) ----
   // The shared modal stays ONE component. Static HTML = Mode B (Request
@@ -659,37 +654,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- All [data-lead-source] buttons open the modal ---
   document.querySelectorAll('[data-lead-source]').forEach(btn => {
-    // Skip the bookingForm (it has its own submit handler)
-    if (btn.tagName === 'FORM') return;
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       openLeadModal(btn.dataset.leadSource, btn.dataset.clinic, btn.dataset.concern);
     });
   });
-
-  // --- Booking Form (#bookingForm) — always Request Appointment mode ---
-  const bookingForm = document.getElementById('bookingForm');
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearConnectMessages(bookingForm.parentElement);
-      const fd = new FormData(bookingForm);
-      const payload = {
-        name: ((fd.get('first_name') || '') + ' ' + (fd.get('last_name') || '')).trim(),
-        email: fd.get('email') || '',
-        phone: fd.get('phone') || '',
-        language: fd.get('language') || '',
-        first_visit: fd.get('first_visit') || '',
-        source_button: bookingForm.dataset.leadSource || 'booking-form',
-        // Clinic-scoped: the slug from the markup, passed through verbatim.
-        // The Worker validates it (422 on unknown) — no client-side default.
-        target_clinic: bookingForm.dataset.clinic || '',
-        page_language: getLang(),
-        source_page: location.pathname
-      };
-      submitLead(payload, { form: bookingForm, inModal: false });
-    });
-  }
 
   // --- Lead Form (modal) submission ---
   if (leadForm) {
@@ -746,11 +715,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const showFailure = () => {
       // Lead NOT durably stored: honest failure, no redirect (10-B).
-      if (ctx.inModal) {
-        showConnectMessage(leadSubmitBtn.parentElement, t.failure, 'error');
-      } else {
-        showConnectMessage(ctx.form, t.failure, 'error');
-      }
+      // v4.10: the modal is the only submitter, so the message always anchors
+      // to the modal's submit button.
+      showConnectMessage(leadSubmitBtn.parentElement, t.failure, 'error');
       fallbackMailto(payload);
     };
 
@@ -780,8 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (leadExpandBtn) leadExpandBtn.classList.add('expanded');
       }
       const group = el ? (el.closest('.form-group') || el) : null;
-      showConnectMessage(group || (ctx.inModal ? leadSubmitBtn.parentElement : form),
-        t.fieldError, 'error');
+      showConnectMessage(group || leadSubmitBtn.parentElement, t.fieldError, 'error');
       if (el) el.focus();
       return;
     }
@@ -811,7 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // languages); this code only sets href and unhides it — never the wording.
     // A null/absent redirect_url falls through to the follow-up text below, so
     // no empty button is ever shown.
-    if (ctx.inModal && nextStep === 'booking' && clinic && clinic.redirect_url) {
+    if (nextStep === 'booking' && clinic && clinic.redirect_url) {
       leadForm.style.display = 'none';
       leadSuccess.style.display = '';
       const redirectBtn = leadSuccess.querySelector('.lead-redirect-btn');
@@ -824,8 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (nextStep === 'clinic_will_contact') {
       const text = t.clinicContact + (clinic && clinic.phone ? ' ' + clinic.phone : '');
-      if (ctx.inModal) showModalOutcome(text);
-      else showConnectMessage(ctx.form, text, 'info');
+      showModalOutcome(text);
       return;
     }
 
@@ -843,8 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : (clinicName
           ? t.followUpClinic.replace('{clinic}', clinicName)
           : t.followUpClinicGeneric);
-    if (ctx.inModal) showModalOutcome(followText);
-    else showConnectMessage(ctx.form, followText, 'info');
+    showModalOutcome(followText);
   }
 
   // --- Fallback mailto ---
