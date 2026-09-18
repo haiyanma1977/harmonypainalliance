@@ -67,7 +67,7 @@ const HPA_CONNECT_I18N = {
     failure: "Sorry — our system couldn't submit your request just now. Please try again in a few minutes, or email us directly at " + HPA_PATIENT_EMAIL + " (an email draft may have opened for you).",
     clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also call them at:',
     fieldError: 'Please check this field and try again.',
-    matchConfirm: "We've received your information. HPA will look for a suitable partner clinic and contact you. If no clinic currently fits your needs, we will let you know. This is a care request, not an appointment. HPA will follow up with you; any visit time is confirmed directly with the clinic. Care is provided by the clinic."
+    matchConfirm: "We've received your information. HPA will look for a suitable partner clinic. If no clinic currently fits your needs, we will let you know. This is a care request, not an appointment. HPA will follow up with you; any visit time is confirmed directly with the clinic. Care is provided by the clinic."
   },
   es: {
     concernRequired: 'Seleccione su principal problema de salud para que podamos conectarle con la clínica adecuada.',
@@ -77,7 +77,7 @@ const HPA_CONNECT_I18N = {
     failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
     clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamarles directamente al:',
     fieldError: 'Revise este campo e inténtelo de nuevo.',
-    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica colaboradora que se ajuste a sus necesidades y se pondrá en contacto con usted. Si actualmente no hay ninguna que se ajuste a sus necesidades, también se lo informaremos. Esta es una solicitud de atención, no una cita. HPA hará el seguimiento con usted; la hora de la visita se confirma directamente con la clínica. La atención la brinda la clínica.'
+    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica colaboradora adecuada. Si actualmente no hay ninguna que se ajuste a sus necesidades, también se lo informaremos. Esta es una solicitud de atención, no una cita. HPA hará el seguimiento con usted; la hora de la visita se confirma directamente con la clínica. La atención la brinda la clínica.'
   },
   zh: {
     concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
@@ -87,7 +87,7 @@ const HPA_CONNECT_I18N = {
     failure: '抱歉，系统暂时无法提交您的请求。请几分钟后重试，或直接发送邮件至 ' + HPA_PATIENT_EMAIL + '（您的邮件应用中可能已为您打开一封草稿）。',
     clinicContact: '感谢您的提交，诊所将直接与您联系安排就诊。您也可以致电诊所：',
     fieldError: '请检查此项内容后重新提交。',
-    matchConfirm: '我们已经收到您的信息。HPA 会为您查找合适的合作诊所并与您联系；如果目前没有符合您需求的诊所，我们也会告知您。这是一份咨询请求，不是预约。HPA 会人工跟进，具体就诊时间由诊所与您直接确认。诊疗由诊所提供。'
+    matchConfirm: '我们已经收到您的信息。HPA 会为您查找合适的合作诊所；如果目前没有符合您需求的诊所，我们也会告知您。这是一份咨询请求，不是预约。HPA 会人工跟进，具体就诊时间由诊所与您直接确认。诊疗由诊所提供。'
   }
 };
 
