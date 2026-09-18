@@ -40,8 +40,9 @@ new version has proven itself in production.
 
 | Deploy | Version ID | Source | Notes |
 |---|---|---|---|
+| **v3.1 seven-category — CURRENT** | **`737a95f3`** | `worker.js` | Deployed 2026-09-18 UTC (09-17 ET) via dashboard editor. `ALLOWED_CONCERNS` = 9 values; `LEGACY_CONCERN_MAP` (remove after 2026-10-18); Get Matched no longer resolves a clinic server-side. Live test 5/5 passed — `private-handoffs/2026-09-18-seven-category-v1-worker.md` §7. Rollback target: `33a1db41`. |
 | v3.0 + KV binding `HPA_RATELIMIT` — **rolled back 2026-09-17** | `34f81f94` | `worker.js` (code unchanged) | 2026-09-17, dashboard "Added KV namespace binding HPA_RATELIMIT" (namespace `hpa-ratelimit`, `55cc138db8ec44cfa5b64b9e94746028`). ⚠ See note below: on Workers Free this limiter cannot stop bursts and spends the shared daily KV write quota. Rollback target: `33a1db41`. |
-| **v3.0 — CURRENT (rolled back to, 2026-09-17)** | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor. No `HPA_RATELIMIT` binding. Haiyan rolled back to this version on 2026-09-17 after the KV limiter finding below. |
+| v3.0 — rollback target (four-value taxonomy) | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor. No `HPA_RATELIMIT` binding. Haiyan rolled back to this version on 2026-09-17 after the KV limiter finding below. |
 | v2.0 — rollback target | **`778d24c9`** | `worker.v2-deployed-778d24c9.js` | Deployed 2026-04-20T02:29:37Z. **Keep available.** |
 
 **Rollback:** Dashboard → Workers & Pages → hpa-leads → Deployments → **`778d24c9`** → Rollback.

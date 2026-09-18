@@ -328,7 +328,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260917" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918" rel="stylesheet"/>
 <meta content="es_ES" property="og:locale:alternate"/>
   <meta content="zh_CN" property="og:locale:alternate"/>
   </head>
@@ -350,10 +350,15 @@
 <li class="nav-item has-children">
 <button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Find Care<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-findcare">
-<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Post-Stroke &amp; Neurological Rehabilitation</a></li>
-<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Chronic &amp; Complex Pain</a></li>
-<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Other Health Concern</a></li>
-<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not Sure</a></li>
+<li><a class="nav-concern" data-concern="pain-msk" data-lead-source="nav-findcare" href="#">Neck, Back, Joint &amp; Sports Pain</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex" data-lead-source="nav-findcare" href="#">Chronic Pain</a></li>
+<li><a class="nav-concern" data-concern="neuro" data-lead-source="nav-findcare" href="#">Post-Stroke Recovery, Facial Palsy &amp; Nerve Conditions</a></li>
+<li><a class="nav-concern" data-concern="fertility" data-lead-source="nav-findcare" href="#">Fertility Support</a></li>
+<li><a class="nav-concern" data-concern="womens" data-lead-source="nav-findcare" href="#">Women's Health</a></li>
+<li><a class="nav-concern" data-concern="mind-sleep" data-lead-source="nav-findcare" href="#">Mood &amp; Sleep</a></li>
+<li><a class="nav-concern" data-concern="cosmetic" data-lead-source="nav-findcare" href="#">Cosmetic Acupuncture</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Something else</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not sure</a></li>
 </ul></li>
 <li class="nav-item has-children">
 <button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
@@ -415,36 +420,58 @@
 <p class="section-subtitle">Choose what fits best — HPA will help connect you with the right clinic for your needs.</p>
 </div>
 <div class="findcare-grid">
-<button class="findcare-card" data-concern="post-stroke-neuro" data-lead-source="home-findcare" type="button">
-<h3>Post-Stroke Recovery</h3>
-<p>Stroke after-effects, including weakness or paralysis on one side of the body</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="pain-msk" data-lead-source="home-findcare" type="button">
+<h3>Neck, Back, Joint &amp; Sports Pain</h3>
+<p>Joints, muscles, sports injuries, post-surgery recovery</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="chronic-complex-pain" data-lead-source="home-findcare" type="button">
+<button class="findcare-card" data-concern="chronic-complex" data-lead-source="home-findcare" type="button">
 <h3>Chronic Pain</h3>
-<p>Neck, shoulder, back and leg pain; joint pain; nerve pain; and long-lasting pain in multiple areas</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<p>Long-standing, multi-site, or alongside other conditions</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="other-health-concern" data-lead-source="home-findcare" type="button">
-<h3>Other Health Concern</h3>
-<p>Tell us what you need.</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>Post-Stroke Recovery</h3>
+<p>After-effects of stroke: one-sided weakness, speech, swallowing, hand function</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="not-sure" data-lead-source="home-findcare" type="button">
-<h3>Not Sure</h3>
-<p>Answer a few quick questions and HPA will help you figure out where to start.</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>Facial Palsy &amp; Nerve Conditions</h3>
+<p>Facial palsy, trigeminal neuralgia, peripheral neuropathy and other nervous-system conditions</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="fertility" data-lead-source="home-findcare" type="button">
+<h3>Fertility Support</h3>
+<p>Support alongside IVF cycles, preparing for pregnancy</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="womens" data-lead-source="home-findcare" type="button">
+<h3>Women's Health</h3>
+<p>Menstrual health, menopause, pelvic pain</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="mind-sleep" data-lead-source="home-findcare" type="button">
+<h3>Mood &amp; Sleep</h3>
+<p>Insomnia, anxiety, stress</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="cosmetic" data-lead-source="home-findcare" type="button">
+<h3>Cosmetic Acupuncture</h3>
+<p>Face and skin</p>
+<span class="findcare-go">Find a clinic <span aria-hidden="true">→</span></span>
 </button>
 </div>
+<p class="findcare-more"><button class="findcare-more-btn" data-concern="not-sure" data-lead-source="home-findcare" type="button">Something else / Not sure — It's fine if you can't name it; we'll help you sort it out</button></p>
 </div>
 </section>
 <section id="clinic">
 <div class="container">
 <div style="text-align:center;">
-<h2>Clinics on the HPA Platform</h2>
+<h2>Clinics on HPA</h2>
 <p class="section-subtitle">During HPA's launch phase, every clinic on the platform is personally reviewed by our founder before joining.</p>
 </div>
-<div class="clinic-featured">
+<div class="clinic-list">
+<article class="clinic-item">
 <div class="map-embed">
 <iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
 </div>
@@ -459,6 +486,7 @@
 <a class="btn btn-primary" data-clinic="lei-acupuncture" data-lead-source="home-clinic-card" href="#">Connect with This Clinic</a>
 </div>
 </div>
+</article>
 </div>
 </div>
 </section>
@@ -697,11 +725,16 @@
 
 
 <select id="lead-concern" name="primary_concern">
-<option value="">—</option>
-<option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
-<option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
-<option value="other-health-concern">Other Health Concern</option>
-<option value="not-sure">Not Sure</option>
+<option value="">Please select</option>
+<option value="pain-msk">Neck, Back, Joint &amp; Sports Pain</option>
+<option value="chronic-complex">Chronic Pain</option>
+<option value="neuro">Post-Stroke Recovery, Facial Palsy &amp; Nerve Conditions</option>
+<option value="fertility">Fertility Support</option>
+<option value="womens">Women's Health</option>
+<option value="mind-sleep">Mood &amp; Sleep</option>
+<option value="cosmetic">Cosmetic Acupuncture</option>
+<option value="other-health-concern">Something else</option>
+<option value="not-sure">Not sure</option>
 </select>
 </div>
 <div class="form-group">
@@ -859,6 +892,6 @@
 </div>
 </footer>
 <!-- Scripts -->
-<script src="/js/main.js?v=20260917"></script>
+<script src="/js/main.js?v=20260918"></script>
 </body>
 </html>

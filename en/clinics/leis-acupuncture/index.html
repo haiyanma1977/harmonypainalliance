@@ -272,7 +272,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260917" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918" rel="stylesheet"/>
 </head>
 <body class="lang-en clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -290,10 +290,15 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <li class="nav-item has-children">
 <button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Find Care<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-findcare">
-<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Post-Stroke &amp; Neurological Rehabilitation</a></li>
-<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Chronic &amp; Complex Pain</a></li>
-<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Other Health Concern</a></li>
-<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not Sure</a></li>
+<li><a class="nav-concern" data-concern="pain-msk" data-lead-source="nav-findcare" href="#">Neck, Back, Joint &amp; Sports Pain</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex" data-lead-source="nav-findcare" href="#">Chronic Pain</a></li>
+<li><a class="nav-concern" data-concern="neuro" data-lead-source="nav-findcare" href="#">Post-Stroke Recovery, Facial Palsy &amp; Nerve Conditions</a></li>
+<li><a class="nav-concern" data-concern="fertility" data-lead-source="nav-findcare" href="#">Fertility Support</a></li>
+<li><a class="nav-concern" data-concern="womens" data-lead-source="nav-findcare" href="#">Women's Health</a></li>
+<li><a class="nav-concern" data-concern="mind-sleep" data-lead-source="nav-findcare" href="#">Mood &amp; Sleep</a></li>
+<li><a class="nav-concern" data-concern="cosmetic" data-lead-source="nav-findcare" href="#">Cosmetic Acupuncture</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Something else</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not sure</a></li>
 </ul></li>
 <li class="nav-item has-children">
 <button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
@@ -722,11 +727,16 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="form-group">
 <label>Primary Concern</label>
 <select name="primary_concern">
-<option value="">—</option>
-<option value="post-stroke-neuro">Post-Stroke &amp; Neurological Rehabilitation</option>
-<option value="chronic-complex-pain">Chronic &amp; Complex Pain</option>
-<option value="other-health-concern">Other Health Concern</option>
-<option value="not-sure">Not Sure</option>
+<option value="">Please select</option>
+<option value="pain-msk">Neck, Back, Joint &amp; Sports Pain</option>
+<option value="chronic-complex">Chronic Pain</option>
+<option value="neuro">Post-Stroke Recovery, Facial Palsy &amp; Nerve Conditions</option>
+<option value="fertility">Fertility Support</option>
+<option value="womens">Women's Health</option>
+<option value="mind-sleep">Mood &amp; Sleep</option>
+<option value="cosmetic">Cosmetic Acupuncture</option>
+<option value="other-health-concern">Something else</option>
+<option value="not-sure">Not sure</option>
 </select>
 </div>
 <!-- /SLOT -->
@@ -852,6 +862,6 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 </div>
 </div>
 </footer>
-<script src="/js/main.js?v=20260917"></script>
+<script src="/js/main.js?v=20260918"></script>
 </body>
 </html>

@@ -328,7 +328,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260917" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918" rel="stylesheet"/>
 <meta content="en_US" property="og:locale:alternate"/>
   <meta content="zh_CN" property="og:locale:alternate"/>
   </head>
@@ -350,9 +350,14 @@
 <li class="nav-item has-children">
 <button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Buscar Atención<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-findcare">
-<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">Recuperación post-ACV y Rehabilitación Neurológica</a></li>
-<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">Dolor crónico y complejo</a></li>
-<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Otra preocupación de salud</a></li>
+<li><a class="nav-concern" data-concern="pain-msk" data-lead-source="nav-findcare" href="#">Dolor de cuello, espalda, articulaciones y lesiones deportivas</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex" data-lead-source="nav-findcare" href="#">Dolor crónico</a></li>
+<li><a class="nav-concern" data-concern="neuro" data-lead-source="nav-findcare" href="#">Recuperación después de un ACV, parálisis facial y problemas neurológicos</a></li>
+<li><a class="nav-concern" data-concern="fertility" data-lead-source="nav-findcare" href="#">Apoyo a la fertilidad</a></li>
+<li><a class="nav-concern" data-concern="womens" data-lead-source="nav-findcare" href="#">Salud de la mujer</a></li>
+<li><a class="nav-concern" data-concern="mind-sleep" data-lead-source="nav-findcare" href="#">Ánimo y sueño</a></li>
+<li><a class="nav-concern" data-concern="cosmetic" data-lead-source="nav-findcare" href="#">Acupuntura estética</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Otra inquietud de salud</a></li>
 <li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">No estoy seguro/a</a></li>
 </ul></li>
 <li class="nav-item has-children">
@@ -363,7 +368,7 @@
 <li class="nav-item has-children">
 <button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Aprender<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-learn">
-<li><a href="/es/stroke-recovery-acupuncture/">Recuperación post-ACV</a></li>
+<li><a href="/es/stroke-recovery-acupuncture/">Recuperación después de un ACV</a></li>
 <li><a href="/es/facial-paralysis-acupuncture/">Parálisis de Bell y parálisis facial</a></li>
 <li><a href="/es/migraine-acupuncture/">Migraña y cefalea crónica</a></li>
 <li><a href="/es/learn/">Ver todos los temas &rarr;</a></li>
@@ -415,36 +420,58 @@
 <p class="section-subtitle">Elija la opción que mejor le corresponda — HPA le ayudará a conectarse con la clínica adecuada para sus necesidades.</p>
 </div>
 <div class="findcare-grid">
-<button class="findcare-card" data-concern="post-stroke-neuro" data-lead-source="home-findcare" type="button">
-<h3>Recuperación después de un accidente cerebrovascular</h3>
-<p>Secuelas de un accidente cerebrovascular, incluida la debilidad o parálisis de un lado del cuerpo</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="pain-msk" data-lead-source="home-findcare" type="button">
+<h3>Dolor de cuello, espalda, articulaciones y lesiones deportivas</h3>
+<p>Articulaciones, músculos, lesiones deportivas, recuperación posoperatoria</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="chronic-complex-pain" data-lead-source="home-findcare" type="button">
+<button class="findcare-card" data-concern="chronic-complex" data-lead-source="home-findcare" type="button">
 <h3>Dolor crónico</h3>
-<p>Dolor de cuello, hombros, espalda baja y piernas; dolor en las articulaciones; dolor en los nervios; y dolor persistente en varias partes del cuerpo</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<p>De larga duración, en varias zonas o junto con otras enfermedades</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="other-health-concern" data-lead-source="home-findcare" type="button">
-<h3>Otra preocupación de salud</h3>
-<p>Cuéntenos qué necesita.</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>Recuperación después de un ACV</h3>
+<p>Secuelas de un accidente cerebrovascular (ACV): debilidad de un lado, habla, deglución, función de la mano</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="not-sure" data-lead-source="home-findcare" type="button">
-<h3>No estoy seguro/a</h3>
-<p>Responda unas preguntas rápidas y HPA le ayudará a saber por dónde empezar.</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>Parálisis facial y problemas neurológicos</h3>
+<p>Parálisis facial, neuralgia del trigémino, neuropatía periférica y otros problemas del sistema nervioso</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="fertility" data-lead-source="home-findcare" type="button">
+<h3>Apoyo a la fertilidad</h3>
+<p>Acompañamiento durante ciclos de FIV, preparación para el embarazo</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="womens" data-lead-source="home-findcare" type="button">
+<h3>Salud de la mujer</h3>
+<p>Salud menstrual, menopausia, dolor pélvico</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="mind-sleep" data-lead-source="home-findcare" type="button">
+<h3>Ánimo y sueño</h3>
+<p>Insomnio, ansiedad, estrés</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="cosmetic" data-lead-source="home-findcare" type="button">
+<h3>Acupuntura estética</h3>
+<p>Rostro y piel</p>
+<span class="findcare-go">Buscar una clínica <span aria-hidden="true">→</span></span>
 </button>
 </div>
+<p class="findcare-more"><button class="findcare-more-btn" data-concern="not-sure" data-lead-source="home-findcare" type="button">Otra inquietud / No estoy seguro/a — No pasa nada si no sabe cómo describirlo; le ayudamos a orientarse</button></p>
 </div>
 </section>
 <section id="clinic">
 <div class="container">
 <div style="text-align:center;">
-<h2>Clínicas en la Plataforma HPA</h2>
+<h2>Clínicas en HPA</h2>
 <p class="section-subtitle">Durante la fase de lanzamiento de HPA, cada clínica de la plataforma es revisada personalmente por nuestra fundadora antes de unirse.</p>
 </div>
-<div class="clinic-featured">
+<div class="clinic-list">
+<article class="clinic-item">
 <div class="map-embed">
 <iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
 </div>
@@ -452,13 +479,14 @@
 <span class="tag tag-green">Clínica Socia Fundadora de HPA</span>
 <h3 style="margin-top:12px;">Lei's Acupuncture</h3>
 <p class="clinic-location">Winter Garden, Florida</p>
-<div class="specialty-tags clinic-focus"><span class="specialty-tag">Recuperación post-ACV y Rehabilitación Neurológica</span><span class="specialty-tag">Dolor crónico y complejo</span></div>
+<div class="specialty-tags clinic-focus"><span class="specialty-tag">Recuperación después de un ACV y Rehabilitación Neurológica</span><span class="specialty-tag">Dolor crónico y complejo</span></div>
 <p class="clinic-services">Acupuntura · Medicina Tradicional China · Terapia de Masaje</p>
 <div class="clinic-cta-row" style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
 <a class="btn btn-outline" href="/es/clinics/leis-acupuncture/">Ver Perfil de la Clínica</a>
 <a class="btn btn-primary" data-clinic="lei-acupuncture" data-lead-source="home-clinic-card" href="#">Contactar con esta clínica</a>
 </div>
 </div>
+</article>
 </div>
 </div>
 </section>
@@ -468,7 +496,7 @@
 <h2>¿Prefiere informarse primero?</h2>
 </div>
 <div class="learn-grid">
-<a class="learn-card" href="/es/stroke-recovery-acupuncture/"><h3>Recuperación post-ACV</h3><span class="learn-go" aria-hidden="true">→</span></a>
+<a class="learn-card" href="/es/stroke-recovery-acupuncture/"><h3>Recuperación después de un ACV</h3><span class="learn-go" aria-hidden="true">→</span></a>
 <a class="learn-card" href="/es/facial-paralysis-acupuncture/"><h3>Parálisis de Bell y parálisis facial</h3><span class="learn-go" aria-hidden="true">→</span></a>
 <a class="learn-card" href="/es/migraine-acupuncture/"><h3>Migraña y cefalea crónica</h3><span class="learn-go" aria-hidden="true">→</span></a>
 </div>
@@ -697,10 +725,15 @@
 <label for="lead-concern">Preocupación Principal</label>
 
 <select id="lead-concern" name="primary_concern">
-<option value="">—</option>
-<option value="post-stroke-neuro">Recuperación después de un accidente cerebrovascular y rehabilitación neurológica</option>
-<option value="chronic-complex-pain">Dolor crónico y complejo</option>
-<option value="other-health-concern">Otra preocupación de salud</option>
+<option value="">Seleccione</option>
+<option value="pain-msk">Dolor de cuello, espalda, articulaciones y lesiones deportivas</option>
+<option value="chronic-complex">Dolor crónico</option>
+<option value="neuro">Recuperación después de un ACV, parálisis facial y problemas neurológicos</option>
+<option value="fertility">Apoyo a la fertilidad</option>
+<option value="womens">Salud de la mujer</option>
+<option value="mind-sleep">Ánimo y sueño</option>
+<option value="cosmetic">Acupuntura estética</option>
+<option value="other-health-concern">Otra inquietud de salud</option>
 <option value="not-sure">No estoy seguro/a</option>
 </select>
 </div>
@@ -859,6 +892,6 @@
 </div>
 </footer>
 <!-- Scripts -->
-<script src="/js/main.js?v=20260917"></script>
+<script src="/js/main.js?v=20260918"></script>
 </body>
 </html>

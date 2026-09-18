@@ -2,11 +2,12 @@
    HPA Lead Capture Worker — v3.0
    Cloudflare Worker for harmonypainalliance.com
 
-   STATUS: LIVE IN PRODUCTION.
-     Deployed 2026-08-20 (America/New_York) / 2026-08-21 UTC via the
-     Cloudflare dashboard editor.
-     Production Version ID : 33a1db41
-     Rollback  Version ID  : 778d24c9  (v2.0 — keep available; source in
+   STATUS: LIVE IN PRODUCTION — seven-category v1 deployed 2026-09-18 UTC
+     (2026-09-17 ET) via the Cloudflare dashboard editor; five-request
+     live test passed (see private-handoffs/2026-09-18-seven-category-v1-worker.md §7).
+     Production Version ID : 737a95f3
+     Rollback  Version ID  : 33a1db41  (v3.0 four-value taxonomy, 2026-08-20)
+     Older rollback        : 778d24c9  (v2.0 — keep available; source in
                              worker.v2-deployed-778d24c9.js)
      Production verification PASSED 2026-08-20/21 UTC, end-to-end:
      live form → Worker v3 → KV (schema_version 2) → Google Sheet →
@@ -39,8 +40,11 @@
         name required; at least one VALID contact channel (email or phone);
         email + phone format checks; trimming; per-field length caps;
         request size limit.
-     3. PRIMARY CONCERN ALLOW-LIST — the four current taxonomy values.
-        Values themselves are UNCHANGED. An absent/empty concern stays legal.
+     3. PRIMARY CONCERN ALLOW-LIST — seven-category v1 (2026-09-18), nine
+        values: pain-msk | chronic-complex | neuro | fertility | womens |
+        mind-sleep | cosmetic | other-health-concern | not-sure. Legacy
+        post-stroke-neuro / chronic-complex-pain are mapped (LEGACY_CONCERN_MAP)
+        until 2026-10-18. An absent/empty concern stays legal.
      4. CLINIC REGISTRY IS AUTHORITATIVE
         No is_default. No silent fallback. Unknown/inactive slug → 422.
      5. FULL ATTRIBUTION — source_page (new), source_button, page_language,
@@ -94,16 +98,38 @@ const CLINIC_REGISTRY = {
   // Additional clinics: add here only. No front-end change required.
 };
 
-/* Current PHASE-1 public taxonomy. Values are locked — do not edit.
-   Expansion is governed by "one meaning = one taxonomy value". */
+/* Public taxonomy — seven-category v1 (2026-09-18). Codes follow
+   clinic-outreach/分类标准_v1.md §1 plus "other" and "not-sure". Order is
+   fixed; do not reorder. Expansion is governed by "one meaning = one
+   taxonomy value". */
 const ALLOWED_CONCERNS = [
-  "post-stroke-neuro",
-  "chronic-complex-pain",
+  "pain-msk",
+  "neuro",
+  "womens",
+  "fertility",
+  "mind-sleep",
+  "chronic-complex",
+  "cosmetic",
   "other-health-concern",
   "not-sure"
 ];
 
+/* Legacy four-value taxonomy → seven-category v1. Applied BEFORE validation
+   so cached old pages keep submitting successfully; the mapped code is what
+   is stored, sheeted and emailed. `other-health-concern` and `not-sure` are
+   unchanged and need no entry.
+   REMOVE THIS MAP AFTER 2026-10-18 (30-day transition) — after that, old
+   values are rejected with 422 invalid_concern like any unknown value. */
+const LEGACY_CONCERN_MAP = {
+  "post-stroke-neuro": "neuro",
+  "chronic-complex-pain": "chronic-complex"
+};
+
 const ALLOWED_LANGUAGES = ["en", "es", "zh"];
+
+/* Shown in the notification email (subject + ROUTING) and Sheet column 18
+   when a lead has no resolved clinic. */
+const UNASSIGNED_CLINIC_LABEL = "(unassigned — manual follow-up)";
 
 /* CORS. The live site calls /api/lead SAME-ORIGIN, so this costs legitimate
    traffic nothing — it only stops other sites posting leads from a browser.
@@ -291,8 +317,9 @@ function getClinic(id) {
 }
 
 /* Server-side matching for Get Matched (target_clinic omitted).
-   No default clinic: if nothing accepts the concern, this returns null and the
-   lead is stored as a no-match for human follow-up. */
+   NOT CALLED since 2026-09-18 (seven-category v1): Get Matched leads are
+   stored unassigned for manual follow-up. Kept for a future region-aware
+   matcher; CLINIC_REGISTRY.accepted_concerns is likewise dormant. */
 function matchClinic(concern) {
   const active = Object.values(CLINIC_REGISTRY).filter(c => c.active);
   if (!active.length) return null;
@@ -345,7 +372,13 @@ function buildAppsScriptPayload(lead, clinic) {
     source_button: lead.source_button,
     page_language: lead.page_language,
     target_clinic: lead.resolved_clinic || lead.target_clinic || "",
-    target_clinic_name: clinic ? clinic.display_name : "",
+    // Unassigned (Get Matched) leads: the pinned Apps Script v3 always prints
+    // "[HPA Lead] name — concern — <target_clinic_name>" and a ROUTING block
+    // with "Target Clinic:" and "Booking URL:" (Code.gs L90–92, L114–116; it
+    // substitutes "Unknown Clinic" when the name is empty). The Worker cannot
+    // suppress those segments, so it supplies the placeholder text instead
+    // and sends an empty booking URL.
+    target_clinic_name: clinic ? clinic.display_name : UNASSIGNED_CLINIC_LABEL,
     target_booking_url: clinic ? clinic.booking_url : "",
     user_city: "",
     user_region: "",
@@ -470,22 +503,27 @@ export default {
       return fail("invalid_phone", 422, origin, env, "phone");
     }
 
-    const primaryConcern = trimTo(body.primary_concern, 64);
+    const primaryConcernRaw = trimTo(body.primary_concern, 64);
+    // Legacy → v1 mapping first (transition until 2026-10-18), then validate.
+    const primaryConcern = LEGACY_CONCERN_MAP[primaryConcernRaw] || primaryConcernRaw;
     if (primaryConcern && !ALLOWED_CONCERNS.includes(primaryConcern)) {
       return fail("invalid_concern", 422, origin, env, "primary_concern");
     }
 
     /* --- clinic resolution — no silent fallback ------------------------- */
+    // Path discriminator: `target_clinic` present = REQUEST APPOINTMENT
+    // (clinic page "Connect with This Clinic", front end sends data-clinic);
+    // absent = GET MATCHED. Since 2026-09-18 Get Matched never resolves a
+    // clinic server-side: resolved_clinic / booking_url stay empty and HPA
+    // follows up by hand (multi-clinic network; no region data on the form).
     let clinic = null;
     if (targetClinicRaw) {
       clinic = getClinic(targetClinicRaw);
       if (!clinic) {
         return fail("invalid_clinic", 422, origin, env, "target_clinic");
       }
-    } else {
-      // Get Matched path: server-side matching. May legitimately return null.
-      clinic = matchClinic(primaryConcern);
     }
+    // else: Get Matched → clinic stays null (matchClinic() intentionally not called).
 
     /* --- legacy passthrough --------------------------------------------- */
     const legacy = {};

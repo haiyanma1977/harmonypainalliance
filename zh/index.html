@@ -328,7 +328,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Noto+Sans+SC:wght@400;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260917" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918" rel="stylesheet"/>
 <meta content="en_US" property="og:locale:alternate"/>
   <meta content="es_ES" property="og:locale:alternate"/>
   </head>
@@ -350,8 +350,13 @@
 <li class="nav-item has-children">
 <button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">寻找诊疗<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-findcare">
-<li><a class="nav-concern" data-concern="post-stroke-neuro" data-lead-source="nav-findcare" href="#">中风后与神经康复</a></li>
-<li><a class="nav-concern" data-concern="chronic-complex-pain" data-lead-source="nav-findcare" href="#">慢性与复杂性疼痛</a></li>
+<li><a class="nav-concern" data-concern="pain-msk" data-lead-source="nav-findcare" href="#">颈肩腰腿痛与运动损伤</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex" data-lead-source="nav-findcare" href="#">慢性疼痛</a></li>
+<li><a class="nav-concern" data-concern="neuro" data-lead-source="nav-findcare" href="#">中风后康复、面瘫与神经问题</a></li>
+<li><a class="nav-concern" data-concern="fertility" data-lead-source="nav-findcare" href="#">备孕与辅助生育</a></li>
+<li><a class="nav-concern" data-concern="womens" data-lead-source="nav-findcare" href="#">女性健康</a></li>
+<li><a class="nav-concern" data-concern="mind-sleep" data-lead-source="nav-findcare" href="#">情绪与睡眠</a></li>
+<li><a class="nav-concern" data-concern="cosmetic" data-lead-source="nav-findcare" href="#">美容针灸</a></li>
 <li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">其他健康问题</a></li>
 <li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">不确定</a></li>
 </ul></li>
@@ -415,36 +420,58 @@
 <p class="section-subtitle">选择最符合您情况的一项，HPA 将帮助您对接合适的诊所。</p>
 </div>
 <div class="findcare-grid">
-<button class="findcare-card" data-concern="post-stroke-neuro" data-lead-source="home-findcare" type="button">
-<h3>中风后康复</h3>
-<p>中风后遗症、偏瘫</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="pain-msk" data-lead-source="home-findcare" type="button">
+<h3>颈肩腰腿痛与运动损伤</h3>
+<p>关节、肌肉、运动伤、术后恢复</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="chronic-complex-pain" data-lead-source="home-findcare" type="button">
+<button class="findcare-card" data-concern="chronic-complex" data-lead-source="home-findcare" type="button">
 <h3>慢性疼痛</h3>
-<p>颈肩腰腿痛、关节痛、神经痛，以及疼痛时间长、部位多的情况</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<p>多年不愈、多部位、伴其他疾病</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="other-health-concern" data-lead-source="home-findcare" type="button">
-<h3>其他健康问题</h3>
-<p>告诉我们您的需求。</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>中风后康复</h3>
+<p>中风后遗症：偏瘫、言语、吞咽、手功能</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
 </button>
-<button class="findcare-card" data-concern="not-sure" data-lead-source="home-findcare" type="button">
-<h3>不确定</h3>
-<p>回答几个简单问题，HPA 帮您判断从哪里开始。</p>
-<span class="findcare-go" aria-hidden="true">→</span>
+<button class="findcare-card" data-concern="neuro" data-lead-source="home-findcare" type="button">
+<h3>面瘫与神经问题</h3>
+<p>面瘫、三叉神经痛、周围神经病变等神经系统问题</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="fertility" data-lead-source="home-findcare" type="button">
+<h3>备孕与辅助生育</h3>
+<p>试管周期配合、备孕调理</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="womens" data-lead-source="home-findcare" type="button">
+<h3>女性健康</h3>
+<p>月经、更年期、盆腔痛</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="mind-sleep" data-lead-source="home-findcare" type="button">
+<h3>情绪与睡眠</h3>
+<p>失眠、焦虑、压力</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
+</button>
+<button class="findcare-card" data-concern="cosmetic" data-lead-source="home-findcare" type="button">
+<h3>美容针灸</h3>
+<p>面部、肤质</p>
+<span class="findcare-go">帮我找诊所 <span aria-hidden="true">→</span></span>
 </button>
 </div>
+<p class="findcare-more"><button class="findcare-more-btn" data-concern="not-sure" data-lead-source="home-findcare" type="button">其他 / 不确定——说不清楚也没关系，我们帮你判断</button></p>
 </div>
 </section>
 <section id="clinic">
 <div class="container">
 <div style="text-align:center;">
-<h2>HPA 合作诊所</h2>
+<h2>已上线诊所</h2>
 <p class="section-subtitle">在 HPA 启动阶段，平台上的每一家诊所都由创始人亲自审核后加入。</p>
 </div>
-<div class="clinic-featured">
+<div class="clinic-list">
+<article class="clinic-item">
 <div class="map-embed">
 <iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d-81.5862!3d28.5653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e78f0b3b9c5e7d%3A0x0!2s209+E+Bay+St%2C+Winter+Garden%2C+FL+34787!5e0!3m2!1sen!2sus!4v1" style="border:0;" title="Lei's Acupuncture — 209 E Bay St, Winter Garden, FL 34787" width="100%"></iframe>
 </div>
@@ -459,6 +486,7 @@
 <a class="btn btn-primary" data-clinic="lei-acupuncture" data-lead-source="home-clinic-card" href="#">联系这家诊所</a>
 </div>
 </div>
+</article>
 </div>
 </div>
 </section>
@@ -697,9 +725,14 @@
 
 <label for="lead-concern">主要症状</label>
 <select id="lead-concern" name="primary_concern">
-<option value="">—</option>
-<option value="post-stroke-neuro">中风后与神经康复</option>
-<option value="chronic-complex-pain">慢性与复杂性疼痛</option>
+<option value="">请选择</option>
+<option value="pain-msk">颈肩腰腿痛与运动损伤</option>
+<option value="chronic-complex">慢性疼痛</option>
+<option value="neuro">中风后康复、面瘫与神经问题</option>
+<option value="fertility">备孕与辅助生育</option>
+<option value="womens">女性健康</option>
+<option value="mind-sleep">情绪与睡眠</option>
+<option value="cosmetic">美容针灸</option>
 <option value="other-health-concern">其他健康问题</option>
 <option value="not-sure">不确定</option>
 </select>
@@ -859,6 +892,6 @@
 </div>
 </footer>
 <!-- Scripts -->
-<script src="/js/main.js?v=20260917"></script>
+<script src="/js/main.js?v=20260918"></script>
 </body>
 </html>

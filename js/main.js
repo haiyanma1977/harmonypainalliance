@@ -534,10 +534,12 @@ document.addEventListener('DOMContentLoaded', () => {
   //  concern (optional) — a Find Care taxonomy value. When present it preselects
   //  the Primary Concern field and expands the optional block so the patient can
   //  see and change what was chosen for them. Values must match the Worker's
-  //  ALLOWED_CONCERNS exactly: post-stroke-neuro | chronic-complex-pain |
-  //  other-health-concern | not-sure. STAGE 1: target_clinic is still sent, so
-  //  this is Request Appointment mode. Stage 2a switches Find Care to the
-  //  Worker's existing Get Matched mode by omitting target_clinic.
+  //  ALLOWED_CONCERNS exactly — seven-category v1 (2026-09-18), nine values:
+  //  pain-msk | chronic-complex | neuro | fertility | womens | mind-sleep |
+  //  cosmetic | other-health-concern | not-sure. The Worker maps the legacy
+  //  post-stroke-neuro / chronic-complex-pain until 2026-10-18. Find Care
+  //  entries (cards, nav) omit target_clinic = Get Matched mode; data-clinic
+  //  buttons send target_clinic = Request Appointment mode.
 
   // WCAG 2.4.3 — the element that opened the dialog, so focus can be returned
   // to it on close instead of falling back to <body>.
