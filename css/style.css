@@ -1346,6 +1346,14 @@ header .logo, nav .logo, .site-branding,
   font-weight: 600; font-size: 1.1rem;
   color: var(--green-600);
 }
+/* v4.8 — Mode B success state: a link the patient clicks to open the clinic's
+   booking page (replaces the old 1500ms auto window.open). Colour, padding and
+   radius come from the shared .btn / .btn-green rules already on the element —
+   nothing is redefined here and no new colour value is introduced. This block
+   only adds spacing and honours the `hidden` attribute, which .btn's
+   display:inline-block would otherwise override. */
+.lead-redirect-btn { margin-top: 20px; }
+.lead-redirect-btn[hidden] { display: none; }
 
 @media (max-width: 640px) {
   .lead-modal {

@@ -597,6 +597,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!successH3.dataset.original) successH3.dataset.original = successH3.textContent;
       successH3.textContent = successH3.dataset.original;
     }
+    // v4.8: the Mode B booking link is opt-in per submission — never carry a
+    // previous response's URL into a new one.
+    const successBtnReset = leadSuccess.querySelector('.lead-redirect-btn');
+    if (successBtnReset) { successBtnReset.hidden = true; successBtnReset.removeAttribute('href'); }
     leadForm.style.display = '';
     leadSuccess.style.display = 'none';
     leadForm.reset();
@@ -734,6 +738,9 @@ document.addEventListener('DOMContentLoaded', () => {
       leadSuccess.style.display = '';
       const h3 = leadSuccess.querySelector('h3');
       if (h3) h3.textContent = text;
+      // v4.8: outcomes other than Mode B booking never show the booking link.
+      const btn = leadSuccess.querySelector('.lead-redirect-btn');
+      if (btn) { btn.hidden = true; btn.removeAttribute('href'); }
       // No auto-close: the patient should read the outcome.
     };
 
@@ -797,17 +804,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextStep = data.next_step;
     const clinic = data.clinic || null;
 
-    if (nextStep === 'booking' && clinic && clinic.redirect_url) {
-      if (ctx.inModal) {
-        // Keep the page's own localized "redirecting…" success text.
-        leadForm.style.display = 'none';
-        leadSuccess.style.display = '';
-        setTimeout(() => {
-          window.open(clinic.redirect_url, '_blank');
-          closeLeadModal();
-        }, 1500);
-      } else {
-        window.open(clinic.redirect_url, '_blank');
+    // Mode B (Request Appointment) with a Worker-supplied booking URL.
+    // v4.8: no timer, no automatic window.open, no auto-close. The patient sees
+    // the page's own localized success text and decides whether to open the
+    // clinic's booking page. The link's LABEL lives in the page HTML (three
+    // languages); this code only sets href and unhides it — never the wording.
+    // A null/absent redirect_url falls through to the follow-up text below, so
+    // no empty button is ever shown.
+    if (ctx.inModal && nextStep === 'booking' && clinic && clinic.redirect_url) {
+      leadForm.style.display = 'none';
+      leadSuccess.style.display = '';
+      const redirectBtn = leadSuccess.querySelector('.lead-redirect-btn');
+      if (redirectBtn) {
+        redirectBtn.href = clinic.redirect_url;
+        redirectBtn.hidden = false;
       }
       return;
     }
