@@ -38,50 +38,56 @@ const HPA_MODAL_MODE_A = {
   en: {
     concernLabel: 'Primary Concern *',
     title: 'Get Matched with a Clinic',
-    intro: 'Tell us what you need — it takes about 30 seconds. HPA will connect you with an appropriate participating clinic.',
+    intro: 'Tell us what you need — it takes about 30 seconds. HPA will look for an appropriate participating clinic for you.',
     submit: 'Get Matched',
-    helper: 'Your information will help HPA match and connect you with an appropriate participating clinic.'
+    helper: 'Your information will help HPA look for an appropriate participating clinic for you.'
   },
   es: {
     concernLabel: 'Preocupación Principal *',
     title: 'Le Conectamos con una Clínica',
-    intro: 'Cuéntenos qué necesita — toma unos 30 segundos. HPA le conectará con una clínica participante adecuada.',
+    intro: 'Cuéntenos qué necesita — toma unos 30 segundos. HPA buscará una clínica participante adecuada para usted.',
     submit: 'Conectarme con una Clínica',
-    helper: 'Su información ayudará a HPA a conectarle con una clínica participante adecuada.'
+    helper: 'Su información ayudará a HPA a buscar una clínica participante adecuada para usted.'
   },
   zh: {
     concernLabel: '主要健康问题 *',
     title: '为您匹配合适的诊所',
-    intro: '告诉我们您的需求——约 30 秒完成。HPA 将为您对接合适的参与诊所。',
+    intro: '告诉我们您的需求——约 30 秒完成。HPA 将为您寻找合适的参与诊所。',
     submit: '开始匹配',
-    helper: '您的信息将用于帮助 HPA 为您匹配并连接合适的参与诊所。'
+    helper: '您的信息将用于帮助 HPA 为您寻找合适的参与诊所。'
   }
 };
 
 const HPA_CONNECT_I18N = {
   en: {
     concernRequired: 'Please select your primary concern so we can match you with the right clinic.',
-    followUp: "Thank you — we've received your request. HPA will contact you to help you find the right clinic.",
+    followUpMatch: "Thank you — we've received your request. HPA will contact you to help you find the right clinic.",
+    followUpClinic: "Thank you — we've sent your request to {clinic}. HPA will follow up with you.",
+    followUpClinicGeneric: "Thank you — we've sent your request to this clinic. HPA will follow up with you.",
     failure: "Sorry — our system couldn't submit your request just now. Please try again in a few minutes, or email us directly at " + HPA_PATIENT_EMAIL + " (an email draft may have opened for you).",
-    clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also reach them at:',
+    clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also call them at:',
     fieldError: 'Please check this field and try again.',
-    matchConfirm: "We've received your information. HPA will look for a suitable partner clinic and contact you. If no clinic currently fits your needs, we will let you know. Please note that no appointment has been made yet; the time needs to be confirmed with the clinic. HPA handles the connection, and care is provided by the clinic."
+    matchConfirm: "We've received your information. HPA will look for a suitable partner clinic and contact you. If no clinic currently fits your needs, we will let you know. This is a care request, not an appointment. HPA will follow up with you; any visit time is confirmed directly with the clinic. Care is provided by the clinic."
   },
   es: {
     concernRequired: 'Seleccione su principal problema de salud para que podamos conectarle con la clínica adecuada.',
-    followUp: 'Gracias — hemos recibido su solicitud. HPA se pondrá en contacto con usted para ayudarle a encontrar la clínica adecuada.',
+    followUpMatch: 'Gracias — hemos recibido su solicitud. HPA se pondrá en contacto con usted para ayudarle a encontrar la clínica adecuada.',
+    followUpClinic: 'Gracias — hemos enviado su solicitud a {clinic}. HPA hará el seguimiento con usted.',
+    followUpClinicGeneric: 'Gracias — hemos enviado su solicitud a esta clínica. HPA hará el seguimiento con usted.',
     failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
-    clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamar directamente a la clínica al:',
+    clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamarles directamente al:',
     fieldError: 'Revise este campo e inténtelo de nuevo.',
-    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica colaboradora que se ajuste a sus necesidades y se pondrá en contacto con usted. Si actualmente no hay ninguna que se ajuste a sus necesidades, también se lo informaremos. Tenga en cuenta que su cita aún no está programada: la fecha y la hora deben confirmarse con la clínica. HPA le ayuda a ponerse en contacto con la clínica; la atención la brinda la clínica.'
+    matchConfirm: 'Hemos recibido su información. HPA buscará una clínica colaboradora que se ajuste a sus necesidades y se pondrá en contacto con usted. Si actualmente no hay ninguna que se ajuste a sus necesidades, también se lo informaremos. Esta es una solicitud de atención, no una cita. HPA hará el seguimiento con usted; la hora de la visita se confirma directamente con la clínica. La atención la brinda la clínica.'
   },
   zh: {
     concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
-    followUp: '感谢您的提交。HPA 将与您联系，帮助您找到合适的诊所。',
+    followUpMatch: '感谢您的提交。HPA 将与您联系，帮助您找到合适的诊所。',
+    followUpClinic: '感谢您的提交。我们已把您的请求发送给{clinic}，HPA 会跟进。',
+    followUpClinicGeneric: '感谢您的提交。我们已把您的请求发送给这家诊所，HPA 会跟进。',
     failure: '抱歉，系统暂时无法提交您的请求。请几分钟后重试，或直接发送邮件至 ' + HPA_PATIENT_EMAIL + '（您的邮件应用中可能已为您打开一封草稿）。',
     clinicContact: '感谢您的提交，诊所将直接与您联系安排就诊。您也可以致电诊所：',
     fieldError: '请检查此项内容后重新提交。',
-    matchConfirm: '我们已经收到您的信息。HPA 会为您查找合适的合作诊所并与您联系；如果目前没有符合您需求的诊所，我们也会告知您。请注意，此时尚未完成预约，具体时间需与诊所确认；HPA 负责对接，诊疗由诊所提供。'
+    matchConfirm: '我们已经收到您的信息。HPA 会为您查找合适的合作诊所并与您联系；如果目前没有符合您需求的诊所，我们也会告知您。这是一份咨询请求，不是预约。HPA 会人工跟进，具体就诊时间由诊所与您直接确认。诊疗由诊所提供。'
   }
 };
 
@@ -813,10 +819,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // hpa_will_follow_up (clinic: null) — and any stored-but-unroutable
-    // shape defaults here rather than faking a booking.
-    if (ctx.inModal) showModalOutcome(t.followUp);
-    else showConnectMessage(ctx.form, t.followUp, 'info');
+    // hpa_will_follow_up — and any stored-but-unroutable shape defaults here
+    // rather than faking a booking. Two voices, decided by the path the patient
+    // took: Get Matched (matchMode) says HPA will look for a clinic; the clinic
+    // page says the request went TO that clinic. Mode A returns earlier at
+    // matchConfirm, so the match variant here is a safety net, not a live string.
+    // clinic.display_name is the ONLY clinic string used here — no front-end
+    // registry, no slug-to-name table (locked decision 10-B). With no clinic in
+    // the response the generic variant runs; a name is never invented.
+    const clinicName = clinic && clinic.display_name ? clinic.display_name : '';
+    const followText = ctx.matchMode
+      ? t.followUpMatch
+      : (clinicName
+          ? t.followUpClinic.replace('{clinic}', clinicName)
+          : t.followUpClinicGeneric);
+    if (ctx.inModal) showModalOutcome(followText);
+    else showConnectMessage(ctx.form, followText, 'info');
   }
 
   // --- Fallback mailto ---

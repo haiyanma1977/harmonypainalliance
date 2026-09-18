@@ -17,7 +17,7 @@ dashboard edit or an accidental overwrite would have been unrecoverable and invi
 | Item | Value |
 |---|---|
 | Worker name | `hpa-leads` |
-| Worker ID (script tag) | `9511b9b1f0104985872218771afc0115` |
+| Worker ID (script tag) | 见 private-handoffs |
 | Created | 2026-04-19T21:58:16Z |
 | Last modified (deployed) | **2026-04-20T02:29:37Z** |
 | Source version | `HPA Lead Capture Worker v2.0` |
@@ -40,9 +40,9 @@ new version has proven itself in production.
 
 | Deploy | Version ID | Source | Notes |
 |---|---|---|---|
-| **v3.1 + founder@ Apps Script — CURRENT** | **`f6b02f03`** | `worker.js` (code unchanged) | 2026-09-18, dashboard: `GOOGLE_SCRIPT_URL` value changed to the founder@ script's `/exec`. Live test 3/3 passed (identity-migration-v4 handoff §B). Rollback target: `737a95f3` (would point back at the legacy script). |
+| **v3.1 + founder@ Apps Script — CURRENT** | **`f6b02f03`** | `worker.js` (code unchanged) | 2026-09-18, dashboard: `GOOGLE_SCRIPT_URL` value changed to the founder@ script's `/exec`. Live test 3/3 passed (identity-migration-v4 handoff §B). Rollback floor: `f6b02f03` — 更早版本的 `GOOGLE_SCRIPT_URL` 指向已归档的旧脚本，回滚到它们会断写表与邮件；如必须回滚更早版本，回滚后立即在后台重设 `GOOGLE_SCRIPT_URL`。 |
 | v3.1 seven-category | **`737a95f3`** | `worker.js` | Deployed 2026-09-18 UTC (09-17 ET) via dashboard editor. `ALLOWED_CONCERNS` = 9 values; `LEGACY_CONCERN_MAP` (remove after 2026-10-18); Get Matched no longer resolves a clinic server-side. Live test 5/5 passed — `private-handoffs/2026-09-18-seven-category-v1-worker.md` §7. Rollback target: `33a1db41`. |
-| v3.0 + KV binding `HPA_RATELIMIT` — **rolled back 2026-09-17** | `34f81f94` | `worker.js` (code unchanged) | 2026-09-17, dashboard "Added KV namespace binding HPA_RATELIMIT" (namespace `hpa-ratelimit`, `55cc138db8ec44cfa5b64b9e94746028`). ⚠ See note below: on Workers Free this limiter cannot stop bursts and spends the shared daily KV write quota. Rollback target: `33a1db41`. |
+| v3.0 + KV binding `HPA_RATELIMIT` — **rolled back 2026-09-17** | `34f81f94` | `worker.js` (code unchanged) | 2026-09-17, dashboard "Added KV namespace binding HPA_RATELIMIT" (namespace `hpa-ratelimit`, ID 见 private-handoffs). ⚠ See note below: on Workers Free this limiter cannot stop bursts and spends the shared daily KV write quota. Rollback target: `33a1db41`. |
 | v3.0 — rollback target (four-value taxonomy) | **`33a1db41`** | `worker.js` | Deployed 2026-08-20 via dashboard editor. No `HPA_RATELIMIT` binding. Haiyan rolled back to this version on 2026-09-17 after the KV limiter finding below. |
 | v2.0 — rollback target | **`778d24c9`** | `worker.v2-deployed-778d24c9.js` | Deployed 2026-04-20T02:29:37Z. **Keep available.** |
 
@@ -68,7 +68,7 @@ new version has proven itself in production.
 | Layer | State | Fact |
 |---|---|---|
 | Cloudflare zone WAF — rate limiting rule | **Active** | A zone-level rate limiting rule on `harmonypainalliance.com` covers `POST /api/lead`. 参数见 Cloudflare 控制台 WAF 规则。Created by Haiyan in the dashboard on 2026-09-17. Verified externally the same day: a burst of POSTs from one IP started returning **`429`** with body `error code: 1015` (Cloudflare's rate-limit response, not the Worker's); GETs on the same path were never limited. The rule runs **before** the request reaches the Worker. |
-| KV namespace `hpa-ratelimit` | **Exists, unused** | ID `55cc138db8ec44cfa5b64b9e94746028`. Created 2026-09-17. It is **not bound** to the Worker (the `HPA_RATELIMIT` binding was added in version `34f81f94` and removed by rolling back to `33a1db41` the same day). Idle, no cost. |
+| KV namespace `hpa-ratelimit` | **Exists, unused** | ID 见 private-handoffs。Created 2026-09-17. It is **not bound** to the Worker (the `HPA_RATELIMIT` binding was added in version `34f81f94` and removed by rolling back to `33a1db41` the same day). Idle, no cost. |
 | Worker code — `isRateLimited()` in `worker.js` | **Present, not active** | The function only runs when `env.HPA_RATELIMIT` is bound; with no binding it is skipped. Current production version `33a1db41` has no such binding, so the in-Worker KV limiter is **inert**. The code has not been changed. |
 
 Why the KV limiter is not used: see the finding above (KV allows at most 1 write/s per key and reads are edge-cached, so bursts pass; every request that passes the honeypot would spend the account-wide 1,000 writes/day free quota shared with `HPA_LEADS`).
@@ -87,7 +87,7 @@ The Sheet, the script and the notification sender all live in HPA's Google Works
 
 | Item | Value |
 |---|---|
-| Project | `hpa-leads-script` (standalone) — ID `1PzlAFXbijh26cs8daa7rO8yV62ssdWCzbEDphuD-9FvlwzwEeVrABpfy` |
+| Project | `hpa-leads-script` (standalone) — ID 见 private-handoffs |
 | Owner / Execute as | **`founder@harmonypainalliance.com`** (Workspace) |
 | Who has access | Anyone (required — the Worker calls it unauthenticated) |
 | Active deployment | **Version 1**, 2026-09-18 08:56 (America/New_York), description `HPA lead receiver v2.1 (founder@, seven-category)` |
@@ -114,7 +114,7 @@ change. A *new deployment* mints a new URL and requires a Worker variable change
 | Sheet | "HPA Leads" in `haiyanma256@gmail.com` (personal) — holds all leads Apr–Sep 2026; test rows removed 2026-09-18 |
 | Script | container-bound to that Sheet; Web App **Version 3** (2026-04-19 22:25 ET, description `HPA lead receiver Vison`), Execute as `haiyanma256@`, Anyone |
 | `/exec` | the previous `GOOGLE_SCRIPT_URL` value — **dead**: both deployments of the legacy script (`HPA lead Receiver V3`, `HPA Leads Receiver`) were archived by Haiyan on 2026-09-18; no active deployment remains |
-| Sheet export | `HPA Leads (legacy haiyanma256, 2026-04-19 to 2026-09-18).csv` in founder@ Drive (uploaded 2026-09-18, Drive id `1Y0fSYI-HDW8SAwfao9sU7M7rU-cleQrl`). The legacy Sheet itself stays in the personal account as a second copy. |
+| Sheet export | `HPA Leads (legacy haiyanma256, 2026-04-19 to 2026-09-18).csv` in founder@ Drive (uploaded 2026-09-18, Drive id 见 private-handoffs). The legacy Sheet itself stays in the personal account as a second copy. |
 
 The column mapping evidence below was gathered against the legacy Sheet on 2026-08-20; the header
 row is identical in the new Sheet (verified column by column on 2026-09-18).
@@ -373,7 +373,7 @@ browser  ──POST /api/lead──▶  hpa-leads Worker
 
 | Kind | Name | Value |
 |---|---|---|
-| KV namespace | `HPA_LEADS` | `hpa-leads` — `0a7c30cc4d6c49298efc0be6e0b37a34` (**the only KV namespace on the account**) |
+| KV namespace | `HPA_LEADS` | `hpa-leads` — ID 见 private-handoffs (**the only KV namespace on the account**) |
 | Variable | `GOOGLE_SCRIPT_URL` | founder@ `hpa-leads-script` `/exec` endpoint — **value not committed** |
 
 ### Endpoint
@@ -420,6 +420,12 @@ the route or the KV binding on a Worker that handles live patient data.
 the recorded version ID → Rollback. Seconds, and independent of git.
 
 **Never** create a second KV namespace. Existing v1 lead records must stay readable.
+
+### 日程（Worker）
+
+| 日期 | 动作 |
+|---|---|
+| **2026-10-18 后** | 删除 `worker.js` 中的 `LEGACY_CONCERN_MAP`（旧四值 concern 的兼容映射）。需在 Cloudflare 后台重新粘贴 `worker.js` 并部署，记录新的 Version ID。 |
 
 ---
 

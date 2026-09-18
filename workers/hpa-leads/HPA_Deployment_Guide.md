@@ -144,7 +144,7 @@ Web App 部署锁定在某个版本号上，保存后的代码只会出现在 `/
 | 项目 | 值 |
 |---|---|
 | 名称 | `hpa-leads` |
-| ID | `0a7c30cc4d6c49298efc0be6e0b37a34` |
+| ID | 见 private-handoffs |
 | 绑定变量名 | `HPA_LEADS` |
 | 保留期 | `expirationTtl` = 365 天 |
 
@@ -320,7 +320,7 @@ Worker (v3)
 | **运维说明 / 回滚参考** | `website/workers/hpa-leads/README.md` |
 | ~~旧 Worker 源码~~ | ~~`worker/hpa-leads-worker.js`~~ — **已废弃，禁止部署** |
 | ~~旧 Apps Script 源码~~ | ~~`worker/google-apps-script.js`~~ — 仅历史归档 |
-| KV Namespace ID | `0a7c30cc4d6c49298efc0be6e0b37a34` |
+| KV Namespace ID | 见 private-handoffs |
 | Worker 名称 / 当前 Version ID | `hpa-leads` / `33a1db41`（回滚：`778d24c9`） |
 | Apps Script 部署版本 | Version 3（锁定，非 HEAD） |
 | Sheet 所属账号 | `haiyanma256@gmail.com`（个人） |
