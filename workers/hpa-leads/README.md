@@ -107,14 +107,14 @@ project → **Deploy → Manage deployments → edit the existing deployment →
 Deploy**. Updating the *existing* deployment keeps the `/exec` URL, so `GOOGLE_SCRIPT_URL` does not
 change. A *new deployment* mints a new URL and requires a Worker variable change.
 
-### Legacy (pre-2026-09-18) — awaiting archive by Haiyan
+### Legacy (pre-2026-09-18) — script ARCHIVED 2026-09-18
 
 | Item | Value |
 |---|---|
 | Sheet | "HPA Leads" in `haiyanma256@gmail.com` (personal) — holds all leads Apr–Sep 2026; test rows removed 2026-09-18 |
 | Script | container-bound to that Sheet; Web App **Version 3** (2026-04-19 22:25 ET, description `HPA lead receiver Vison`), Execute as `haiyanma256@`, Anyone |
-| `/exec` | the previous `GOOGLE_SCRIPT_URL` value — no longer called by the Worker, **still live until archived** |
-| To do | export the Sheet to CSV into founder@ Drive, then Apps Script → Deploy → Manage deployments → Archive |
+| `/exec` | the previous `GOOGLE_SCRIPT_URL` value — **dead**: both deployments of the legacy script (`HPA lead Receiver V3`, `HPA Leads Receiver`) were archived by Haiyan on 2026-09-18; no active deployment remains |
+| Sheet export | `HPA Leads (legacy haiyanma256, 2026-04-19 to 2026-09-18).csv` in founder@ Drive (uploaded 2026-09-18, Drive id `1Y0fSYI-HDW8SAwfao9sU7M7rU-cleQrl`). The legacy Sheet itself stays in the personal account as a second copy. |
 
 The column mapping evidence below was gathered against the legacy Sheet on 2026-08-20; the header
 row is identical in the new Sheet (verified column by column on 2026-09-18).
