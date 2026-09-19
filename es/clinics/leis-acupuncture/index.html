@@ -276,7 +276,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260918d" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918e" rel="stylesheet"/>
 </head>
 <body class="lang-es clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -418,7 +418,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      is patient logistics and stays visually secondary. No phone here, no clinic
      website link, no direct booking control. -->
 <div class="clinic-hero-actions">
-<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">Contactar con esta clínica</button>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-clinic-name="Lei's Acupuncture" data-lead-source="clinic-hero">Contactar con esta clínica</button>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">Cómo llegar</a>
 </div>
 </div>
@@ -659,7 +659,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p>Si busca atención de acupuntura durante la recuperación después de un accidente cerebrovascular o la rehabilitación neurológica, para dolor crónico o complejo, o por otra preocupación de salud que pueda beneficiarse de un enfoque individualizado, puede enviar a Harmony Pain Alliance una solicitud sobre Lei's Acupuncture.</p>
 <p><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
 <!-- /SLOT -->
-<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">Contactar con esta clínica</button>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-clinic-name="Lei's Acupuncture" data-lead-source="clinic-cta">Contactar con esta clínica</button>
 </div>
 
 <!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke
@@ -804,9 +804,20 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <textarea name="notes" placeholder="Describa brevemente en qué le gustaría recibir ayuda." rows="2"></textarea>
 </div>
 </div>
+<!-- Consent (legal v1, 2026-09-18) -->
+<div class="lead-consent">
+<div class="lead-consent-row">
+<input type="checkbox" id="lead-consent" name="consent_terms" value="1" required>
+<label for="lead-consent">He leído y acepto los <a href="/terms" target="_blank" rel="noopener">Términos de Uso</a> y la <a href="/privacy" target="_blank" rel="noopener">Política de Privacidad</a> (en inglés).</label>
+</div>
+<div class="lead-consent-row" id="leadConsentClinicRow" hidden>
+<input type="checkbox" id="lead-consent-clinic" name="clinic_share_consent" value="1">
+<label for="lead-consent-clinic">Autorizo a HPA a transmitir la información de esta solicitud a <strong id="leadConsentClinicName">la clínica indicada en esta página</strong>.</label>
+</div>
+</div>
 <!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
-<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
 <span class="lead-submit-text">Enviar solicitud</span>
 <span class="lead-submit-loading" style="display:none;">...</span>
 </button>
@@ -861,12 +872,12 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="footer-bottom">
 <span>© 2026 Harmony TCM International Group LLC · All Rights Reserved</span>
 <span>
-<a href="/privacy">Privacy Policy</a>
-<a href="/terms">Terms of Use</a>
+<a href="/privacy">Política de Privacidad</a>
+<a href="/terms">Términos de Uso</a>
 </span>
 </div>
 </div>
 </footer>
-<script src="/js/main.js?v=20260918d"></script>
+<script src="/js/main.js?v=20260918e"></script>
 </body>
 </html>

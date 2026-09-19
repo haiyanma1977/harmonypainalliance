@@ -276,7 +276,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260918d" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918e" rel="stylesheet"/>
 </head>
 <body class="lang-zh clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -418,7 +418,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
      is patient logistics and stays visually secondary. No phone here, no clinic
      website link, no direct booking control. -->
 <div class="clinic-hero-actions">
-<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-hero">联系这家诊所</button>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-clinic-name="Lei's Acupuncture" data-lead-source="clinic-hero">联系这家诊所</button>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=209+E+Bay+St,+Winter+Garden,+FL+34787" rel="noopener" target="_blank">导航至诊所</a>
 </div>
 </div>
@@ -659,7 +659,7 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <p>如果您正在寻求中风后或神经康复相关的针灸治疗、慢性或复杂性疼痛治疗，或者有其他可能适合个体化针灸治疗的健康问题，可以就 Lei's Acupuncture 向 Harmony Pain Alliance 提交联系请求。</p>
 <p><strong>209 E Bay St, Winter Garden, FL 34787</strong></p>
 <!-- /SLOT -->
-<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-lead-source="clinic-cta">联系这家诊所</button>
+<button type="button" class="btn btn-green" data-clinic="lei-acupuncture" data-clinic-name="Lei's Acupuncture" data-lead-source="clinic-cta">联系这家诊所</button>
 </div>
 
 <!-- FIXED: platform ≠ medical provider + no diagnosis/guarantee + acute-stroke
@@ -804,9 +804,20 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <textarea name="notes" placeholder="请简要说明您希望获得哪方面的帮助。" rows="2"></textarea>
 </div>
 </div>
+<!-- Consent (legal v1, 2026-09-18) -->
+<div class="lead-consent">
+<div class="lead-consent-row">
+<input type="checkbox" id="lead-consent" name="consent_terms" value="1" required>
+<label for="lead-consent">我已阅读并同意《<a href="/terms" target="_blank" rel="noopener">使用条款</a>》与《<a href="/privacy" target="_blank" rel="noopener">隐私政策</a>》（英文版）。</label>
+</div>
+<div class="lead-consent-row" id="leadConsentClinicRow" hidden>
+<input type="checkbox" id="lead-consent-clinic" name="clinic_share_consent" value="1">
+<label for="lead-consent-clinic">我授权 HPA 将本次申请中的资料转交给 <strong id="leadConsentClinicName">本页所示诊所</strong>。</label>
+</div>
+</div>
 <!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
-<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
 <span class="lead-submit-text">提交请求</span>
 <span class="lead-submit-loading" style="display:none;">...</span>
 </button>
@@ -861,12 +872,12 @@ STYLES: all Clinic Profile CSS lives in /css/style.css under
 <div class="footer-bottom">
 <span>© 2026 Harmony TCM International Group LLC · All Rights Reserved</span>
 <span>
-<a href="/privacy">Privacy Policy</a>
-<a href="/terms">Terms of Use</a>
+<a href="/privacy">隐私政策</a>
+<a href="/terms">使用条款</a>
 </span>
 </div>
 </div>
 </footer>
-<script src="/js/main.js?v=20260918d"></script>
+<script src="/js/main.js?v=20260918e"></script>
 </body>
 </html>

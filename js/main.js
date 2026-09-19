@@ -30,6 +30,18 @@ const HPA_PATIENT_EMAIL = 'info@harmonypainalliance.com';
 
 /* Approved Stage 2a microcopy (10-A final wording, 2026-08-21).
    ES register: usted (K3). Do not edit without Haiyan's approval. */
+/* Legal versions (legal v1, 2026-09-18). MUST equal the "Last Updated" date on
+   /terms and /privacy — change all three in the same commit (rule in AGENTS.md /
+   CLAUDE.md). Sent with every lead as terms_version / privacy_version. */
+const HPA_TERMS_VERSION = '2026-09-19';
+const HPA_PRIVACY_VERSION = '2026-09-19';
+/* Consent-box fallback clinic name when the trigger has no data-clinic-name. */
+const HPA_CONSENT_CLINIC_FALLBACK = {
+  en: 'the clinic named on this page',
+  es: 'la clínica indicada en esta página',
+  zh: '本页所示诊所'
+};
+
 /* Mode-aware modal copy (approved 2026-08-21). The static HTML carries the
    Mode B (Request Appointment) strings verbatim; Mode A (Get Matched) strings
    are applied by JS at open and restored on every open. Do not edit without
@@ -450,9 +462,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const leadOptional = document.getElementById('leadOptional');
   const leadSubmitBtn = document.getElementById('leadSubmitBtn');
   const leadSuccess = document.getElementById('leadSuccess');
+  // Consent box (legal v1, 2026-09-18)
+  const leadConsentTerms = document.getElementById('lead-consent');
+  const leadConsentClinic = document.getElementById('lead-consent-clinic');
+  const leadConsentClinicRow = document.getElementById('leadConsentClinicRow');
+  const leadConsentClinicName = document.getElementById('leadConsentClinicName');
 
   // Stage 2a state + message helpers -----------------------------------
   let leadIsMatchMode = false;
+
+  // Submit stays disabled until the Terms/Privacy box is ticked (Mode A) or
+  // both boxes are ticked (Mode B). The Worker is the real gate; this is UX.
+  const updateConsentState = () => {
+    if (!leadConsentTerms || !leadSubmitBtn) return;
+    const clinicOk = leadIsMatchMode || !leadConsentClinic || leadConsentClinic.checked;
+    leadSubmitBtn.disabled = !(leadConsentTerms.checked && clinicOk);
+  };
+  [leadConsentTerms, leadConsentClinic].forEach((el) => {
+    if (el) el.addEventListener('change', updateConsentState);
+  });
 
   const connectT = () => HPA_CONNECT_I18N[getLang()] || HPA_CONNECT_I18N.en;
 
@@ -578,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inertedByModal = [];
   };
 
-  const openLeadModal = (source, clinicId, concern) => {
+  const openLeadModal = (source, clinicId, concern, clinicName) => {
     leadSource.value = source || 'unknown';
     // Mode: data-clinic present -> Request Appointment (clinic-scoped);
     // absent -> Get Matched (target_clinic omitted; Worker matches). 10-B.
@@ -602,6 +630,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (leadOptional) leadOptional.classList.remove('show');
     if (leadExpandBtn) leadExpandBtn.classList.remove('expanded');
     leadSubmitBtn.classList.remove('loading');
+    // Consent box: both boxes cleared by reset(); clinic-share row only in
+    // Mode B, with the clinic name from data-clinic-name (fallback per lang).
+    if (leadConsentClinicRow && leadConsentClinic) {
+      if (leadIsMatchMode) {
+        leadConsentClinicRow.hidden = true;
+        leadConsentClinic.required = false;
+      } else {
+        leadConsentClinicRow.hidden = false;
+        leadConsentClinic.required = true;
+        if (leadConsentClinicName) {
+          const fb = HPA_CONSENT_CLINIC_FALLBACK[getLang()] || HPA_CONSENT_CLINIC_FALLBACK.en;
+          leadConsentClinicName.textContent = clinicName || fb;
+        }
+      }
+    }
+    updateConsentState();
     // Render the correct copy + concern placement for this mode.
     applyModalMode(leadIsMatchMode);
     if (concern) {
@@ -656,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-lead-source]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openLeadModal(btn.dataset.leadSource, btn.dataset.clinic, btn.dataset.concern);
+      openLeadModal(btn.dataset.leadSource, btn.dataset.clinic, btn.dataset.concern, btn.dataset.clinicName);
     });
   });
 
@@ -673,6 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       payload.page_language = getLang();
       payload.source_page = location.pathname;
+      payload.terms_version = HPA_TERMS_VERSION;
+      payload.privacy_version = HPA_PRIVACY_VERSION;
 
       // GET MATCHED: primary_concern is required (front-end rule; the
       // Worker deliberately accepts an absent concern, so this must live

@@ -50,7 +50,11 @@ function doPost(e) {
         "Booking URL",
         "User City",
         "User Region",
-        "User Country"
+        "User Country",
+        "Terms Version",
+        "Privacy Version",
+        "Consent At",
+        "Clinic Share Consent"
       ]);
     }
 
@@ -77,7 +81,12 @@ function doPost(e) {
       data.target_booking_url || "",
       data.user_city || "",
       data.user_region || "",
-      data.user_country || ""
+      data.user_country || "",
+      // v2.3 (legal v1, 2026-09-18): consent record, columns 23-26.
+      data.terms_version || "",
+      data.privacy_version || "",
+      data.consent_at || "",
+      data.clinic_share_consent || ""
     ]);
 
     // 发送邮件通知
@@ -97,12 +106,13 @@ function doPost(e) {
 // 发送邮件通知
 function sendNotification(data) {
   try {
-    var concern = data.primary_concern ? " — " + data.primary_concern : "";
+    // v2.3 (2026-09-18): primary_concern removed from the subject line —
+    // it appears in the body only. Subject = "[HPA Lead] name — clinic".
     // Unassigned = empty name or the Worker's placeholder → two-segment subject.
     var rawClinic = data.target_clinic_name || "";
     var unassigned = !rawClinic || rawClinic === UNASSIGNED_CLINIC_LABEL;
     var clinicName = unassigned ? UNASSIGNED_CLINIC_LABEL : rawClinic;
-    var subject = "[HPA Lead] " + (data.name || "Unknown") + concern
+    var subject = "[HPA Lead] " + (data.name || "Unknown")
       + (unassigned ? "" : " — " + clinicName);
 
     var body = "New HPA Lead Received!\n"
@@ -132,6 +142,9 @@ function sendNotification(data) {
       + "GEO\n"
       + "Location: " + (data.user_city || "") + ", " + (data.user_region || "") + " " + (data.user_country || "") + "\n"
       + "Page Language: " + (data.page_language || "") + "\n\n"
+      // v2.3 (legal v1): consent record
+      + "Consent: terms " + (data.terms_version || "?") + " / privacy " + (data.privacy_version || "?")
+      + " at " + (data.consent_at || "?") + "; clinic share: " + (data.clinic_share_consent || "no") + "\n\n"
       // v2.2 (2026-09-18): link to the live sheet so the reader lands on the
       // one sheet the script writes to (there are look-alike files in Drive).
       + "Sheet: https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit";
@@ -146,6 +159,6 @@ function sendNotification(data) {
 // 收到 GET 请求时返回状态（用于测试）
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.2 is active" }))
+    .createTextOutput(JSON.stringify({ status: "ok", message: "HPA Lead Sheet v2.3 is active" }))
     .setMimeType(ContentService.MimeType.JSON);
 }

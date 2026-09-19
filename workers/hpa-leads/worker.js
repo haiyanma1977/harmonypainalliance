@@ -65,9 +65,26 @@
         Legacy field names accepted; legacy response keys still emitted.
 
    Clinic notification via Postmark is SCAFFOLDED BUT INERT — see notifyClinic().
+
+   ---------------------------------------------------------------------------
+   v3.1 — consent record (legal v1, 2026-09-18; source patch, NOT YET DEPLOYED)
+   ---------------------------------------------------------------------------
+     - Reads consent_terms, clinic_share_consent, terms_version, privacy_version
+       from the form; generates consent_at server-side. All four stored in KV
+       and forwarded to Apps Script (Sheet columns 23-26).
+     - CONSENT_REQUIRED switch (below). false = accept and record; true = 422
+       consent_required / clinic_consent_required. Deploy with false first,
+       flip to true only after the front end with the consent box is live.
+     - Legacy top-level `redirect_url` in the response REMOVED (dead code:
+       main.js reads clinic.redirect_url only; approved 2026-09-18).
    ========================================================================= */
 
 const SCHEMA_VERSION = 2;
+
+/* Consent gate (legal v1). Keep false until the consent-box front end is live
+   and verified; then set true and redeploy. See consent-spec-v2.md §3. */
+const CONSENT_REQUIRED = false;
+const VERSION_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 /* ---------------------------------------------------------------------------
    Clinic registry — the single authoritative source.
@@ -163,7 +180,9 @@ const CAPS = {
   language: 8,
   page_language: 8,
   target_clinic: 64,
-  legacy: 100
+  legacy: 100,
+  terms_version: 10,
+  privacy_version: 10
 };
 
 /* Optional transient rate limit. Disabled unless HPA_RATELIMIT is bound.
@@ -383,6 +402,12 @@ function buildAppsScriptPayload(lead, clinic) {
     user_city: "",
     user_region: "",
     user_country: lead.user_country,
+    // legal v1 consent record → Sheet columns 23-26 (Code.gs v2.3)
+    terms_version: lead.terms_version || "",
+    privacy_version: lead.privacy_version || "",
+    consent_at: lead.consent_at || "",
+    clinic_share_consent: lead.clinic_share_consent ? "yes" : "no",
+    consent_terms: lead.consent_terms ? "yes" : "no",
     // v3 additions — ignored by the current script, ready for the v2 edit.
     source_page: lead.source_page,
     schema_version: lead.schema_version,
@@ -503,6 +528,17 @@ export default {
       return fail("invalid_phone", 422, origin, env, "phone");
     }
 
+    /* --- consent (legal v1) --------------------------------------------- */
+    const consentTerms = trimTo(body.consent_terms, 8) === "1";
+    const clinicShareConsentRaw = trimTo(body.clinic_share_consent, 8) === "1";
+    let termsVersion = trimTo(body.terms_version, CAPS.terms_version);
+    let privacyVersion = trimTo(body.privacy_version, CAPS.privacy_version);
+    if (!VERSION_DATE_RE.test(termsVersion)) termsVersion = "";
+    if (!VERSION_DATE_RE.test(privacyVersion)) privacyVersion = "";
+    if (CONSENT_REQUIRED && !consentTerms) {
+      return fail("consent_required", 422, origin, env, "consent_terms");
+    }
+
     const primaryConcernRaw = trimTo(body.primary_concern, 64);
     // Legacy → v1 mapping first (transition until 2026-10-18), then validate.
     const primaryConcern = LEGACY_CONCERN_MAP[primaryConcernRaw] || primaryConcernRaw;
@@ -522,7 +558,12 @@ export default {
       if (!clinic) {
         return fail("invalid_clinic", 422, origin, env, "target_clinic");
       }
+      if (CONSENT_REQUIRED && !clinicShareConsentRaw) {
+        return fail("clinic_consent_required", 422, origin, env, "clinic_share_consent");
+      }
     }
+    // Clinic-share consent only means anything on the Request Appointment path.
+    const clinicShareConsent = !!clinic && clinicShareConsentRaw;
     // else: Get Matched → clinic stays null (matchClinic() intentionally not called).
 
     /* --- legacy passthrough --------------------------------------------- */
@@ -559,6 +600,14 @@ export default {
       user_country: cf.country || "",
 
       connection_status: "stored",
+
+      // legal v1 consent record
+      consent_terms: consentTerms,
+      clinic_share_consent: clinicShareConsent,
+      terms_version: termsVersion,
+      privacy_version: privacyVersion,
+      consent_at: new Date().toISOString(),
+
       legacy
     };
 
@@ -645,11 +694,9 @@ export default {
         : null,
       next_step: nextStep,
 
-      /* Legacy keys — the live v1 front end does not read the body today, but
-         these keep any older consumer working through the migration. Remove
-         once the shared connection component is the only client. */
+      /* Legacy keys kept for older consumers. Top-level `redirect_url` removed
+         2026-09-18 (dead: main.js reads clinic.redirect_url only). */
       success: true,
-      redirect_url: clinic && clinic.booking_type !== "phone-only" ? clinic.booking_url : null,
       booking_type: clinic ? clinic.booking_type : "none"
     };
 
