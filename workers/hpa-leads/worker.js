@@ -83,7 +83,7 @@ const SCHEMA_VERSION = 2;
 
 /* Consent gate (legal v1). Keep false until the consent-box front end is live
    and verified; then set true and redeploy. See consent-spec-v2.md §3. */
-const CONSENT_REQUIRED = false;
+const CONSENT_REQUIRED = true;
 const VERSION_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 /* ---------------------------------------------------------------------------

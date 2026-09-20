@@ -1,5 +1,5 @@
 /**
- * HPA Lead Capture — Google Apps Script v2.2 (2026-09-18)
+ * HPA Lead Capture — Google Apps Script v2.3 (2026-09-19)
  *
  * 功能：
  * 1. 接收 Cloudflare Worker POST 请求，将留资数据写入 Google Sheets
