@@ -5,7 +5,7 @@
 
   <!--
     Each language has its own URL since 2026-05-20.
-    / 302-redirects to /en/ via _redirects.
+    / 301-redirects to /en/ via _redirects.
     hreflang alternates per URL declare all 3 language variants + x-default.
     Privacy/Terms remain single-language (English, US jurisdiction).
   -->
