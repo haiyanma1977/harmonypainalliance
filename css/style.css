@@ -1033,6 +1033,13 @@ body.lang-zh [lang-en], body.lang-zh [lang-es] { display: none !important; }
     font-size: 1.375rem !important;
   }
 }
+/* ES homepage H1 only, <=380px: keeps the gold accent line
+   "empieza por la clínica adecuada." on one line at 360px (22px -> 21px, -4.5%). */
+@media (max-width: 380px) {
+  html[lang="es"] .hero h1 {
+    font-size: 1.3125rem !important;
+  }
+}
 
 .hero h1, .hero h2, .hero p, .hero-layout h1, .hero-layout h2, .hero-layout p {
   color: #ffffff !important;
@@ -1501,7 +1508,7 @@ header .logo, nav .logo, .site-branding,
 }
 /* Between 1025 and 1199px the wordmark is dropped so the six items + CTA fit. */
 /* Narrowest desktop tier: the ES CTA is the longest localized string in the bar
-   ("Conéctate con una Clínica"), so the whole header is compressed here rather
+   ("Conéctese con una clínica"), so the whole header is compressed here rather
    than letting it run off-screen. Measured across 10 widths x 3 languages. */
 @media (min-width: 1025px) and (max-width: 1149px) {
   nav.navbar, .navbar { padding: 14px 20px !important; }

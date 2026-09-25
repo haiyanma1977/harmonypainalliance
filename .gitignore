@@ -45,3 +45,4 @@ build/
 # Archives
 *.zip
 *.tar.gz
+Claude outputs/
