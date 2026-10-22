@@ -129,6 +129,13 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
 <link href="/css/style.css?v=20260918e" rel="stylesheet"/>
+<style id="hp-logo-v3">
+/* Health Pointe Jacksonville page only (no shared CSS touched): show the clinic's own logo whole, at its native 500x592 file, on white.
+   The shared .clinic-logo rule caps it at 44px/32px tall, which is unreadable for a full lockup with wordmark. */
+.clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 72px; height: auto; max-width: none; max-height: none; object-fit: contain; background: #fff; border-radius: 0; }
+@media (max-width: 640px) { .clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 60px; max-width: none; max-height: none; } }
+.clinic-hero h1 .hp-name-sub { display: block; font-size: 55%; font-weight: 500; color: inherit; }
+</style>
 </head>
 <body class="lang-en clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -215,7 +222,7 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <img class="clinic-logo" src="/img/health-pointe-jacksonville-logo.jpg" alt="Health Pointe Jacksonville Acupuncture + Wellness Clinic" width="500" height="592"/>
 <!-- /SLOT -->
 <!-- SLOT: clinic_name -->
-<h1>Health Pointe Jacksonville Acupuncture + Wellness Clinic</h1>
+<h1>Health Pointe Jacksonville <span class="hp-name-sub">Acupuncture + Wellness Clinic</span></h1>
 <!-- /SLOT -->
 </div>
 <!-- SLOT: location -->
@@ -267,7 +274,6 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <h4>Professional Credentials</h4>
 <div class="care-credential"><span>Florida Licensed Acupuncture Physician (AP) · License AP2591</span></div>
 </div>
-<p class="ref-note" style="margin-top:20px;">Title and credentials as stated by the practitioner.</p>
 </div>
 </div>
 <!-- /SLOT -->
@@ -292,8 +298,7 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 
 <!-- ===== 5. CLINIC DESCRIPTION (诊所自述) ===== -->
 <section class="clinic-section">
-<h2>Clinic Description</h2>
-<p class="ref-note">The following is the clinic's own description, provided by the clinic.</p>
+<h2>About the Clinic</h2>
 <!-- SLOT: clinic_self_description | Application Q13, verbatim except the one approved deletion (see resource package v2). Do not edit wording. -->
 <div class="clinic-self-description">
 <p>Health Pointe Jacksonville is a specialty acupuncture and integrative wellness clinic with a strong focus on women’s health, reproductive medicine, pelvic health, pregnancy and complex pain conditions.</p>
