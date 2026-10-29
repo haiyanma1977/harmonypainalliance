@@ -34,7 +34,7 @@ const HPA_PATIENT_EMAIL = 'info@harmonypainalliance.com';
    /terms and /privacy — change all three in the same commit (rule in AGENTS.md /
    CLAUDE.md). Sent with every lead as terms_version / privacy_version. */
 const HPA_TERMS_VERSION = '2026-09-19';
-const HPA_PRIVACY_VERSION = '2026-09-19';
+const HPA_PRIVACY_VERSION = '2026-10-29';
 /* Consent-box fallback clinic name when the trigger has no data-clinic-name. */
 const HPA_CONSENT_CLINIC_FALLBACK = {
   en: 'the clinic named on this page',
