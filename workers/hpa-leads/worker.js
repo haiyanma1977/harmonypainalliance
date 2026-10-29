@@ -43,8 +43,9 @@
      3. PRIMARY CONCERN ALLOW-LIST — seven-category v1 (2026-09-18), nine
         values: pain-msk | chronic-complex | neuro | fertility | womens |
         mind-sleep | cosmetic | other-health-concern | not-sure. Legacy
-        post-stroke-neuro / chronic-complex-pain are mapped (LEGACY_CONCERN_MAP)
-        until 2026-10-18. An absent/empty concern stays legal.
+        post-stroke-neuro / chronic-complex-pain were mapped until 2026-10-18;
+        the map was removed in v3.3, so old values now return 422
+        invalid_concern. An absent/empty concern stays legal.
      4. CLINIC REGISTRY IS AUTHORITATIVE
         No is_default. No silent fallback. Unknown/inactive slug → 422.
      5. FULL ATTRIBUTION — source_page (new), source_button, page_language,
@@ -77,9 +78,47 @@
        flip to true only after the front end with the consent box is live.
      - Legacy top-level `redirect_url` in the response REMOVED (dead code:
        main.js reads clinic.redirect_url only; approved 2026-09-18).
+
+   ---------------------------------------------------------------------------
+   v3.2 — Health Pointe + HIPAA data minimisation (2026-10-22; source patch,
+   NOT YET DEPLOYED. Deploy AFTER Code.gs v2.4 — see deploy order in
+   private-handoffs/2026-10-22-health-pointe-v1.md)
+   ---------------------------------------------------------------------------
+     1. CLINIC_REGISTRY: + "health-pointe-jacksonville" (phone-only, no booking
+        URL). Registry now carries per-clinic `forward` config.
+     2. CLINIC FORWARD (Health Pointe only): the Worker does NOT email clinics.
+        When the lead names a clinic whose registry entry has `forward` AND the
+        patient ticked clinic_share_consent, the payload to Apps Script carries
+        `clinic_forward` {clinic_id, to, fields, subject_label}. Apps Script
+        (Gmail/MailApp from founder@, Google BAA) sends ONLY the listed fields
+        (Health Pointe: name, contact, primary_concern). Get Matched leads are
+        never forwarded. Postmark stays inert.
+     3. KV (HPA_LEADS) now stores ONLY { lead_id, submitted_at } (Cloudflare has
+        no BAA). The Google Sheet is the single record; the durable-storage gate
+        moved from "KV write succeeded" to "Apps Script returned {ok:true}".
+        Apps Script failure / timeout / non-JSON → 503 storage_failed, no
+        redirect, nothing promised. KV write failure is logged, non-fatal.
+     4. Apps Script is called with redirect:"follow" (POST → 302 → GET of the
+        result) so the Worker can read its JSON answer. Needs Code.gs v2.4,
+        which returns {ok:true|false, clinic_forward}.
+     5. If a forward was expected but Apps Script did not report "sent":
+        connection_status = "notification_failed" and next_step =
+        "hpa_will_follow_up" (the internal email is flagged FORWARD FAILED).
+
+   ---------------------------------------------------------------------------
+   v3.3 — release prep (2026-10-29; source patch, NOT YET DEPLOYED)
+   ---------------------------------------------------------------------------
+     1. CLINIC_REGISTRY unchanged from v3.2: lei-acupuncture and
+        health-pointe-jacksonville. South Florida TCM is NOT added.
+     2. LEGACY_CONCERN_MAP removed (the 30-day window ended 2026-10-18).
+     3. Open item: Health Pointe patient booking link (waiting on the clinic).
    ========================================================================= */
 
 const SCHEMA_VERSION = 2;
+
+/* Apps Script confirmation timeout (ms). Apps Script cold starts are slow;
+   Cloudflare's own limit is far above this. */
+const APPS_SCRIPT_TIMEOUT_MS = 20000;
 
 /* Consent gate (legal v1). Keep false until the consent-box front end is live
    and verified; then set true and redeploy. See consent-spec-v2.md §3. */
@@ -111,6 +150,34 @@ const CLINIC_REGISTRY = {
     // Clinic-facing notification destination. Confirmed by Haiyan 2026-08-20.
     // NOT yet used — notifyClinic() is inert until Postmark is configured.
     notification_destination: "leidong@leisacupuncture.com"
+    // No `forward` block: Lei's flow is unchanged (leads reach HPA, HPA follows up).
+  },
+  "health-pointe-jacksonville": {
+    id: "health-pointe-jacksonville",
+    display_name: "Health Pointe Jacksonville",
+    active: true,
+    city: "Jacksonville",
+    state: "FL",
+    phone: "904-448-0046",
+    languages: ["en"],
+    accepted_concerns: [],          // dormant (matchClinic() is not called)
+    // No online booking: patient is told the clinic will contact them and sees
+    // the phone number (main.js clinicContact string). redirect_url stays null.
+    // TODO (open): waiting for the clinic to provide a patient booking link.
+    // If provided: set booking_type/booking_url here, then add the page button.
+    booking_type: "phone-only",
+    booking_url: null,
+    // Patient-request mailbox, chosen by the clinic (info@hpjax.com, 2026-10-21).
+    notification_destination: "info@hpjax.com",
+    // Per-clinic forward config — the clinic chose "only name, contact, main
+    // concern" (Dr. Miller, 2026-10-21; HPA committed in writing). Field names:
+    //   name | contact (email + phone) | primary_concern (label, never free text)
+    // Never add `note`/`notes` or any health detail here. Code.gs keeps its own
+    // allow-list of recipient + fields (defence in depth) — keep both in sync.
+    forward: {
+      fields: ["name", "contact", "primary_concern"],
+      subject_label: "Health Pointe"
+    }
   }
   // Additional clinics: add here only. No front-end change required.
 };
@@ -130,17 +197,6 @@ const ALLOWED_CONCERNS = [
   "other-health-concern",
   "not-sure"
 ];
-
-/* Legacy four-value taxonomy → seven-category v1. Applied BEFORE validation
-   so cached old pages keep submitting successfully; the mapped code is what
-   is stored, sheeted and emailed. `other-health-concern` and `not-sure` are
-   unchanged and need no entry.
-   REMOVE THIS MAP AFTER 2026-10-18 (30-day transition) — after that, old
-   values are rejected with 422 invalid_concern like any unknown value. */
-const LEGACY_CONCERN_MAP = {
-  "post-stroke-neuro": "neuro",
-  "chronic-complex-pain": "chronic-complex"
-};
 
 const ALLOWED_LANGUAGES = ["en", "es", "zh"];
 
@@ -362,6 +418,56 @@ async function notifyClinic(lead, clinic, env) {
 }
 
 /* --------------------------------------------------------------- Apps Script
+   POST the lead and WAIT for Apps Script's explicit confirmation.
+   Apps Script answers a POST with 302 → GET result; redirect:"follow" turns the
+   302 into a GET of the result URL (it does not re-run doPost). Resolves to
+   { ok:true, clinic_forward } only for HTTP 200 + JSON {ok:true}.
+   Never throws. */
+async function postToAppsScript(env, payload) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), APPS_SCRIPT_TIMEOUT_MS);
+  try {
+    const resp = await fetch(env.GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      redirect: "follow",
+      signal: controller.signal
+    });
+    if (resp.status !== 200) return { ok: false, reason: "http_" + resp.status };
+    let data;
+    try {
+      data = JSON.parse(await resp.text());
+    } catch (err) {
+      return { ok: false, reason: "non_json" };
+    }
+    if (!data || data.ok !== true) return { ok: false, reason: "not_confirmed" };
+    return {
+      ok: true,
+      clinic_forward: typeof data.clinic_forward === "string" ? data.clinic_forward : "none"
+    };
+  } catch (err) {
+    return { ok: false, reason: err && err.name === "AbortError" ? "timeout" : "error" };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* Per-clinic forward instruction for Apps Script. Only when the lead names a
+   clinic whose registry entry has `forward` AND the patient ticked the
+   clinic-share box. Apps Script re-checks recipient + fields against its own
+   allow-list and builds the email from the listed fields only. */
+function buildClinicForward(lead, clinic) {
+  if (!clinic || !clinic.forward || !lead.clinic_share_consent) return null;
+  if (!clinic.notification_destination) return null;
+  return {
+    clinic_id: clinic.id,
+    to: clinic.notification_destination,
+    fields: clinic.forward.fields,
+    subject_label: clinic.forward.subject_label
+  };
+}
+
+/* --------------------------------------------------------------- Apps Script
    Legacy-shaped payload. The deployed Apps Script writes 22 fixed columns
    positionally with `|| ""` defaults, so this shape must be preserved until
    the approved Apps Script v2 edit ships.
@@ -408,6 +514,8 @@ function buildAppsScriptPayload(lead, clinic) {
     consent_at: lead.consent_at || "",
     clinic_share_consent: lead.clinic_share_consent ? "yes" : "no",
     consent_terms: lead.consent_terms ? "yes" : "no",
+    // v3.2: forward instruction (null unless this lead is forwardable)
+    clinic_forward: buildClinicForward(lead, clinic),
     // v3 additions — ignored by the current script, ready for the v2 edit.
     source_page: lead.source_page,
     schema_version: lead.schema_version,
@@ -539,9 +647,8 @@ export default {
       return fail("consent_required", 422, origin, env, "consent_terms");
     }
 
-    const primaryConcernRaw = trimTo(body.primary_concern, 64);
-    // Legacy → v1 mapping first (transition until 2026-10-18), then validate.
-    const primaryConcern = LEGACY_CONCERN_MAP[primaryConcernRaw] || primaryConcernRaw;
+    // Seven-category v1 values only (legacy four-value map removed in v3.3).
+    const primaryConcern = trimTo(body.primary_concern, 64);
     if (primaryConcern && !ALLOWED_CONCERNS.includes(primaryConcern)) {
       return fail("invalid_concern", 422, origin, env, "primary_concern");
     }
@@ -611,55 +718,46 @@ export default {
       legacy
     };
 
-    /* --- 1. STORE — the gate ------------------------------------------- */
-    if (!env.HPA_LEADS) {
-      console.error("hpa-leads: KV binding missing");
+    /* --- 1. STORE — the gate (v3.2) ------------------------------------
+       The Google Sheet (Apps Script, Google BAA) is the record of truth.
+       Success = Apps Script returned {ok:true}. Anything else → 503 and no
+       promise to the patient. */
+    if (!env.GOOGLE_SCRIPT_URL) {
+      console.error("hpa-leads: GOOGLE_SCRIPT_URL missing");
       return fail("storage_failed", 503, origin, env);
     }
-    try {
-      await env.HPA_LEADS.put(lead.lead_id, JSON.stringify(lead), {
-        expirationTtl: 365 * 24 * 60 * 60
-      });
-    } catch (err) {
-      console.error("hpa-leads: KV write failed: " + err.message);
+    const stored = await postToAppsScript(env, buildAppsScriptPayload(lead, clinic));
+    if (!stored.ok) {
+      console.error("hpa-leads: Apps Script did not confirm: " + stored.reason);
       return fail("storage_failed", 503, origin, env);
     }
 
-    /* --- 2. CLINIC NOTIFICATION — inert until Postmark is configured ---- */
+    /* --- 2. KV — lead_id + timestamp ONLY (Cloudflare has no BAA) ------- */
+    if (env.HPA_LEADS) {
+      try {
+        await env.HPA_LEADS.put(
+          lead.lead_id,
+          JSON.stringify({ lead_id: lead.lead_id, submitted_at: lead.submitted_at }),
+          { expirationTtl: 365 * 24 * 60 * 60 }
+        );
+      } catch (err) {
+        // Non-fatal: the Sheet already holds the lead.
+        console.error("hpa-leads: KV write failed: " + err.message);
+      }
+    }
+
+    /* --- 3. CLINIC NOTIFICATION — Postmark path stays inert ------------- */
     const notified = await notifyClinic(lead, clinic, env);
     if (notified.attempted) {
       lead.connection_status = notified.ok ? "clinic_notified" : "notification_failed";
-      try {
-        await env.HPA_LEADS.put(lead.lead_id, JSON.stringify(lead), {
-          expirationTtl: 365 * 24 * 60 * 60
-        });
-      } catch (err) {
-        console.error("hpa-leads: status re-write failed: " + err.message);
-      }
     }
 
-    /* --- 3. HPA INTERNAL — existing Apps Script, unchanged endpoint ------
-       Its result is recorded but NEVER trusted: the deployed script returns
-       HTTP 200 even when the Sheet write throws, so "ok" here means only
-       "Google accepted the request". It must not influence the patient
-       outcome, and it never changes connection_status. */
-    let appsScriptResult = "skipped";
-    if (env.GOOGLE_SCRIPT_URL) {
-      try {
-        const resp = await fetch(env.GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(buildAppsScriptPayload(lead, clinic)),
-          redirect: "manual"
-        });
-        appsScriptResult =
-          resp.status === 302 || resp.status === 200
-            ? "accepted"
-            : "unexpected_" + resp.status;
-      } catch (err) {
-        appsScriptResult = "error";
-      }
-    } else {
-      appsScriptResult = "no_env_var";
+    /* Clinic forward (Apps Script, from founder@): reported back in the
+       confirmation. Expected = clinic has `forward` AND consent given. */
+    const forwardExpected = !!buildClinicForward(lead, clinic);
+    if (forwardExpected) {
+      lead.connection_status =
+        stored.clinic_forward === "sent" ? "clinic_notified" : "notification_failed";
     }
 
     // Server-side only. No PII, and never returned to the browser.
@@ -668,14 +766,16 @@ export default {
         lead_id: lead.lead_id,
         resolved_clinic: lead.resolved_clinic,
         connection_status: lead.connection_status,
-        apps_script: appsScriptResult,
+        apps_script: "confirmed",
+        clinic_forward: stored.clinic_forward,
         schema_version: SCHEMA_VERSION
       })
     );
 
     /* --- 4. RESPOND ----------------------------------------------------- */
     let nextStep;
-    if (clinic && clinic.booking_type === "phone-only") nextStep = "clinic_will_contact";
+    if (forwardExpected && stored.clinic_forward !== "sent") nextStep = "hpa_will_follow_up";
+    else if (clinic && clinic.booking_type === "phone-only") nextStep = "clinic_will_contact";
     else if (clinic && clinic.booking_url) nextStep = "booking";
     else nextStep = "hpa_will_follow_up";
 
