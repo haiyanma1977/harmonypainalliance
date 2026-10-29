@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
 DRAFT — Health Pointe Jacksonville clinic page (EN). Built from the HPA Clinic Profile template (Lei's page)
-by build_hp_pages.py from resource package v2. NOT LIVE: noindex, not in sitemap, not in nav.
+by build_hp_pages.py from resource package v2. Released via release-health-pointe-v1 (indexable, in sitemap and nav).
 Guillemet placeholders (TODO) mark slots still waiting on the clinic. Grep for the opening guillemet.
-GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
+Open items: external booking link, map embed (see TODO comments).
 -->
 <html lang="en">
 <head>
@@ -15,8 +15,7 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <title>Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance</title>
 <meta content="Health Pointe Jacksonville Acupuncture + Wellness Clinic in Jacksonville, FL — a Harmony Pain Alliance Partner Clinic. Dr. Julee Miller, acupuncture physician." name="description"/>
 <meta content="Harmony TCM International Group LLC" name="author"/>
-<!-- DRAFT: noindex. GO-LIVE: change to "index, follow, max-image-preview:large" -->
-<meta content="noindex, nofollow" name="robots"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
 <meta content="US-FL" name="geo.region"/>
 <meta content="Jacksonville, Florida" name="geo.placename"/>
 <!-- /SLOT -->
@@ -167,6 +166,7 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
 <ul class="nav-sub" id="navsub-clinics">
 <li><a href="/en/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+<li><a href="/en/clinics/health-pointe-jacksonville/">Health Pointe Jacksonville — Jacksonville, FL</a></li>
 </ul></li>
 <li class="nav-item has-children">
 <button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Learn<span class="nav-caret" aria-hidden="true"></span></button>
@@ -236,7 +236,7 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 <button type="button" class="btn btn-green" data-clinic="health-pointe-jacksonville" data-clinic-name="Health Pointe Jacksonville" data-lead-source="clinic-hero">Connect with This Clinic</button>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=3840+Belfort+Road+%23305,+Jacksonville,+FL+32216" rel="noopener" target="_blank">Get Directions</a>
 </div>
-<!-- «TODO: external booking link» — waiting on the clinic (not in application). If provided: Worker CLINIC_REGISTRY booking_type/booking_url, then a button here. Never the clinic homepage. -->
+<!-- «TODO: external booking link» — STATUS: waiting for the clinic to provide a patient booking link (not in application). If provided: Worker CLINIC_REGISTRY booking_type/booking_url, then a button here. Never the clinic homepage. -->
 </div>
 
 <!-- ===== 2. CLINICAL FOCUS ===== -->
@@ -495,14 +495,10 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 </div>
 <!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
-<!-- PREVIEW-ONLY (remove at go-live): form disabled -->
-<fieldset disabled style="border:0;margin:0;padding:0;min-width:0;">
 <button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
 <span class="lead-submit-text">Send Request</span>
 <span class="lead-submit-loading" style="display:none;">...</span>
 </button>
-</fieldset>
-<p lang="en" style="margin:10px 0 0;font-size:14px;font-weight:600;color:#8a4b00;">Form disabled in preview</p>
 </div>
 <p class="form-note" style="margin-top:12px;">Your information helps HPA handle your request about this clinic. What happens next depends on how this clinic works with HPA — we'll tell you right after you submit.</p>
 </form>
@@ -560,8 +556,6 @@ GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
 </div>
 </div>
 </footer>
-<!-- PREVIEW-ONLY (remove at go-live): blocks form submit; runs before main.js -->
-<script>(function(){var f=document.getElementById("leadForm");if(f){f.addEventListener("submit",function(e){e.preventDefault();e.stopImmediatePropagation();},true);}})();</script>
-<script src="/js/main.js?v=20260918e"></script>
+<script src="/js/main.js?v=20261022a"></script>
 </body>
 </html>
