@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<!--
+DRAFT — Health Pointe Jacksonville clinic page (EN). Built from the HPA Clinic Profile template (Lei's page)
+by build_hp_pages.py from resource package v2. NOT LIVE: noindex, not in sitemap, not in nav.
+Guillemet placeholders (TODO) mark slots still waiting on the clinic. Grep for the opening guillemet.
+GO-LIVE: see 2026-10-22-health-pointe-v1.md checklist.
+-->
+<html lang="en">
+<head>
+<!-- HEAD — structure/keys + font/css/favicon links are FIXED.
+     Every VALUE below (title, description, canonical/hreflang, og/twitter, both JSON-LD payloads) is a per-clinic SLOT. -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SLOT: head_meta -->
+<title>Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance</title>
+<meta content="Health Pointe Jacksonville Acupuncture + Wellness Clinic in Jacksonville, FL — a Harmony Pain Alliance Partner Clinic. Dr. Julee Miller, acupuncture physician." name="description"/>
+<meta content="Harmony TCM International Group LLC" name="author"/>
+<!-- DRAFT: noindex. GO-LIVE: change to "index, follow, max-image-preview:large" -->
+<meta content="noindex, nofollow" name="robots"/>
+<meta content="US-FL" name="geo.region"/>
+<meta content="Jacksonville, Florida" name="geo.placename"/>
+<!-- /SLOT -->
+<!-- SLOT: canonical_hreflang -->
+<link href="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" rel="canonical"/>
+<link href="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" hreflang="en" rel="alternate"/>
+<link href="https://harmonypainalliance.com/es/clinics/health-pointe-jacksonville/" hreflang="es" rel="alternate"/>
+<link href="https://harmonypainalliance.com/zh/clinics/health-pointe-jacksonville/" hreflang="zh" rel="alternate"/>
+<link href="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" hreflang="x-default" rel="alternate"/>
+<!-- /SLOT -->
+<!-- FIXED: favicons -->
+<link href="/img/hpa-favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/img/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<meta content="#073880" name="theme-color"/>
+<!-- SLOT: social_preview -->
+<meta content="website" property="og:type"/>
+<meta content="Harmony Pain Alliance" property="og:site_name"/>
+<meta content="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" property="og:url"/>
+<meta content="Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance" property="og:title"/>
+<meta content="Partner clinic in Jacksonville, FL. Dr. Julee Miller, acupuncture physician." property="og:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Harmony Pain Alliance — Find the right acupuncture &amp; TCM care" property="og:image:alt"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="es_ES" property="og:locale:alternate"/>
+<meta content="zh_CN" property="og:locale:alternate"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance" name="twitter:title"/>
+<meta content="Partner clinic in Jacksonville, FL. Dr. Julee Miller, acupuncture physician." name="twitter:description"/>
+<meta content="https://harmonypainalliance.com/img/og-cover.jpg" name="twitter:image"/>
+<!-- /SLOT -->
+
+<!-- SLOT: jsonld_clinic | MedicalClinic. availableService = MODALITIES only, kept in sync with visible Services. Only facts visible on the page. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#clinic",
+    "name": "Health Pointe Jacksonville Acupuncture + Wellness Clinic",
+    "url": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/",
+    "image": "https://harmonypainalliance.com/img/health-pointe-jacksonville-julee-miller.jpg",
+    "description": "Harmony Pain Alliance Partner Clinic in Jacksonville, Florida. Dr. Julee Miller, acupuncture physician.",
+    "telephone": "+1-904-448-0046",
+    "address": {"@type": "PostalAddress", "streetAddress": "3840 Belfort Road #305", "addressLocality": "Jacksonville", "addressRegion": "FL", "postalCode": "32216", "addressCountry": "US"},
+    "medicalSpecialty": ["Acupuncture"],
+    "availableService": [
+      {"@type": "MedicalProcedure", "name": "Acupuncture"},
+      {"@type": "MedicalProcedure", "name": "Electroacupuncture"},
+      {"@type": "MedicalProcedure", "name": "Trigger Point Acupuncture"},
+      {"@type": "MedicalProcedure", "name": "Dry Needling"},
+      {"@type": "MedicalProcedure", "name": "Cupping"},
+      {"@type": "MedicalProcedure", "name": "Gua Sha"}
+    ],
+    "memberOf": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/en/"}
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_physician | Credentials exactly as stated by the practitioner (signature); no HPA verification claim. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#practitioner",
+    "name": "Julee Miller",
+    "honorificPrefix": "Dr.",
+    "honorificSuffix": ["DAcCHM", "AP", "FABORM"],
+    "jobTitle": "Acupuncture Physician",
+    "image": "https://harmonypainalliance.com/img/health-pointe-jacksonville-julee-miller.jpg",
+    "url": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/",
+    "worksFor": {"@type": "MedicalClinic", "@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#clinic"},
+    "hasCredential": [
+      {"@type": "EducationalOccupationalCredential", "credentialCategory": "license", "name": "Licensed Acupuncture Physician (AP), License AP2591", "recognizedBy": {"@type": "GovernmentOrganization", "name": "Florida Board of Acupuncture"}}
+    ]
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_breadcrumb -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://harmonypainalliance.com/en/"},
+      {"@type": "ListItem", "position": 2, "name": "Health Pointe Jacksonville Acupuncture + Wellness Clinic", "item": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/"}
+    ]
+  }
+  </script>
+<!-- /SLOT -->
+<!-- SLOT: jsonld_webpage | HPA is the PUBLISHER of this page; the clinic is its subject. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#webpage",
+    "url": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/",
+    "isPartOf": {"@type": "WebSite", "url": "https://harmonypainalliance.com/en/"},
+    "publisher": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/en/"},
+    "about": {"@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#clinic"}
+  }
+  </script>
+<!-- /SLOT -->
+
+<!-- FIXED: fonts + stylesheet -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
+<link href="/css/style.css?v=20260918e" rel="stylesheet"/>
+<style id="hp-logo-v3">
+/* Health Pointe Jacksonville page only (no shared CSS touched): show the clinic's own logo whole, at its native 500x592 file, on white.
+   The shared .clinic-logo rule caps it at 44px/32px tall, which is unreadable for a full lockup with wordmark. */
+.clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 72px; height: auto; max-width: none; max-height: none; object-fit: contain; background: #fff; border-radius: 0; }
+@media (max-width: 640px) { .clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 60px; max-width: none; max-height: none; } }
+.clinic-hero h1 .hp-name-sub { display: block; font-size: 55%; font-weight: 500; color: inherit; }
+</style>
+</head>
+<body class="lang-en clinic-profile">
+<!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
+<nav class="navbar">
+<div class="container">
+<a class="nav-brand" href="/en/">
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-light" src="/img/hpa_logo_white.svg"/>
+<img alt="Harmony Pain Alliance" class="nav-logo nav-logo-dark" src="/img/favicon.svg"/>
+<span class="nav-brand-text">Harmony Pain Alliance</span>
+</a>
+<div class="nav-right">
+<div class="nav-menu" id="navMenu">
+<a class="btn btn-green nav-cta nav-cta-mobile" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<ul class="nav-links">
+<li class="nav-item has-children">
+<button aria-controls="navsub-findcare" aria-expanded="false" class="nav-parent" type="button">Find Care<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-findcare">
+<li><a class="nav-concern" data-concern="pain-msk" data-lead-source="nav-findcare" href="#">Neck, Back, Joint &amp; Sports Pain</a></li>
+<li><a class="nav-concern" data-concern="chronic-complex" data-lead-source="nav-findcare" href="#">Chronic Pain</a></li>
+<li><a class="nav-concern" data-concern="neuro" data-lead-source="nav-findcare" href="#">Post-Stroke Recovery, Facial Palsy &amp; Nerve Conditions</a></li>
+<li><a class="nav-concern" data-concern="fertility" data-lead-source="nav-findcare" href="#">Fertility Support</a></li>
+<li><a class="nav-concern" data-concern="womens" data-lead-source="nav-findcare" href="#">Women's Health</a></li>
+<li><a class="nav-concern" data-concern="mind-sleep" data-lead-source="nav-findcare" href="#">Mood &amp; Sleep</a></li>
+<li><a class="nav-concern" data-concern="cosmetic" data-lead-source="nav-findcare" href="#">Cosmetic Acupuncture</a></li>
+<li><a class="nav-concern" data-concern="other-health-concern" data-lead-source="nav-findcare" href="#">Something else</a></li>
+<li><a class="nav-concern" data-concern="not-sure" data-lead-source="nav-findcare" href="#">Not sure</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-clinics" aria-expanded="false" class="nav-parent" type="button">Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-clinics">
+<li><a href="/en/clinics/leis-acupuncture/">Lei&#39;s Acupuncture — Winter Garden, FL</a></li>
+</ul></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-learn" aria-expanded="false" class="nav-parent" type="button">Learn<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-learn">
+<li><a href="/en/stroke-recovery-acupuncture/">Stroke Recovery</a></li>
+<li><a href="/en/facial-paralysis-acupuncture/">Bell&#39;s Palsy &amp; Facial Paralysis</a></li>
+<li><a href="/en/migraine-acupuncture/">Migraine &amp; Chronic Headache</a></li>
+<li><a href="/en/learn/">All Learn Topics &rarr;</a></li>
+</ul></li>
+<li class="nav-item"><a class="nav-top-link" href="/en/#about">About HPA</a></li>
+<li class="nav-item has-children">
+<button aria-controls="navsub-forclinics" aria-expanded="false" class="nav-parent" type="button">For Clinics<span class="nav-caret" aria-hidden="true"></span></button>
+<ul class="nav-sub" id="navsub-forclinics">
+<li><a href="/en/join/">Join the Network</a></li>
+<li><a href="/en/tech-partnership/">Technology Partnership</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="lang-switch">
+<a class="active" data-lang="en" href="/en/clinics/health-pointe-jacksonville/">EN</a>
+<a data-lang="es" href="/es/clinics/health-pointe-jacksonville/">ES</a>
+<a data-lang="zh" href="/zh/clinics/health-pointe-jacksonville/">中文</a>
+</div>
+<a class="btn btn-green nav-cta nav-cta-desktop" data-lead-source="nav-get-matched" href="#">Get Matched</a>
+<button aria-controls="navMenu" aria-expanded="false" aria-label="Menu" class="hamburger"><span></span><span></span><span></span></button>
+</div>
+</div>
+</nav>
+<!-- FIXED: slide-out menu -->
+<div class="nav-overlay"></div>
+
+
+<main>
+<div id="bcbar">
+  <div class="container">
+    <div class="bcbar-wrap">
+      <nav class="clinic-breadcrumb" aria-label="Breadcrumb">
+        <a href="/en/">Home</a>
+        <span class="sep" aria-hidden="true">&rsaquo;</span>
+        <span class="cur" aria-current="page">Health Pointe Jacksonville Acupuncture + Wellness Clinic</span>
+      </nav>
+    </div>
+  </div>
+</div>
+<section class="clinic-profile-section" id="clinic">
+<div class="container">
+<div class="clinic-wrap">
+
+<!-- ===== 1. CLINIC IDENTITY ===== -->
+<div class="clinic-hero">
+<div class="clinic-identity">
+<!-- SLOT: clinic_logo | The clinic's own logo file, UNALTERED (full lockup incl. wordmark; the template max-height renders it small). Ask the clinic for a mark-only file if a larger rendering is wanted. -->
+<img class="clinic-logo" src="/img/health-pointe-jacksonville-logo.jpg" alt="Health Pointe Jacksonville Acupuncture + Wellness Clinic" width="500" height="592"/>
+<!-- /SLOT -->
+<!-- SLOT: clinic_name -->
+<h1>Health Pointe Jacksonville <span class="hp-name-sub">Acupuncture + Wellness Clinic</span></h1>
+<!-- /SLOT -->
+</div>
+<!-- SLOT: location -->
+<p class="clinic-locality">Jacksonville, Florida</p>
+<!-- /SLOT -->
+<!-- SLOT: partner_status | Partner | Founding Partner -->
+<span class="tag tag-green">HPA Partner Clinic</span>
+<!-- /SLOT -->
+<!-- SLOT: hero_line | OMITTED — HPA adds no descriptive line for this clinic; the clinic's own words are under Clinic Description. -->
+<div class="clinic-hero-actions">
+<button type="button" class="btn btn-green" data-clinic="health-pointe-jacksonville" data-clinic-name="Health Pointe Jacksonville" data-lead-source="clinic-hero">Connect with This Clinic</button>
+<a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=3840+Belfort+Road+%23305,+Jacksonville,+FL+32216" rel="noopener" target="_blank">Get Directions</a>
+</div>
+<!-- «TODO: external booking link» — waiting on the clinic (not in application). If provided: Worker CLINIC_REGISTRY booking_type/booking_url, then a button here. Never the clinic homepage. -->
+</div>
+
+<!-- ===== 2. CLINICAL FOCUS ===== -->
+<section class="clinic-section">
+<h2>Clinical Focus</h2>
+<p>What this clinic primarily works with:</p>
+<!-- SLOT: focus_items | The three conditions the clinic named in application Q10, as written. -->
+<ul class="clinic-focus-list">
+<li class="clinic-focus-item clinic-focus-item-primary">Subfertility and IVF/FET cycle support</li>
+<li class="clinic-focus-item clinic-focus-item-primary">Pelvic pain and pelvic floor dysfunction</li>
+<li class="clinic-focus-item clinic-focus-item-primary">Chronic pain conditions</li>
+</ul>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 3. CARE TEAM ===== -->
+<section class="clinic-section" id="practitioner">
+<h2>Care Team</h2>
+<!-- SLOT: care_team -->
+<div class="care-member">
+<div class="care-member-identity">
+<h3 class="care-member-name" lang="en">Dr. Julee Miller - DAcCHM, AP, FABORM</h3>
+<p class="care-member-role" lang="en">Doctor of Acupuncture and Chinese Medicine. Acupuncture Physician, Board Certified Reproductive Acupuncturist (FABORM)</p>
+</div>
+<!-- OPTIONAL SLOT: practitioner photo — 4:5 crop of Health-Pointe-Headshots-2026-(3of27).jpg -->
+<div class="care-member-photo">
+<picture>
+<source srcset="/img/health-pointe-jacksonville-julee-miller.webp" type="image/webp"/>
+<img alt="Dr. Julee Miller at Health Pointe Jacksonville Acupuncture + Wellness Clinic in Jacksonville, Florida" height="1350" loading="lazy" src="/img/health-pointe-jacksonville-julee-miller.jpg" width="1080"/>
+</picture>
+</div>
+<!-- /OPTIONAL SLOT -->
+<div class="care-member-details">
+<div class="care-member-block">
+<h4>Professional Credentials</h4>
+<div class="care-credential"><span>Florida Licensed Acupuncture Physician (AP) · License AP2591</span></div>
+</div>
+</div>
+</div>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 4. SERVICES ===== -->
+<section class="clinic-section">
+<h2>Services</h2>
+<!-- SLOT: services | REQUIRED — modalities named in application Q13 (after the compliance edit) -->
+<p>Depending on the patient's condition and clinical assessment, services may include:</p>
+<ul>
+<li>Traditional acupuncture</li>
+<li>Electroacupuncture</li>
+<li>Trigger point acupuncture</li>
+<li>Dry needling techniques</li>
+<li>Cupping</li>
+<li>Gua sha</li>
+</ul>
+<!-- /SLOT -->
+<p class="ref-note">Available services may vary by patient and clinical indication.</p>
+</section>
+
+<!-- ===== 5. CLINIC DESCRIPTION (诊所自述) ===== -->
+<section class="clinic-section">
+<h2>About the Clinic</h2>
+<!-- SLOT: clinic_self_description | Application Q13, verbatim except the one approved deletion (see resource package v2). Do not edit wording. -->
+<div class="clinic-self-description">
+<p>Health Pointe Jacksonville is an acupuncture and integrative wellness clinic with a strong focus on women’s health, reproductive medicine, pelvic health, pregnancy and complex pain conditions.</p>
+<p>What sets our practice apart is the depth of our focus and the way we integrate acupuncture into a patient’s larger medical care. We frequently work alongside reproductive endocrinologists, OB/GYNs, pelvic floor therapists and other healthcare providers to support patients through fertility treatment, IVF/IUI/FET cycles, pregnancy, postpartum recovery, hormonal transitions and chronic pelvic pain.</p>
+<p>Our treatments are highly individualized and may include traditional acupuncture, electroacupuncture, trigger point acupuncture, dry needling techniques, cupping and gua sha.</p>
+<p>We are especially known for our work with subfertility, fertility treatment support, pelvic floor dysfunction, endometriosis-related pain, migraine and women’s health conditions. Our goal is to combine clinical experience, thoughtful assessment and collaborative care in a warm, patient-centered environment where patients feel heard, supported and actively involved in their care.</p>
+<p>Health Pointe Jacksonville has served the Jacksonville community since 2008.</p>
+</div>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 6. CLINIC DETAILS ===== -->
+<section class="clinic-section clinic-section-tinted">
+<h2>Clinic Details</h2>
+<!-- SLOT: clinic_details -->
+<div class="clinic-facts">
+<div class="clinic-fact"><strong>Address</strong>3840 Belfort Road #305, Jacksonville, FL 32216</div>
+<div class="clinic-fact"><strong>Phone</strong>904-448-0046</div>
+<div class="clinic-fact"><strong>Hours</strong>Mon–Thu 9:00 am–6:00 pm; Fri 9:00 am–2:00 pm</div>
+<div class="clinic-fact"><strong>Languages</strong>English</div>
+<div class="clinic-fact"><strong>Payment</strong>Cash pay; the clinic can also bill insurance.</div>
+</div>
+<!-- insurance note, add together with the insurance row:
+<p class="ref-note" style="margin-top:16px;">Insurance coverage and benefits vary. Please contact the clinic directly to confirm eligibility, coverage, and financial responsibility before treatment.</p> -->
+<!-- «TODO: map embed» — needs a verified Google place id; none yet. Directions link below only. -->
+<p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=3840+Belfort+Road+%23305,+Jacksonville,+FL+32216" rel="noopener" target="_blank">Get Directions</a></p>
+<!-- /SLOT -->
+</section>
+
+<!-- ===== 7. HPA CONNECTION ===== -->
+<section class="clinic-section">
+<h2>About Harmony Pain Alliance</h2>
+<p>Harmony Pain Alliance helps patients discover independent acupuncture and Traditional Chinese Medicine clinics based on location, clinical focus, and professional background.</p>
+<p>During HPA's launch phase, every clinic on the platform is personally reviewed by our founder before joining.</p>
+<!-- SLOT: why_this_clinic -->
+<p><strong>Health Pointe Jacksonville Acupuncture + Wellness Clinic is a Partner Clinic of Harmony Pain Alliance in Jacksonville, Florida.</strong></p>
+<!-- /SLOT -->
+<div class="clinic-cta">
+<h3>Ready to Connect with This Clinic?</h3>
+<!-- SLOT: cta_copy -->
+<p>If you are seeking acupuncture care for one of this clinic&#39;s focus areas or another health concern, you can send Harmony Pain Alliance a request about Health Pointe Jacksonville.</p>
+<p><strong>3840 Belfort Road #305, Jacksonville, FL 32216</strong></p>
+<!-- /SLOT -->
+<button type="button" class="btn btn-green" data-clinic="health-pointe-jacksonville" data-clinic-name="Health Pointe Jacksonville" data-lead-source="clinic-cta">Connect with This Clinic</button>
+</div>
+
+<div class="clinic-disclaimer">
+<h4>Important Information</h4>
+<p class="ref-note">This page is for general informational purposes only and is not medical advice. It does not provide a diagnosis, guarantee treatment outcomes, or replace evaluation and care from your physician. Patients experiencing a medical emergency should seek emergency medical care immediately. Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are provided independently by the clinic.</p>
+</div>
+</section>
+
+</div>
+</div>
+</section>
+</main>
+
+<!-- FIXED: LEAD CAPTURE MODAL — shared platform component, structurally identical
+     to the homepage modal (short required core + collapsed optional block).
+     The static strings here are MODE B (clinic-scoped connection request);
+     main.js swaps in HPA_MODAL_MODE_A for Get Matched and restores these on
+     every open. Copy is outcome-neutral: the patient is sending a request about
+     this clinic, HPA routes it, and the next step depends on the clinic's
+     configured workflow. Never promise a booking redirect before Worker v3
+     returns its authoritative next_step.
+     SLOT: booking_category (Primary Concern options per clinic focus). -->
+<div class="lead-overlay" id="leadOverlay"></div>
+<div class="lead-modal" id="leadModal">
+<button aria-label="Close" class="lead-close" id="leadClose">×</button>
+<div class="lead-header">
+<h3>Connect with This Clinic</h3>
+<p class="lead-subtitle">Quick form — takes about 30 seconds. Your request goes to Harmony Pain Alliance, and we'll tell you the next step for this clinic.</p>
+</div>
+<form id="leadForm">
+<!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
+<div class="hp-field" aria-hidden="true"><label>Leave this field empty<input autocomplete="off" name="website_url_hp" tabindex="-1" type="text" value=""/></label></div>
+<input id="leadSource" name="source_button" type="hidden"/>
+<input id="leadClinic" name="target_clinic" type="hidden"/>
+<!-- Required fields -->
+<div class="form-group">
+<label>Your Name *</label>
+<input autocomplete="name" name="name" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input autocomplete="email" name="email" required="" type="email"/>
+</div>
+<div class="form-group">
+<label>Phone *</label>
+<input autocomplete="tel" name="phone" required="" type="tel"/>
+</div>
+</div>
+<!-- Expandable optional fields — keeps the initial form short while capturing
+     the same qualification data as the homepage. No new lead schema. -->
+<button class="lead-expand-btn" id="leadExpandBtn" type="button">
+<span>+ Help us prepare for your visit (optional)</span>
+</button>
+<div class="lead-optional" id="leadOptional">
+<div class="form-group">
+<label>Preferred Language</label>
+<div class="radio-group">
+<label><input checked="" name="language" type="radio" value="English"/> English</label>
+<label><input name="language" type="radio" value="Español"/> Español</label>
+<label><input name="language" type="radio" value="中文"/> 中文</label>
+</div>
+</div>
+<div class="form-row">
+<!-- SLOT: booking_category | HP: 6 options (pain-msk, chronic-complex, fertility, womens, other, not-sure) | was 4 clinic-focus Primary-Concern options. Values are
+     locked Find Care taxonomy — labels localize, values never change. -->
+<div class="form-group">
+<label>Primary Concern</label>
+<select name="primary_concern">
+<option value="">Please select</option>
+<option value="pain-msk">Neck, Back, Joint &amp; Sports Pain</option>
+<option value="chronic-complex">Chronic Pain</option>
+<option value="fertility">Fertility Support</option>
+<option value="womens">Women's Health</option>
+<option value="other-health-concern">Something else</option>
+<option value="not-sure">Not sure</option>
+</select>
+</div>
+<!-- /SLOT -->
+<div class="form-group">
+<label>How long have you had this condition?</label>
+<select name="duration">
+<option value="">—</option>
+<option value="&lt;1month">Less than 1 month</option>
+<option value="1-6months">1–6 months</option>
+<option value="6-12months">6–12 months</option>
+<option value="&gt;1year">Over 1 year</option>
+<option value="&gt;5years">Over 5 years</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>First acupuncture experience?</label>
+<div class="radio-group">
+<label><input name="first_acupuncture" type="radio" value="yes"/> Yes</label>
+<label><input name="first_acupuncture" type="radio" value="no"/> No</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Preferred Time</label>
+<select name="preferred_time">
+<option value="">—</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
+<option value="weekend">Weekend</option>
+<option value="flexible">Flexible</option>
+</select>
+</div>
+<div class="form-group">
+<label>Insurance</label>
+<select name="insurance">
+<option value="">—</option>
+<option value="self-pay">Self-pay</option>
+<option value="va-military">VA / Military</option>
+<option value="private">Private Insurance</option>
+<option value="not-sure">Not sure</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>How did you hear about us?</label>
+<select name="how_found">
+<option value="">—</option>
+<option value="google">Google Search</option>
+<option value="social">Social Media</option>
+<option value="friend">Friend / Family</option>
+<option value="doctor">Doctor Referral</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label>Anything else we should know?</label>
+<textarea name="notes" placeholder="Please briefly tell us what you'd like help with." rows="2"></textarea>
+</div>
+</div>
+<!-- Consent (legal v1, 2026-09-18) -->
+<div class="lead-consent">
+<div class="lead-consent-row">
+<input type="checkbox" id="lead-consent" name="consent_terms" value="1" required>
+<label for="lead-consent">I have read and agree to the <a href="/terms" target="_blank" rel="noopener">Terms of Use</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</label>
+</div>
+<div class="lead-consent-row" id="leadConsentClinicRow" hidden>
+<input type="checkbox" id="lead-consent-clinic" name="clinic_share_consent" value="1">
+<label for="lead-consent-clinic">I agree that HPA may send my name, contact information, and primary concern to <strong id="leadConsentClinicName">the clinic named on this page</strong> by regular email so the clinic can contact me.</label>
+</div>
+</div>
+<!-- Submit -->
+<div style="text-align:center;margin-top:20px;">
+<!-- PREVIEW-ONLY (remove at go-live): form disabled -->
+<fieldset disabled style="border:0;margin:0;padding:0;min-width:0;">
+<button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
+<span class="lead-submit-text">Send Request</span>
+<span class="lead-submit-loading" style="display:none;">...</span>
+</button>
+</fieldset>
+<p lang="en" style="margin:10px 0 0;font-size:14px;font-weight:600;color:#8a4b00;">Form disabled in preview</p>
+</div>
+<p class="form-note" style="margin-top:12px;">Your information helps HPA handle your request about this clinic. What happens next depends on how this clinic works with HPA — we'll tell you right after you submit.</p>
+</form>
+<!-- Success state. This string renders ONLY after Worker v3 has returned
+     next_step = "booking"; every other outcome is written in by main.js. -->
+<div class="lead-success" id="leadSuccess" style="display:none;">
+<div style="font-size:48px;margin-bottom:16px;">✓</div>
+<h3>Request received</h3>
+<a class="btn btn-green lead-redirect-btn" hidden rel="noopener" target="_blank">Open the clinic's booking page</a>
+</div>
+</div>
+
+<!-- FIXED: FOOTER (standard) -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="footer-logo-group">
+<img alt="Harmony Pain Alliance" class="footer-logo-img" src="/img/hpa_logo_white.svg"/>
+<span class="footer-logo-text">Harmony Pain Alliance</span>
+</div>
+<p>Bridging advanced acupuncture systems developed in China with North American clinics.</p>
+<p>Winter Garden, Florida, USA</p>
+<p><a href="mailto:founder@harmonypainalliance.com" style="color:rgba(255,255,255,0.7);">founder@harmonypainalliance.com</a></p>
+</div>
+<div class="footer-nav">
+<h4>Navigate</h4>
+<ul>
+<li><a class="nav-concern" data-lead-source="footer-findcare" href="#">Find Care</a></li>
+<li><a href="/en/clinics/leis-acupuncture/">Clinics</a></li>
+<li><a href="/en/learn/">Learn</a></li>
+<li><a href="/en/#about">About HPA</a></li>
+<li><a href="/en/join/">For Clinics</a></li>
+<li><a data-lead-source="footer-get-matched" href="#">Get Matched</a></li>
+</ul>
+</div>
+<div class="footer-social">
+<h4>Follow Us</h4>
+<a href="https://facebook.com/harmonypainalliance" rel="noopener" target="_blank">Facebook — HPA</a>
+<a href="https://facebook.com/hpatcm" rel="noopener" target="_blank">Facebook — Harmony TCM</a>
+<a href="https://instagram.com/harmonypainalliance" rel="noopener" target="_blank">Instagram — @harmonypainalliance</a>
+<a href="https://instagram.com/hpatcm" rel="noopener" target="_blank">Instagram — @hpatcm</a>
+</div>
+<div class="footer-legal">
+<h4>Disclaimer</h4>
+<p>Harmony Pain Alliance is a connecting platform and does not provide direct medical services. All clinical services are delivered independently by member clinics.</p>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Harmony TCM International Group LLC · All Rights Reserved</span>
+<span>
+<a href="/privacy">Privacy Policy</a>
+<a href="/terms">Terms of Use</a>
+</span>
+</div>
+</div>
+</footer>
+<!-- PREVIEW-ONLY (remove at go-live): blocks form submit; runs before main.js -->
+<script>(function(){var f=document.getElementById("leadForm");if(f){f.addEventListener("submit",function(e){e.preventDefault();e.stopImmediatePropagation();},true);}})();</script>
+<script src="/js/main.js?v=20260918e"></script>
+</body>
+</html>
