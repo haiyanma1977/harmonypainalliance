@@ -74,7 +74,7 @@ const HPA_CONNECT_I18N = {
   en: {
     concernRequired: 'Please select your primary concern so we can match you with the right clinic.',
     followUpMatch: "Thank you — we've received your request. HPA will contact you to help you find the right clinic.",
-    followUpClinic: "Thank you — we've sent your request to {clinic}. HPA will follow up with you.",
+    followUpClinic: "Thank you — we've received your request. HPA will follow up with you.",
     followUpClinicGeneric: "Thank you — we've sent your request to this clinic. HPA will follow up with you.",
     failure: "Sorry — our system couldn't submit your request just now. Please try again in a few minutes, or email us directly at " + HPA_PATIENT_EMAIL + " (an email draft may have opened for you).",
     clinicContact: 'Thank you — the clinic will contact you directly to arrange your visit. You can also call them at:',
@@ -84,7 +84,7 @@ const HPA_CONNECT_I18N = {
   es: {
     concernRequired: 'Seleccione su principal problema de salud para que podamos conectarle con la clínica adecuada.',
     followUpMatch: 'Gracias — hemos recibido su solicitud. HPA se pondrá en contacto con usted para ayudarle a encontrar la clínica adecuada.',
-    followUpClinic: 'Gracias — hemos enviado su solicitud a {clinic}. HPA hará el seguimiento con usted.',
+    followUpClinic: 'Gracias — hemos recibido su solicitud. HPA le dará seguimiento.',
     followUpClinicGeneric: 'Gracias — hemos enviado su solicitud a esta clínica. HPA hará el seguimiento con usted.',
     failure: 'Lo sentimos — nuestro sistema no pudo enviar su solicitud en este momento. Inténtelo de nuevo en unos minutos, o escríbanos directamente a ' + HPA_PATIENT_EMAIL + ' (es posible que se haya abierto un borrador de correo para usted).',
     clinicContact: 'Gracias — la clínica se pondrá en contacto con usted directamente para coordinar su visita. También puede llamarles directamente al:',
@@ -94,7 +94,7 @@ const HPA_CONNECT_I18N = {
   zh: {
     concernRequired: '请选择您的主要健康问题，以便我们为您匹配合适的诊所。',
     followUpMatch: '感谢您的提交。HPA 将与您联系，帮助您找到合适的诊所。',
-    followUpClinic: '感谢您的提交。我们已把您的请求发送给{clinic}，HPA 会跟进。',
+    followUpClinic: '感谢您的提交，我们已收到您的请求，HPA 会跟进处理。',
     followUpClinicGeneric: '感谢您的提交。我们已把您的请求发送给这家诊所，HPA 会跟进。',
     failure: '抱歉，系统暂时无法提交您的请求。请几分钟后重试，或直接发送邮件至 ' + HPA_PATIENT_EMAIL + '（您的邮件应用中可能已为您打开一封草稿）。',
     clinicContact: '感谢您的提交，诊所将直接与您联系安排就诊。您也可以致电诊所：',
