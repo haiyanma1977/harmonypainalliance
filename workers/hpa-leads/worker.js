@@ -43,8 +43,9 @@
      3. PRIMARY CONCERN ALLOW-LIST — seven-category v1 (2026-09-18), nine
         values: pain-msk | chronic-complex | neuro | fertility | womens |
         mind-sleep | cosmetic | other-health-concern | not-sure. Legacy
-        post-stroke-neuro / chronic-complex-pain are mapped (LEGACY_CONCERN_MAP)
-        until 2026-10-18. An absent/empty concern stays legal.
+        post-stroke-neuro / chronic-complex-pain were mapped until 2026-10-18;
+        the map was removed in v3.3, so old values now return 422
+        invalid_concern. An absent/empty concern stays legal.
      4. CLINIC REGISTRY IS AUTHORITATIVE
         No is_default. No silent fallback. Unknown/inactive slug → 422.
      5. FULL ATTRIBUTION — source_page (new), source_button, page_language,
@@ -103,6 +104,14 @@
      5. If a forward was expected but Apps Script did not report "sent":
         connection_status = "notification_failed" and next_step =
         "hpa_will_follow_up" (the internal email is flagged FORWARD FAILED).
+
+   ---------------------------------------------------------------------------
+   v3.3 — release prep (2026-10-29; source patch, NOT YET DEPLOYED)
+   ---------------------------------------------------------------------------
+     1. CLINIC_REGISTRY unchanged from v3.2: lei-acupuncture and
+        health-pointe-jacksonville. South Florida TCM is NOT added.
+     2. LEGACY_CONCERN_MAP removed (the 30-day window ended 2026-10-18).
+     3. Open item: Health Pointe patient booking link (waiting on the clinic).
    ========================================================================= */
 
 const SCHEMA_VERSION = 2;
@@ -154,6 +163,8 @@ const CLINIC_REGISTRY = {
     accepted_concerns: [],          // dormant (matchClinic() is not called)
     // No online booking: patient is told the clinic will contact them and sees
     // the phone number (main.js clinicContact string). redirect_url stays null.
+    // TODO (open): waiting for the clinic to provide a patient booking link.
+    // If provided: set booking_type/booking_url here, then add the page button.
     booking_type: "phone-only",
     booking_url: null,
     // Patient-request mailbox, chosen by the clinic (info@hpjax.com, 2026-10-21).
@@ -186,17 +197,6 @@ const ALLOWED_CONCERNS = [
   "other-health-concern",
   "not-sure"
 ];
-
-/* Legacy four-value taxonomy → seven-category v1. Applied BEFORE validation
-   so cached old pages keep submitting successfully; the mapped code is what
-   is stored, sheeted and emailed. `other-health-concern` and `not-sure` are
-   unchanged and need no entry.
-   REMOVE THIS MAP AFTER 2026-10-18 (30-day transition) — after that, old
-   values are rejected with 422 invalid_concern like any unknown value. */
-const LEGACY_CONCERN_MAP = {
-  "post-stroke-neuro": "neuro",
-  "chronic-complex-pain": "chronic-complex"
-};
 
 const ALLOWED_LANGUAGES = ["en", "es", "zh"];
 
@@ -647,9 +647,8 @@ export default {
       return fail("consent_required", 422, origin, env, "consent_terms");
     }
 
-    const primaryConcernRaw = trimTo(body.primary_concern, 64);
-    // Legacy → v1 mapping first (transition until 2026-10-18), then validate.
-    const primaryConcern = LEGACY_CONCERN_MAP[primaryConcernRaw] || primaryConcernRaw;
+    // Seven-category v1 values only (legacy four-value map removed in v3.3).
+    const primaryConcern = trimTo(body.primary_concern, 64);
     if (primaryConcern && !ALLOWED_CONCERNS.includes(primaryConcern)) {
       return fail("invalid_concern", 422, origin, env, "primary_concern");
     }
