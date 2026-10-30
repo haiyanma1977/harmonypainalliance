@@ -36,6 +36,11 @@ var FORWARD_CLINICS = {
     to: "info@hpjax.com",            // chosen by Dr. Miller, 2026-10-21
     subjectLabel: "Health Pointe",
     fields: ["name", "contact", "primary_concern"]   // only these three, ever
+  },
+  "dawn-potter-acupuncture": {
+    to: "dbacupuncture@gmail.com",   // proposed in HPA's 2026-10-29 email; clinic named no other
+    subjectLabel: "Dawn Potter",
+    fields: ["name", "contact", "primary_concern"]   // only these three, ever
   }
 };
 

@@ -106,6 +106,12 @@
         "hpa_will_follow_up" (the internal email is flagged FORWARD FAILED).
 
    ---------------------------------------------------------------------------
+   v3.4 — Dawn Potter Acupuncture (2026-10-30; source patch, NOT YET DEPLOYED)
+   ---------------------------------------------------------------------------
+     CLINIC_REGISTRY: + "dawn-potter-acupuncture" (Jane App booking URL,
+     forward to dbacupuncture@gmail.com: name, contact, primary_concern).
+     Deploy ORDER: Code.gs New version (FORWARD_CLINICS) first, then this Worker.
+
    v3.3 — release prep (2026-10-29; source patch, NOT YET DEPLOYED)
    ---------------------------------------------------------------------------
      1. CLINIC_REGISTRY unchanged from v3.2: lei-acupuncture and
@@ -175,6 +181,30 @@ const CLINIC_REGISTRY = {
     forward: {
       fields: ["name", "contact", "primary_concern"],
       subject_label: "Health Pointe"
+    }
+  },
+  "dawn-potter-acupuncture": {
+    id: "dawn-potter-acupuncture",
+    display_name: "Dawn Potter Acupuncture",
+    active: true,
+    city: "Clearwater",
+    state: "FL",
+    phone: "727-475-4710",
+    languages: ["en"],
+    accepted_concerns: [],          // dormant (matchClinic() is not called)
+    // Patient booking link provided by the clinic (Jane App, 2026-10-30).
+    // Shown after submit as the page's "Open the clinic's booking page" button.
+    booking_type: "janeapp",
+    booking_url: "https://dawnpotter.janeapp.com/",
+    // Patient-request mailbox: HPA's 2026-10-29 email proposed this address and
+    // Dr. Potter did not name another (2026-10-29, 2026-10-30).
+    notification_destination: "dbacupuncture@gmail.com",
+    // Same minimised forward as Health Pointe: the 2026-10-29 email told the
+    // clinic each request carries only name, contact and main concern.
+    // Code.gs FORWARD_CLINICS must carry the same recipient and fields.
+    forward: {
+      fields: ["name", "contact", "primary_concern"],
+      subject_label: "Dawn Potter"
     }
   }
   // Additional clinics: add here only. No front-end change required.
