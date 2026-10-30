@@ -161,12 +161,10 @@ const CLINIC_REGISTRY = {
     phone: "904-448-0046",
     languages: ["en"],
     accepted_concerns: [],          // dormant (matchClinic() is not called)
-    // No online booking: patient is told the clinic will contact them and sees
-    // the phone number (main.js clinicContact string). redirect_url stays null.
-    // TODO (open): waiting for the clinic to provide a patient booking link.
-    // If provided: set booking_type/booking_url here, then add the page button.
-    booking_type: "phone-only",
-    booking_url: null,
+    // Patient booking link provided by the clinic (AcuBliss portal, 2026-10-29).
+    // Shown after submit as the page's "Open the clinic's booking page" button.
+    booking_type: "acubliss",
+    booking_url: "https://healthpointejacksonville.acubliss.app/portal/booking/",
     // Patient-request mailbox, chosen by the clinic (info@hpjax.com, 2026-10-21).
     notification_destination: "info@hpjax.com",
     // Per-clinic forward config — the clinic chose "only name, contact, main
