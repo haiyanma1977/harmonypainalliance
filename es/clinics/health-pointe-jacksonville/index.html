@@ -135,6 +135,10 @@ Open items: external booking link, map embed (see TODO comments).
 @media (max-width: 640px) { .clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 60px; max-width: none; max-height: none; } }
 .clinic-hero h1 .hp-name-sub { display: block; font-size: 55%; font-weight: 500; color: inherit; }
 </style>
+<style id="hp-details-labels-v5">
+/* Health Pointe Jacksonville page only: slightly stronger Clinic Details row labels. */
+#hp-clinic-details .clinic-fact strong { font-weight: 800; font-size: 0.8125rem; color: var(--text-body); }
+</style>
 </head>
 <body class="lang-es clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -311,12 +315,12 @@ Open items: external booking link, map embed (see TODO comments).
 </section>
 
 <!-- ===== 6. CLINIC DETAILS ===== -->
-<section class="clinic-section clinic-section-tinted">
+<section class="clinic-section clinic-section-tinted" id="hp-clinic-details">
 <h2>Datos de la clínica</h2>
 <!-- SLOT: clinic_details -->
 <div class="clinic-facts">
 <div class="clinic-fact"><strong>Dirección</strong>3840 Belfort Road #305, Jacksonville, FL 32216</div>
-<div class="clinic-fact"><strong>Teléfono</strong>904-448-0046</div>
+<div class="clinic-fact"><strong>Teléfono</strong>+1 (904) 448-0046</div>
 <div class="clinic-fact"><strong>Horario</strong>Lun–Jue 9:00 a. m.–6:00 p. m.<br/>Vie 9:00 a. m.–2:00 p. m.</div>
 <div class="clinic-fact"><strong>Idiomas</strong>Inglés</div>
 <div class="clinic-fact"><strong>Pago y seguro</strong>Pago en efectivo; la clínica también puede facturar al seguro.</div>

@@ -135,6 +135,10 @@ Open items: external booking link, map embed (see TODO comments).
 @media (max-width: 640px) { .clinic-identity img.clinic-logo[src*="health-pointe-jacksonville-logo"] { width: 60px; max-width: none; max-height: none; } }
 .clinic-hero h1 .hp-name-sub { display: block; font-size: 55%; font-weight: 500; color: inherit; }
 </style>
+<style id="hp-details-labels-v5">
+/* Health Pointe Jacksonville page only: slightly stronger Clinic Details row labels. */
+#hp-clinic-details .clinic-fact strong { font-weight: 800; font-size: 0.8125rem; color: var(--text-body); }
+</style>
 </head>
 <body class="lang-zh clinic-profile">
 <!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
@@ -311,12 +315,12 @@ Open items: external booking link, map embed (see TODO comments).
 </section>
 
 <!-- ===== 6. CLINIC DETAILS ===== -->
-<section class="clinic-section clinic-section-tinted">
+<section class="clinic-section clinic-section-tinted" id="hp-clinic-details">
 <h2>诊所信息</h2>
 <!-- SLOT: clinic_details -->
 <div class="clinic-facts">
 <div class="clinic-fact"><strong>地址</strong>3840 Belfort Road #305, Jacksonville, FL 32216</div>
-<div class="clinic-fact"><strong>电话</strong>904-448-0046</div>
+<div class="clinic-fact"><strong>电话</strong>+1 (904) 448-0046</div>
 <div class="clinic-fact"><strong>营业时间</strong>周一至周四 9:00–18:00<br/>周五 9:00–14:00</div>
 <div class="clinic-fact"><strong>服务语言</strong>英文</div>
 <div class="clinic-fact"><strong>付款与保险</strong>现金支付；诊所也可向保险公司开具账单。</div>
