@@ -1,32 +1,19 @@
 <!DOCTYPE html>
-<!--
-DRAFT — Health Pointe Jacksonville clinic page (ZH). Built from the HPA Clinic Profile template (Lei's page)
-by build_hp_pages.py from resource package v2. Released via release-health-pointe-v1 (indexable, in sitemap and nav).
-Guillemet placeholders (TODO) mark slots still waiting on the clinic. Grep for the opening guillemet.
-Open items: external booking link, map embed (see TODO comments).
--->
 <html lang="zh">
 <head>
-<!-- HEAD — structure/keys + font/css/favicon links are FIXED.
-     Every VALUE below (title, description, canonical/hreflang, og/twitter, both JSON-LD payloads) is a per-clinic SLOT. -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<!-- SLOT: head_meta -->
 <title>Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance</title>
 <meta content="位于佛罗里达州 Jacksonville 的 Health Pointe Jacksonville Acupuncture + Wellness Clinic，Harmony Pain Alliance 合作诊所，Julee Miller 医生。" name="description"/>
 <meta content="Harmony TCM International Group LLC" name="author"/>
 <meta content="index, follow, max-image-preview:large" name="robots"/>
 <meta content="US-FL" name="geo.region"/>
 <meta content="Jacksonville, Florida" name="geo.placename"/>
-<!-- /SLOT -->
-<!-- SLOT: canonical_hreflang -->
 <link href="https://harmonypainalliance.com/zh/clinics/health-pointe-jacksonville/" rel="canonical"/>
 <link href="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" hreflang="en" rel="alternate"/>
 <link href="https://harmonypainalliance.com/es/clinics/health-pointe-jacksonville/" hreflang="es" rel="alternate"/>
 <link href="https://harmonypainalliance.com/zh/clinics/health-pointe-jacksonville/" hreflang="zh" rel="alternate"/>
 <link href="https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/" hreflang="x-default" rel="alternate"/>
-<!-- /SLOT -->
-<!-- FIXED: favicons -->
 <link href="/img/hpa-favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="/img/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
@@ -34,7 +21,6 @@ Open items: external booking link, map embed (see TODO comments).
 <link href="/img/favicon-16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="/img/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
 <meta content="#073880" name="theme-color"/>
-<!-- SLOT: social_preview -->
 <meta content="website" property="og:type"/>
 <meta content="Harmony Pain Alliance" property="og:site_name"/>
 <meta content="https://harmonypainalliance.com/zh/clinics/health-pointe-jacksonville/" property="og:url"/>
@@ -51,9 +37,7 @@ Open items: external booking link, map embed (see TODO comments).
 <meta content="Health Pointe Jacksonville Acupuncture + Wellness Clinic — Jacksonville, FL | Harmony Pain Alliance" name="twitter:title"/>
 <meta content="位于佛罗里达州 Jacksonville 的合作诊所，Julee Miller 医生。" name="twitter:description"/>
 <meta content="https://harmonypainalliance.com/img/og-cover.jpg" name="twitter:image"/>
-<!-- /SLOT -->
 
-<!-- SLOT: jsonld_clinic | MedicalClinic. availableService = MODALITIES only, kept in sync with visible Services. Only facts visible on the page. -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -77,8 +61,6 @@ Open items: external booking link, map embed (see TODO comments).
     "memberOf": {"@type": "Organization", "name": "Harmony Pain Alliance", "url": "https://harmonypainalliance.com/en/"}
   }
   </script>
-<!-- /SLOT -->
-<!-- SLOT: jsonld_physician | Credentials exactly as stated by the practitioner (signature); no HPA verification claim. -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -96,8 +78,6 @@ Open items: external booking link, map embed (see TODO comments).
     ]
   }
   </script>
-<!-- /SLOT -->
-<!-- SLOT: jsonld_breadcrumb -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -108,8 +88,6 @@ Open items: external booking link, map embed (see TODO comments).
     ]
   }
   </script>
-<!-- /SLOT -->
-<!-- SLOT: jsonld_webpage | HPA is the PUBLISHER of this page; the clinic is its subject. -->
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -121,13 +99,11 @@ Open items: external booking link, map embed (see TODO comments).
     "about": {"@id": "https://harmonypainalliance.com/en/clinics/health-pointe-jacksonville/#clinic"}
   }
   </script>
-<!-- /SLOT -->
 
-<!-- FIXED: fonts + stylesheet -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;family=Playfair+Display:ital,wght@1,600&amp;display=swap" rel="stylesheet"/>
-<link href="/css/style.css?v=20260918e" rel="stylesheet"/>
+<link href="/css/style.css?v=20261103a" rel="stylesheet"/>
 <style id="hp-logo-v3">
 /* Health Pointe Jacksonville page only (no shared CSS touched): show the clinic's own logo whole, at its native 500x592 file, on white.
    The shared .clinic-logo rule caps it at 44px/32px tall, which is unreadable for a full lockup with wordmark. */
@@ -141,7 +117,6 @@ Open items: external booking link, map embed (see TODO comments).
 </style>
 </head>
 <body class="lang-zh clinic-profile">
-<!-- FIXED: NAVBAR (SLOT: lang-switch hrefs swap {slug}) -->
 <nav class="navbar">
 <div class="container">
 <a class="nav-brand" href="/zh/">
@@ -200,7 +175,6 @@ Open items: external booking link, map embed (see TODO comments).
 </div>
 </div>
 </nav>
-<!-- FIXED: slide-out menu -->
 <div class="nav-overlay"></div>
 
 
@@ -220,60 +194,42 @@ Open items: external booking link, map embed (see TODO comments).
 <div class="container">
 <div class="clinic-wrap">
 
-<!-- ===== 1. CLINIC IDENTITY ===== -->
 <div class="clinic-hero">
 <div class="clinic-identity">
-<!-- SLOT: clinic_logo | The clinic's own logo file, UNALTERED (full lockup incl. wordmark; the template max-height renders it small). Ask the clinic for a mark-only file if a larger rendering is wanted. -->
 <img class="clinic-logo" src="/img/health-pointe-jacksonville-logo.jpg" alt="Health Pointe Jacksonville Acupuncture + Wellness Clinic" width="500" height="592"/>
-<!-- /SLOT -->
-<!-- SLOT: clinic_name -->
 <h1>Health Pointe Jacksonville <span class="hp-name-sub">Acupuncture + Wellness Clinic</span></h1>
-<!-- /SLOT -->
 </div>
-<!-- SLOT: location -->
 <p class="clinic-locality">美国佛罗里达州 Jacksonville</p>
-<!-- /SLOT -->
-<!-- SLOT: partner_status | Partner | Founding Partner -->
 <span class="tag tag-green">HPA 合作诊所</span>
-<!-- /SLOT -->
-<!-- SLOT: hero_line | OMITTED — HPA adds no descriptive line for this clinic; the clinic's own words are under Clinic Description. -->
 <div class="clinic-hero-actions">
 <button type="button" class="btn btn-green" data-clinic="health-pointe-jacksonville" data-clinic-name="Health Pointe Jacksonville" data-lead-source="clinic-hero">联系这家诊所</button>
 <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=3840+Belfort+Road+%23305,+Jacksonville,+FL+32216" rel="noopener" target="_blank">导航至诊所</a>
 </div>
-<!-- «TODO: external booking link» — STATUS: waiting for the clinic to provide a patient booking link (not in application). If provided: Worker CLINIC_REGISTRY booking_type/booking_url, then a button here. Never the clinic homepage. -->
 </div>
 
-<!-- ===== 2. CLINICAL FOCUS ===== -->
 <section class="clinic-section">
 <h2>临床重点</h2>
 <p>这家诊所主要处理的健康问题：</p>
-<!-- SLOT: focus_items | The three conditions the clinic named in application Q10, as written. -->
 <ul class="clinic-focus-list">
 <li class="clinic-focus-item clinic-focus-item-primary">生育力低下，以及试管婴儿（IVF/FET）周期辅助</li>
 <li class="clinic-focus-item clinic-focus-item-primary">盆腔痛与盆底功能障碍</li>
 <li class="clinic-focus-item clinic-focus-item-primary">慢性疼痛</li>
 </ul>
-<!-- /SLOT -->
 </section>
 
-<!-- ===== 3. CARE TEAM ===== -->
 <section class="clinic-section" id="practitioner">
 <h2>医疗团队</h2>
-<!-- SLOT: care_team -->
 <div class="care-member">
 <div class="care-member-identity">
 <h3 class="care-member-name" lang="en">Dr. Julee Miller - DAcCHM, AP, FABORM</h3>
 <p class="care-member-role" lang="zh">针灸与中医博士 · 佛罗里达州持照针灸医师（Acupuncture Physician）· 美国东方生殖医学委员会认证会员（Fellow, FABORM）</p>
 </div>
-<!-- OPTIONAL SLOT: practitioner photo — 4:5 crop of Health-Pointe-Headshots-2026-(3of27).jpg -->
 <div class="care-member-photo">
 <picture>
 <source srcset="/img/health-pointe-jacksonville-julee-miller.webp" type="image/webp"/>
 <img alt="Julee Miller 医生，Health Pointe Jacksonville Acupuncture + Wellness Clinic，佛罗里达州 Jacksonville" height="1350" loading="lazy" src="/img/health-pointe-jacksonville-julee-miller.jpg" width="1080"/>
 </picture>
 </div>
-<!-- /OPTIONAL SLOT -->
 <div class="care-member-details">
 <div class="care-member-block">
 <h4>专业资质</h4>
@@ -281,13 +237,10 @@ Open items: external booking link, map embed (see TODO comments).
 </div>
 </div>
 </div>
-<!-- /SLOT -->
 </section>
 
-<!-- ===== 4. SERVICES ===== -->
 <section class="clinic-section">
 <h2>治疗服务</h2>
-<!-- SLOT: services | REQUIRED — modalities named in application Q13 (after the compliance edit) -->
 <p>根据患者的具体情况和临床评估，治疗服务可能包括：</p>
 <ul>
 <li>传统针灸</li>
@@ -297,14 +250,11 @@ Open items: external booking link, map embed (see TODO comments).
 <li>拔罐</li>
 <li>刮痧</li>
 </ul>
-<!-- /SLOT -->
 <p class="ref-note">具体治疗方式会根据患者情况和临床需要而有所不同。</p>
 </section>
 
-<!-- ===== 5. CLINIC DESCRIPTION (诊所自述) ===== -->
 <section class="clinic-section">
 <h2>关于诊所</h2>
-<!-- SLOT: clinic_self_description | Application Q13 (EN verbatim except approved edits); this ES/ZH text is the version supplied by Haiyan 2026-10-29. Do not edit wording. -->
 <div class="clinic-self-description" lang="zh">
 <p>Health Pointe Jacksonville 是一家针灸与整合健康诊所，重点关注女性健康、生殖医学、盆腔健康、孕期以及复杂疼痛问题。</p>
 <p>我们诊所的不同之处，在于专注的深度，以及将针灸融入患者整体医疗照护的方式。我们经常与生殖内分泌科医生、妇产科医生、盆底康复治疗师及其他医疗人员合作，在生育治疗、试管婴儿（IVF）／宫腔内人工授精（IUI）／冻胚移植（FET）周期、孕期、产后恢复、激素水平变化的不同阶段，以及慢性盆腔痛的管理过程中，为患者提供支持。</p>
@@ -312,13 +262,10 @@ Open items: external booking link, map embed (see TODO comments).
 <p>我们的工作尤其集中在生育力低下、生育治疗支持、盆底功能障碍、子宫内膜异位症相关疼痛、偏头痛以及女性健康问题。我们的目标是在温暖、以患者为中心的环境中，结合临床经验、细致的评估与协作式照护，让患者感到被倾听、被支持，并积极参与自己的治疗。</p>
 <p>Health Pointe Jacksonville 自 2008 年起服务杰克逊维尔（Jacksonville）社区。</p>
 </div>
-<!-- /SLOT -->
 </section>
 
-<!-- ===== 6. CLINIC DETAILS ===== -->
 <section class="clinic-section clinic-section-tinted" id="hp-clinic-details">
 <h2>诊所信息</h2>
-<!-- SLOT: clinic_details -->
 <div class="clinic-facts">
 <div class="clinic-fact"><strong>地址</strong>3840 Belfort Road #305, Jacksonville, FL 32216</div>
 <div class="clinic-fact"><strong>电话</strong>+1 (904) 448-0046</div>
@@ -327,25 +274,18 @@ Open items: external booking link, map embed (see TODO comments).
 <div class="clinic-fact"><strong>付款与保险</strong>现金支付；诊所也可向保险公司开具账单。</div>
 </div>
 <p class="ref-note" style="margin-top:16px;">保险承保范围和福利因具体保险计划而异。接受治疗前，请直接联系诊所确认资格、保险范围及患者需要承担的费用。</p>
-<!-- «TODO: map embed» — needs a verified Google place id; none yet. Directions link below only. -->
 <p class="clinic-details-actions"><a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=3840+Belfort+Road+%23305,+Jacksonville,+FL+32216" rel="noopener" target="_blank">导航至诊所</a></p>
-<!-- /SLOT -->
 </section>
 
-<!-- ===== 7. HPA CONNECTION ===== -->
 <section class="clinic-section">
 <h2>关于 Harmony Pain Alliance</h2>
 <p>Harmony Pain Alliance 帮助患者根据地理位置、临床重点及专业背景，寻找合适的独立针灸及中医诊所。</p>
 <p>在 HPA 启动阶段，平台上的每一家诊所都由创始人亲自审核后加入。</p>
-<!-- SLOT: why_this_clinic -->
 <p><strong>Health Pointe Jacksonville Acupuncture + Wellness Clinic 是 Harmony Pain Alliance 位于佛罗里达州 Jacksonville 的合作诊所。</strong></p>
-<!-- /SLOT -->
 <div class="clinic-cta">
 <h3>准备联系这家诊所了吗？</h3>
-<!-- SLOT: cta_copy -->
 <p>如果您希望就这家诊所的临床重点或其他健康问题寻求针灸治疗，可以向 Harmony Pain Alliance 提交关于 Health Pointe Jacksonville 的请求。</p>
 <p><strong>3840 Belfort Road #305, Jacksonville, FL 32216</strong></p>
-<!-- /SLOT -->
 <button type="button" class="btn btn-green" data-clinic="health-pointe-jacksonville" data-clinic-name="Health Pointe Jacksonville" data-lead-source="clinic-cta">联系这家诊所</button>
 </div>
 
@@ -360,15 +300,6 @@ Open items: external booking link, map embed (see TODO comments).
 </section>
 </main>
 
-<!-- FIXED: LEAD CAPTURE MODAL — shared platform component, structurally identical
-     to the homepage modal (short required core + collapsed optional block).
-     The static strings here are MODE B (clinic-scoped connection request);
-     main.js swaps in HPA_MODAL_MODE_A for Get Matched and restores these on
-     every open. Copy is outcome-neutral: the patient is sending a request about
-     this clinic, HPA routes it, and the next step depends on the clinic's
-     configured workflow. Never promise a booking redirect before Worker v3
-     returns its authoritative next_step.
-     SLOT: booking_category (Primary Concern options per clinic focus). -->
 <div class="lead-overlay" id="leadOverlay"></div>
 <div class="lead-modal" id="leadModal">
 <button aria-label="关闭" class="lead-close" id="leadClose">×</button>
@@ -377,11 +308,9 @@ Open items: external booking link, map embed (see TODO comments).
 <p class="lead-subtitle">快速表单——约 30 秒完成。您的请求将提交给 Harmony Pain Alliance，我们会告诉您联系这家诊所的下一步。</p>
 </div>
 <form id="leadForm">
-<!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
 <div class="hp-field" aria-hidden="true"><label>Leave this field empty<input autocomplete="off" name="website_url_hp" tabindex="-1" type="text" value=""/></label></div>
 <input id="leadSource" name="source_button" type="hidden"/>
 <input id="leadClinic" name="target_clinic" type="hidden"/>
-<!-- Required fields -->
 <div class="form-group">
 <label>您的姓名 *</label>
 <input autocomplete="name" name="name" required="" type="text"/>
@@ -396,8 +325,6 @@ Open items: external booking link, map embed (see TODO comments).
 <input autocomplete="tel" name="phone" required="" type="tel"/>
 </div>
 </div>
-<!-- Expandable optional fields — keeps the initial form short while capturing
-     the same qualification data as the homepage. No new lead schema. -->
 <button class="lead-expand-btn" id="leadExpandBtn" type="button">
 <span>+ 帮助我们准备您的就诊（选填）</span>
 </button>
@@ -411,8 +338,6 @@ Open items: external booking link, map embed (see TODO comments).
 </div>
 </div>
 <div class="form-row">
-<!-- SLOT: booking_category | HP: 6 options (pain-msk, chronic-complex, fertility, womens, other, not-sure) | was 4 clinic-focus Primary-Concern options. Values are
-     locked Find Care taxonomy — labels localize, values never change. -->
 <div class="form-group">
 <label>主要问题</label>
 <select name="primary_concern">
@@ -425,7 +350,6 @@ Open items: external booking link, map embed (see TODO comments).
 <option value="not-sure">不确定</option>
 </select>
 </div>
-<!-- /SLOT -->
 <div class="form-group">
 <label>症状持续多长时间？</label>
 <select name="duration">
@@ -486,7 +410,6 @@ Open items: external booking link, map embed (see TODO comments).
 <textarea name="notes" placeholder="请简要说明您希望获得哪方面的帮助。" rows="2"></textarea>
 </div>
 </div>
-<!-- Consent (legal v1, 2026-09-18) -->
 <div class="lead-consent">
 <div class="lead-consent-row">
 <input type="checkbox" id="lead-consent" name="consent_terms" value="1" required>
@@ -497,7 +420,6 @@ Open items: external booking link, map embed (see TODO comments).
 <label for="lead-consent-clinic">我同意 HPA 通过普通电子邮件，将我的姓名、联系方式和主要问题发送给 <strong id="leadConsentClinicName">本页所示诊所</strong>，以便诊所与我联系。</label>
 </div>
 </div>
-<!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
 <button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
 <span class="lead-submit-text">提交请求</span>
@@ -506,8 +428,6 @@ Open items: external booking link, map embed (see TODO comments).
 </div>
 <p class="form-note" style="margin-top:12px;">您的信息将帮助 HPA 处理您对这家诊所的请求。下一步取决于该诊所与 HPA 的合作方式——提交后我们会立即告知您。</p>
 </form>
-<!-- Success state. This string renders ONLY after Worker v3 has returned
-     next_step = "booking"; every other outcome is written in by main.js. -->
 <div class="lead-success" id="leadSuccess" style="display:none;">
 <div style="font-size:48px;margin-bottom:16px;">✓</div>
 <h3>已收到您的请求</h3>
@@ -515,7 +435,6 @@ Open items: external booking link, map embed (see TODO comments).
 </div>
 </div>
 
-<!-- FIXED: FOOTER (standard) -->
 <footer class="footer">
 <div class="container">
 <div class="footer-grid">
