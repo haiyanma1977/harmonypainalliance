@@ -240,8 +240,8 @@
 <button aria-label="Close" class="lead-close" id="leadClose">×</button>
 <!-- Modal header -->
 <div class="lead-header">
-<h3>Book Your Appointment</h3>
-<p class="lead-subtitle">Quick form — takes about 30 seconds. Your request goes to Harmony Pain Alliance, and we'll tell you the next step for this clinic.</p>
+<h3>Get Matched with a Clinic</h3>
+<p class="lead-subtitle">Tell us what you need — it takes about 30 seconds. HPA will look for an appropriate participating clinic for you.</p>
 </div>
 <form id="leadForm">
 <!-- Anti-spam honeypot (hpa-leads Worker field website_url_hp): hidden from people and screen readers, not focusable. Leave empty. -->
@@ -278,7 +278,7 @@
 </div>
 <div class="form-row">
 <div class="form-group">
-<label>Primary Concern</label>
+<label>Primary Concern *</label>
 <select name="primary_concern">
 <option value="">Please select</option>
 <option value="pain-msk">Neck, Back, Joint &amp; Sports Pain</option>
@@ -373,11 +373,11 @@
 <!-- Submit -->
 <div style="text-align:center;margin-top:20px;">
 <button class="btn btn-green lead-submit" id="leadSubmitBtn" type="submit" disabled>
-<span class="lead-submit-text">Send Request</span>
+<span class="lead-submit-text">Get Matched</span>
 <span class="lead-submit-loading" style="display:none;">...</span>
 </button>
 </div>
-<p class="form-note" style="margin-top:12px;">Your information helps HPA handle your request about this clinic. What happens next depends on how this clinic works with HPA — we'll tell you right after you submit.</p>
+<p class="form-note" style="margin-top:12px;">Your information will help HPA look for an appropriate participating clinic for you.</p>
 </form>
 <!-- Success state -->
 <div class="lead-success" id="leadSuccess" style="display:none;">
