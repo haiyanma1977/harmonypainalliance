@@ -97,6 +97,40 @@
   </url>
 
   <!-- Condition landing pages -->
+  <!-- Fertility & IVF — trilingual cluster (en/es/zh) since 2026-11-06 -->
+  <url>
+    <loc>https://harmonypainalliance.com/en/fertility-ivf-acupuncture/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/es/fertility-ivf-acupuncture/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+  </url>
+
+  <url>
+    <loc>https://harmonypainalliance.com/zh/fertility-ivf-acupuncture/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://harmonypainalliance.com/es/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://harmonypainalliance.com/zh/fertility-ivf-acupuncture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://harmonypainalliance.com/en/fertility-ivf-acupuncture/"/>
+  </url>
+
   <!-- Neck, back & joint pain — trilingual cluster (en/es/zh) since 2026-11-03 -->
   <url>
     <loc>https://harmonypainalliance.com/en/neck-back-joint-pain-acupuncture/</loc>
