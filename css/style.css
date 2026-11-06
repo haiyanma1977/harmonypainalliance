@@ -2152,3 +2152,19 @@ body.clinic-profile.lang-zh .clinic-focus-item { letter-spacing: 0.02em; }
 /* Anti-spam honeypot for the lead form (live fixes v1, 2026-09-17).
    Off-screen rather than display:none so simple bots still fill it. */
 .hp-field { position: absolute !important; left: -10000px !important; top: auto !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+
+/* ---- T31 (2026-11-06): page titles promoted h2 -> h1 ------------------- */
+/* join + tech-partnership: the visible page title is now the page's single h1.
+   Keep the exact look it had as an h2 (base h2 sizes per breakpoint, weight
+   700, no negative tracking). Selectors only match these two titles. */
+#partnership > .container > div > h1,
+.china-bridge-header h1 { font-size: 2rem; font-weight: 700; letter-spacing: normal; }
+.china-bridge-header h1 { margin-bottom: 16px; }
+@media (max-width: 1024px) {
+  #partnership > .container > div > h1,
+  .china-bridge-header h1 { font-size: 1.75rem; }
+}
+@media (max-width: 768px) {
+  #partnership > .container > div > h1,
+  .china-bridge-header h1 { font-size: 1.5rem; }
+}
